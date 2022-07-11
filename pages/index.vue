@@ -1,5 +1,7 @@
 <template>
   <div>
+    <FaIcon icon="ban" size="sm" />
+
     <p class="text-red-700">index vue</p>
     <NuxtLink to="/login">login</NuxtLink>
   </div>
