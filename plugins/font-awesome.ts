@@ -35,5 +35,3 @@ export enum FaIconSize {
   "9x",
   "10x",
 }
-
-type ds = typeof FaIconName;
