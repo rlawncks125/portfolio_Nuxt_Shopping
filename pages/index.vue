@@ -1,7 +1,7 @@
 <template>
   <div>
-    <FaIcon icon="ban" size="sm" />
-    <FaIcon :icon="'ban'" :size="'2xl'" />
+    <LazyFaIcon icon="ban" size="sm" />
+    <LazyFaIcon :icon="'bacon'" :size="'2xl'" />
 
     <p class="text-red-700">index vue</p>
     <NuxtLink to="/login">login</NuxtLink>

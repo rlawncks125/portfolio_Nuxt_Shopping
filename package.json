@@ -4,7 +4,8 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "preview": "nuxt preview"
+    "preview": "nuxt preview",
+    "build:local": "cross-env APISERVER=https://myapi.kimjuchan97.site nuxt build"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.7",
@@ -15,6 +16,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
-    "@fortawesome/vue-fontawesome": "^3.0.1"
+    "@fortawesome/vue-fontawesome": "^3.0.1",
+    "cross-env": "^7.0.3"
   }
 }

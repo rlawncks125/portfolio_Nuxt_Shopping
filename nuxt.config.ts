@@ -18,15 +18,29 @@ export default defineNuxtConfig({
       },
     },
   },
-  vite: {
-    server: {
-      proxy: {
-        "^/api": {
-          target: process.env.BACKENDURL || "http://localhost:3030",
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ""),
-        },
-      },
+  // vite: {
+  //   server: {
+  //     proxy: {
+  //       "^/api": {
+  //         target: "https://myapi.kimjuchan97.site",
+  //         changeOrigin: true,
+  //         rewrite: (path) => path.replace(/^\/api/, ""),
+  //       },
+  //     },
+  //   },
+  // },
+
+  // 앱에서 사용하는 환경변수 설정
+  // https://v3.nuxtjs.org/migration/runtime-config#runtime-config
+  runtimeConfig: {
+    //  // 서버에서만 사용할 수 있는 개인 구성
+    //  apiSecret: '123',
+    //  // 공용 내의 구성도 클라이언트에 노출됩니다.
+    //  public: {
+    //    apiBase: '/api'
+    //  }
+    public: {
+      apiServer: process.env.APISERVER,
     },
   },
 });
