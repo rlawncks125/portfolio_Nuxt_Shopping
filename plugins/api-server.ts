@@ -1,24 +1,19 @@
 export default defineNuxtPlugin(() => {
-  const config = useRuntimeConfig();
-
-  ApiServer.instance.setServer(
-    config.public.apiServer || "http://localhost:3030"
-  );
+  ApiServer.instance.init();
 });
 
 export class ApiServer {
-  #serverURL;
-
   static instance = new ApiServer();
 
+  #config;
   constructor() {}
 
-  get url() {
-    return this.#serverURL;
+  static get url() {
+    return ApiServer.instance.#config;
   }
 
-  setServer(url) {
-    this.#serverURL = url;
-    console.log(this.#serverURL);
+  init() {
+    const config = useRuntimeConfig();
+    this.#config = config.public.apiServer;
   }
 }

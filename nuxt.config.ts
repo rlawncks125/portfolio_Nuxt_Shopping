@@ -18,6 +18,7 @@ export default defineNuxtConfig({
       },
     },
   },
+
   // vite: {
   //   server: {
   //     proxy: {
@@ -40,7 +41,17 @@ export default defineNuxtConfig({
     //    apiBase: '/api'
     //  }
     public: {
-      apiServer: process.env.APISERVER,
+      apiServer: process.env.APISERVER || "http://localhost:3030",
     },
   },
 });
+
+// runtimeConfig 타입 정의
+declare module "@nuxt/schema" {
+  // interface RuntimeConfig {
+  //     apiBase: string
+  // }
+  interface PublicRuntimeConfig {
+    apiServer: string;
+  }
+}
