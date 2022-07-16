@@ -1,6 +1,7 @@
 <template>
   <div>
     <FaIcon icon="ban" size="sm" />
+    <FaIcon :icon="'ban'" :size="'2xl'" />
 
     <p class="text-red-700">index vue</p>
     <NuxtLink to="/login">login</NuxtLink>
@@ -14,18 +15,18 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { Worker } from "@/plugins/sw.client";
+
 export default defineComponent({
   setup() {
     const subScribe = async () => {
       const sub = await Worker.instance.subscribe();
-      const isSub = await Worker.instance.isSubscribe();
-      console.log(sub, isSub);
+
+      console.log(sub);
     };
     const unSubScribe = async () => {
       const isDelete = await Worker.instance.unSubcribe();
-      const isSub = await Worker.instance.isSubscribe();
 
-      console.log(isDelete, isSub);
+      console.log(isDelete);
     };
     return { subScribe, unSubScribe };
   },

@@ -18,4 +18,15 @@ export default defineNuxtConfig({
       },
     },
   },
+  vite: {
+    server: {
+      proxy: {
+        "^/api": {
+          target: process.env.BACKENDURL || "http://localhost:3030",
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, ""),
+        },
+      },
+    },
+  },
 });

@@ -1,52 +1,8 @@
-export class Worker {
-  #regist: ServiceWorkerRegistration;
-
-  static instance = new Worker();
-  constructor() {}
-
-  setRegist(regist: ServiceWorkerRegistration) {
-    this.#regist = regist;
-  }
-
-  installing() {
-    return this.#regist.installing;
-  }
-
-  async isSubscribe() {
-    return (await this.#regist.pushManager.getSubscription()) !== null;
-  }
-
-  async subscribe() {
-    const Publickey =
-      "BFLHBvpUcFLzAvMYrSzt3T9tGCvurGrpQseVkFyiJx2TU2gTQez7Idf20pP13PWSZmDWBpU5Fv7aGgIxAoBFjd8";
-    return await this.#regist.pushManager
-      .subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: Publickey,
-      })
-      .then(async (subscriptuon) => {
-        // 백엔드 구독 등록
-        // ...
-        return subscriptuon;
-      })
-      .catch((err) => {
-        console.log("Failed to subscribe the user: ", err);
-      });
-  }
-
-  async unSubcribe() {
-    return await this.#regist.pushManager
-      .getSubscription()
-      .then(async (subscription) => {
-        // 백엔드 구독 삭제
-        // ...
-        return subscription.unsubscribe();
-      })
-      .catch((err) => {
-        console.log("Failed to unSubscribe the user: ", err);
-      });
-  }
-}
+import {
+  deleteRegister,
+  getPublickey,
+  registerNotification,
+} from "~~/api/notification";
 
 export default defineNuxtPlugin(() => {
   if ("serviceWorker" in navigator) {
@@ -70,3 +26,56 @@ export default defineNuxtPlugin(() => {
     });
   }
 });
+
+export class Worker {
+  #regist: ServiceWorkerRegistration;
+
+  static instance = new Worker();
+  constructor() {}
+
+  setRegist(regist: ServiceWorkerRegistration) {
+    this.#regist = regist;
+  }
+
+  installing() {
+    return this.#regist.installing;
+  }
+
+  async isSubscribe() {
+    return (await this.#regist.pushManager.getSubscription()) !== null;
+  }
+
+  async subscribe() {
+    // 백엔드에서 키받아오기
+
+    return await this.#regist.pushManager
+      .subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: await getPublickey(),
+      })
+      .then(async (subscriptuon) => {
+        // 백엔드 구독 등록
+        await registerNotification(subscriptuon);
+
+        return this.isSubscribe();
+      })
+      .catch((err) => {
+        console.log("Failed to subscribe the user: ", err);
+      });
+  }
+
+  async unSubcribe() {
+    return await this.#regist.pushManager
+      .getSubscription()
+      .then(async (subscription) => {
+        // 백엔드 구독 삭제
+        await deleteRegister(subscription);
+
+        await subscription.unsubscribe();
+        return this.isSubscribe();
+      })
+      .catch((err) => {
+        console.log("Failed to unSubscribe the user: ", err);
+      });
+  }
+}
