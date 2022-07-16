@@ -9,6 +9,8 @@
     <button @click="subScribe">구독 버튼</button>
     <br />
     <button @click="unSubScribe">구독 취소</button>
+
+    <toast-ui />
   </div>
 </template>
 
@@ -20,12 +22,10 @@ export default defineComponent({
   setup() {
     const subScribe = async () => {
       const sub = await Worker.instance.subscribe();
-
       console.log(sub);
     };
     const unSubScribe = async () => {
       const isDelete = await Worker.instance.unSubcribe();
-
       console.log(isDelete);
     };
     return { subScribe, unSubScribe };
