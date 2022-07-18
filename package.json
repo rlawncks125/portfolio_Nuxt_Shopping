@@ -19,6 +19,8 @@
     "@fortawesome/vue-fontawesome": "^3.0.1",
     "@nuxt/kit": "^3.0.0-rc.5",
     "@toast-ui/editor": "^3.1.8",
-    "cross-env": "^7.0.3"
+    "@toast-ui/editor-plugin-color-syntax": "^3.0.3",
+    "cross-env": "^7.0.3",
+    "sass": "^1.53.0"
   }
 }

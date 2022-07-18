@@ -28,6 +28,7 @@ export default defineComponent({
       const isDelete = await Worker.instance.unSubcribe();
       console.log(isDelete);
     };
+
     return { subScribe, unSubScribe };
   },
 });
