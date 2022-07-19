@@ -39,7 +39,7 @@
           class="w-[25rem] border-b-4 border-red-500 flex justify-between text-3xl"
         >
           <input class="outline-none" type="text" name="" id="" />
-          <fa-icon
+          <LazyFaIcon
             icon="magnifying-glass"
             size="sm"
             class="text-red-600 cursor-pointer"
@@ -56,7 +56,7 @@
         <!-- 배송 & 혜택 -->
         <div class="flex">
           <div class="pr-[2rem] cursor-pointer">
-            <fa-icon icon="align-justify" size="sm" />
+            <LazyFaIcon icon="align-justify" size="sm" />
             <span> 전체 카테고리 </span>
           </div>
           <ul class="warp-items flex">
@@ -82,21 +82,22 @@
           <div class="hover-arrow-event flex gap-1">
             <p>멤버십 서비스</p>
             <div class="arrow-wrap">
-              <fa-icon class="up" icon="angle-up" size="lg" />
-              <fa-icon class="down" icon="angle-down" size="lg" />
+              <LazyFaIcon class="up" icon="angle-up" size="lg" />
+              <LazyFaIcon class="down" icon="angle-down" size="lg" />
             </div>
           </div>
           <div class="hover-arrow-event flex gap-1">
             <p>최근 본 상품/코너</p>
             <div class="arrow-wrap">
-              <fa-icon class="up" icon="angle-up" size="lg" />
-              <fa-icon class="down" icon="angle-down" size="lg" />
+              <LazyFaIcon class="up" icon="angle-up" size="lg" />
+              <LazyFaIcon class="down" icon="angle-down" size="lg" />
             </div>
           </div>
         </div>
       </div>
     </section>
     <!-- 카테고리 & 배너 -->
+
     <section
       id="category"
       class="border-t-2 border-black font-bold text-[0.76rem]"
@@ -223,19 +224,19 @@ export default defineComponent({
     });
     const swiperItems = [
       {
-        src: "http://ad-img.ebaykorea.com/ADS/Contents_/2022_07_15_11_40_44/d7d179fa6c3c47d3.JPG",
+        src: "https://ad-img.ebaykorea.com/ADS/Contents_/2022_07_15_11_40_44/d7d179fa6c3c47d3.JPG",
       },
       {
-        src: "http://ad-img.ebaykorea.com/ADS/Contents_/2022_07_15_11_42_00/c8bd0aadd1b74f72.JPG",
+        src: "https://ad-img.ebaykorea.com/ADS/Contents_/2022_07_15_11_42_00/c8bd0aadd1b74f72.JPG",
       },
       {
-        src: "http://ad-img.ebaykorea.com/ADS/Contents_/2022_07_15_11_42_00/c8bd0aadd1b74f72.JPG",
+        src: "https://ad-img.ebaykorea.com/ADS/Contents_/2022_07_15_11_42_00/c8bd0aadd1b74f72.JPG",
       },
       {
-        src: "http://ad-img.ebaykorea.com/ADS/Contents_/2022_07_15_03_56_07/02e8c0e4d5404977.JPG",
+        src: "https://ad-img.ebaykorea.com/ADS/Contents_/2022_07_15_03_56_07/02e8c0e4d5404977.JPG",
       },
       {
-        src: "http://ad-img.ebaykorea.com/ADS/Contents_/2022_07_14_11_43_58/1e5c00efa7e446ca.JPG",
+        src: "https://ad-img.ebaykorea.com/ADS/Contents_/2022_07_14_11_43_58/1e5c00efa7e446ca.JPG",
       },
     ];
 
@@ -258,12 +259,10 @@ export default defineComponent({
 
       swiperControl.on("slideChange", () => {
         bannerActiveIndex.value = swiperControl.realIndex;
-        console.log(swiperControl.realIndex);
       });
     });
 
     const moveSlideByIndex = (index: number) => {
-      console.log(index);
       swiperControl.slideTo(index + 1, 1000);
     };
 
