@@ -39,3 +39,9 @@ useHead({
   ],
 });
 </script>
+
+<style>
+body {
+  font-size: 10px;
+}
+</style>

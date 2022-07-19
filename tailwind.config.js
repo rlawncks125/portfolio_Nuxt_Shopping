@@ -11,6 +11,9 @@ module.exports = {
   ],
   darkMode: "class", // or 'media' or 'class'
   theme: {
+    maxWidth: {
+      container: "980px",
+    },
     extend: {},
   },
   plugins: [],
