@@ -1,9 +1,5 @@
 <template>
-  <div>
-    <p>login</p>
-    <nuxt-link to="/">goHoe</nuxt-link>
-    <compo />
-  </div>
+  <login-compo />
 </template>
 
 <script lang="ts" setup>

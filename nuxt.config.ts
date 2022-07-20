@@ -2,7 +2,7 @@ import { defineNuxtConfig } from "nuxt";
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-  buildModules: [],
+  buildModules: ["@pinia/nuxt"],
   css: [
     "@/assets/css/tailwind.css",
     // font Awesome css

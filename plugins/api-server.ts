@@ -5,15 +5,20 @@ export default defineNuxtPlugin(() => {
 export class ApiServer {
   static instance = new ApiServer();
 
-  #config;
+  #url;
+
   constructor() {}
 
   static get url() {
-    return ApiServer.instance.#config;
+    return ApiServer.instance.#url;
+  }
+
+  static get userToken() {
+    return useCookie("userToken") || null;
   }
 
   init() {
     const config = useRuntimeConfig();
-    this.#config = config.public.apiServer;
+    this.#url = config.public.apiServer;
   }
 }
