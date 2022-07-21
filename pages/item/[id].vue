@@ -39,7 +39,7 @@ interface Iitem {
 }
 
 export default defineComponent({
-  async setup() {
+  setup() {
     const { params } = useRoute();
     const item = ref();
 
@@ -47,66 +47,69 @@ export default defineComponent({
       item.value = await getItem(+params.id);
     });
 
-    const { data: ogItem } = await useAsyncData("ogImteInfo", () =>
-      getItem(+params.id)
+    // og데이터
+    const ogTitle = useState("ogTitle");
+    const ogSrc = useState("ogSrc");
+    const ogDesc = useState("ogDesc");
+    useLazyAsyncData("ogData", () =>
+      getItem(+params.id).then((res) => {
+        ogTitle.value = `타이틀 : ${res.title}`;
+        ogSrc.value = res.src;
+        ogDesc.value = `${res.title}의 가격은 ${res.price}입니다.`;
+      })
     );
+
     useHead({
       title: `아이템 :  ${params.id}`,
       meta: [
         {
           name: "description",
-          content: "쇼핑 데이터",
+          content: `쇼핑 데이터 ${params.id}`,
         },
         {
           name: "og:title",
           property: "og:title",
-          content: `${ogItem.value.title || "tile Null"}`,
+          content: ogTitle,
         },
         {
           name: "og:description",
           property: "og:description",
-          content: `${ogItem.value.title || "tile Null"} 내용 입니다.`,
+          content: ogDesc,
         },
         {
           name: "og:image",
           property: "og:image",
-          content: ogItem.value.src || "img null",
+          content: ogSrc,
         },
       ],
     });
-
     return { params, item, formatToWon };
   },
 });
 
 const getItem = async (id: number) => {
-  await setTimeout(() => {}, 1000);
-
   return new Promise<Iitem>((res, rej) => {
-    switch (id) {
-      case 4:
-        const mockItme = {
-          src: "http://image.iacstatic.co.kr/allkill/item/2022/07/20220720100107421r.jpg",
-          title: "휠라 퐁 쏭 4종 택1",
-          price: "29000",
-          sale: 30,
-          itemId: 4,
-        };
-        res(mockItme);
-        break;
-      case 6:
+    setTimeout(() => {
+      if (id === 6) {
         const mockItme2 = {
-          src: "http://image.iacstatic.co.kr/allkill/item/2022/07/20220720095501441r.jpg",
+          src: "https://image.iacstatic.co.kr/allkill/item/2022/07/20220720095501441r.jpg",
           title: "[10%+12%]패션라인신상원피스/팬츠",
           price: "43000",
           sale: 70,
           itemId: 6,
         };
         res(mockItme2);
-        break;
-      default:
-        break;
-    }
+      } else {
+        const mockItme = {
+          src: "https://image.iacstatic.co.kr/allkill/item/2022/07/20220720100107421r.jpg",
+          title: "휠라 퐁 쏭 4종 택1",
+          price: "29000",
+          sale: 30,
+          itemId: 4,
+        };
+        res(mockItme);
+      }
+    }, 100);
   });
 };
 </script>

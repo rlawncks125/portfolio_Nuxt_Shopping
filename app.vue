@@ -15,17 +15,17 @@ useHead({
   meta: [
     {
       name: "description",
-      content: "Nuxt3 Test App Vue.",
+      content: "Nuxt3 shopping.",
     },
     {
       name: "og:title",
       property: "og:title",
-      content: `Nuxt3 Test App Vue Title.`,
+      content: `Nuxt3 shopping.`,
     },
     {
       name: "og:description",
       property: "og:description",
-      content: "Nuxt3 Test App Vue.",
+      content: "Nuxt3 shopping.",
     },
     {
       name: "og:image",
