@@ -1,5 +1,6 @@
 <template>
   <div class="width-container">
+    <!-- 홈으로가기  -->
     <div class="h-[4rem] flex items-center">
       <a href="/" class="h-full">
         <img
