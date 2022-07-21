@@ -52,6 +52,7 @@ export default defineComponent({
     const ogSrc = useState("ogSrc");
     const ogDesc = useState("ogDesc");
     useLazyAsyncData("ogData", () =>
+      // 아이템 정보 가져오기 처리
       getItem(+params.id).then((res) => {
         ogTitle.value = `타이틀 : ${res.title}`;
         ogSrc.value = res.src;

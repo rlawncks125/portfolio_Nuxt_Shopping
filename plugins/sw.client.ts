@@ -6,7 +6,7 @@ import {
 
 export default defineNuxtPlugin(() => {
   if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("sw.js").then((regist) => {
+    navigator.serviceWorker.register("/sw.js").then((regist) => {
       console.log("서비스 워커 준비완료");
 
       Worker.instance.setRegist(regist);
