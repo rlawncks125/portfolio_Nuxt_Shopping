@@ -31,8 +31,6 @@ export class ApiServer {
       headers: {
         "shop-token": useCookie("userToken", { default: () => null }).value,
       },
-      // cors 정책 문제
-      withCredentials: true,
     });
   }
 }
