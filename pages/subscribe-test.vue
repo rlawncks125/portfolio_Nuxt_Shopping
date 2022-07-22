@@ -10,11 +10,13 @@
     <br />
     <button @click="unSubScribe">구독 취소</button>
 
+    <p>Async Data</p>
     <div v-if="pending">Async Data Loading ...</div>
-    <div v-else>Async Data : {{ data.ok }}</div>
+    <div v-else>Async Data : {{ data }}</div>
 
+    <p>Ref Data</p>
     <div v-if="!axiosData">Ref Data Loading...</div>
-    <div v-else>Ref Data : {{ axiosData.ok }}</div>
+    <div v-else>Ref Data : {{ axiosData }}</div>
   </div>
 </template>
 
