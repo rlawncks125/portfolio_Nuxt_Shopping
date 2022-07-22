@@ -10,7 +10,11 @@
     <br />
     <button @click="unSubScribe">구독 취소</button>
 
-    {{ data }}
+    <div v-if="pending">Async Data Loading ...</div>
+    <div v-else>Async Data : {{ data.ok }}</div>
+
+    <div v-if="!axiosData">Ref Data Loading...</div>
+    <div v-else>Ref Data : {{ axiosData.ok }}</div>
   </div>
 </template>
 
@@ -30,12 +34,19 @@ export default defineComponent({
     };
 
     const { $axios } = useNuxtApp();
+    const axiosData = ref();
 
-    const { data } = useAsyncData("restaurtInfo", () =>
+    const { data, pending } = useAsyncData("restaurtInfo", () =>
       $axios.get("restaurant/11").then((res) => res.data)
     );
 
-    return { subScribe, unSubScribe, data };
+    onMounted(async () => {
+      axiosData.value = await $axios
+        .get("restaurant/11")
+        .then((res) => res.data);
+    });
+
+    return { subScribe, unSubScribe, data, pending, axiosData };
   },
 });
 </script>
