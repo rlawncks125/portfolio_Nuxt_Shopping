@@ -38,7 +38,7 @@ export default defineComponent({
     const { $axios } = useNuxtApp();
     const axiosData = ref();
 
-    const { data, pending } = useAsyncData("restaurtInfo", () =>
+    const { data, pending } = useLazyAsyncData("restaurtInfo", () =>
       $axios.get("restaurant/11").then((res) => res.data)
     );
 
