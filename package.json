@@ -21,6 +21,7 @@
     "@pinia/nuxt": "^0.3.0",
     "@toast-ui/editor": "^3.1.8",
     "@toast-ui/editor-plugin-color-syntax": "^3.0.3",
+    "axios": "^0.27.2",
     "cross-env": "^7.0.3",
     "pinia": "^2.0.16",
     "sass": "^1.53.0",

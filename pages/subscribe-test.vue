@@ -9,6 +9,8 @@
     <button @click="subScribe">구독 버튼</button>
     <br />
     <button @click="unSubScribe">구독 취소</button>
+
+    {{ data }}
   </div>
 </template>
 
@@ -27,7 +29,13 @@ export default defineComponent({
       console.log(isDelete);
     };
 
-    return { subScribe, unSubScribe };
+    const { $axios } = useNuxtApp();
+
+    const { data } = useAsyncData("restaurtInfo", () =>
+      $axios.get("restaurant/11").then((res) => res.data)
+    );
+
+    return { subScribe, unSubScribe, data };
   },
 });
 </script>

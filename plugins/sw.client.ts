@@ -55,7 +55,10 @@ export class Worker {
       })
       .then(async (subscriptuon) => {
         // 백엔드 구독 등록
-        registerNotification(subscriptuon);
+
+        const id = await registerNotification(subscriptuon);
+
+        console.log(id);
 
         return this.isSubscribe();
       })
