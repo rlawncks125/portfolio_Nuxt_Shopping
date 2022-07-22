@@ -55,7 +55,7 @@ export class Worker {
       })
       .then(async (subscriptuon) => {
         // 백엔드 구독 등록
-        await registerNotification(subscriptuon);
+        registerNotification(subscriptuon);
 
         return this.isSubscribe();
       })
