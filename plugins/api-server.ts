@@ -27,6 +27,7 @@ export class ApiServer {
 
     this.#axios = axios.create({
       baseURL: url,
+      timeout: 1000,
       headers: {
         "shop-token": useCookie("userToken", { default: () => null }).value,
       },
