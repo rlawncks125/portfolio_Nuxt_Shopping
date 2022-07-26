@@ -38,6 +38,7 @@ export default defineComponent({
     const { $axios } = useNuxtApp();
     const axiosData = ref();
 
+    // og데이터 할때만 쓰기로
     const { data, pending } = useLazyAsyncData("restaurtInfo", () =>
       $axios.get("restaurant/11").then((res) => res.data)
     );
