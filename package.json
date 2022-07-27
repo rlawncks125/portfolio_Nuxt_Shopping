@@ -5,7 +5,8 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "build:local": "cross-env APISERVER=https://myapi.kimjuchan97.site nuxt build"
+    "build:local": "cross-env APISERVER=https://myapi.kimjuchan97.xyz nuxt build",
+    "swagger": "node ./swagger/codegen.js"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.7",
@@ -25,6 +26,7 @@
     "cross-env": "^7.0.3",
     "pinia": "^2.0.16",
     "sass": "^1.53.0",
+    "swagger-axios-codegen": "^0.13.3",
     "swiper": "^8.3.1"
   }
 }

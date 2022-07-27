@@ -1,18 +1,59 @@
 <template>
   <div>
     <div>Login 컴포넌트</div>
-    <button @click="clickedLogin">로그인</button>
+    <div
+      class="border flex flex-col max-w-[20rem] gap-[1rem] mx-auto mt-[4rem] p-4"
+    >
+      <div class="flex flex-wrap px-2 gap-2">
+        <label for="userid">아이디 :</label>
+        <input
+          v-model="loginId"
+          class="border flex-1"
+          type="text"
+          id="userid"
+        />
+      </div>
+      <div class="flex flex-wrap px-2 gap-2">
+        <label for="password">패스워드 :</label>
+        <input
+          v-model="loginPassword"
+          class="border flex-1"
+          type="password"
+          id="password"
+        />
+      </div>
+      <button @click="clickedLogin">로그인</button>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { userLogin } from "~~/api/user";
 import { useUser } from "~~/sotre/user";
 
-const clickedLogin = () => {
+const loginId = useState("loginId", () => "");
+const loginPassword = useState("loginPassword", () => "");
+
+const clickedLogin = async () => {
+  console.log(loginId.value, loginPassword.value);
+
+  const { ok, err, token } = await userLogin({
+    username: loginId.value,
+    password: loginPassword.value,
+  });
+
+  if (!ok) {
+    alert(err);
+    return;
+  }
+
   const { setUserToken } = useUser();
-  setUserToken(
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjU3OTA5OTY2fQ.CmJm8KORHZ9PoVP0d3pMCYlNIh_IfrDZsm9k2mkUUQ0"
-  );
+  setUserToken(token);
+
+  // 로그인 페이지일시 홈 화면으로 다이렉트
+  if (useRoute().path === "/login") {
+    useRouter().push("/");
+  }
 };
 </script>
 

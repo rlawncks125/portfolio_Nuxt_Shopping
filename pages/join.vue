@@ -27,7 +27,7 @@
       <div class="flex justify-between gap-[3rem] mx-[1rem] mt-[1rem]">
         <div
           class="w-full border h-[15rem] cursor-pointer"
-          @click="onSelectType('개인')"
+          @click="onSelectType(EnumCreateShopUserInputDtoRole.customer)"
         >
           <p
             class="h-[2rem] text-center text-[1.5rem] bg-red-400 text-white py-[2rem]"
@@ -38,7 +38,7 @@
         </div>
         <div
           class="w-full border h-[15rem] cursor-pointer"
-          @click="onSelectType('회원')"
+          @click="onSelectType(EnumCreateShopUserInputDtoRole.company)"
         >
           <p
             class="h-[2rem] text-center text-[1.5rem] bg-cyan-500 text-white py-[2rem]"
@@ -120,27 +120,49 @@
     </section>
     <!-- 정보 입력 -->
     <section v-else-if="userStep === 2">
-      <div class="flex gap-5 flex-wrap mt-[2rem] mx-[1rem]">
+      <div
+        class="flex gap-5 flex-wrap mt-[2rem] mx-[1rem] font-bold text-[.8rem]"
+      >
         <p class="text-[1.5rem]">3.정보입력</p>
 
         <form
           class="user-form flex-auto flex flex-col gap-[1rem]"
           @submit.prevent="onCreateUser"
         >
-          <input type="text" name="userName" id="userName" placeholder="이름" />
+          <label for="nickName">닉네임</label>
+          <input
+            type="text"
+            name="nickName"
+            id="nickName"
+            placeholder="닉네임"
+          />
+          <label for="userId">아이디</label>
           <input type="text" name="userId" id="userId" placeholder="아이디" />
+          <label for="userPassword"
+            >패스워드
+            <span class="text-gray-600"
+              >( 특수문자,영문,숫자를 포함한 6자리 이상 )</span
+            ></label
+          >
           <input
             type="password"
             name="userPassword"
             id="userPassword"
             placeholder="패스워드"
           />
+          <span v-if="useFormErrorLists.password" class="form-error-text">
+            {{ useFormErrorLists.password }}
+          </span>
+          <label for="userRePassword">패스워드 재입력</label>
           <input
             type="password"
             name="userRePassword"
             id="userRePassword"
             placeholder="패스워드 재입력"
           />
+          <span v-if="useFormErrorLists.rePassword" class="form-error-text">
+            {{ useFormErrorLists.rePassword }}
+          </span>
           <button class="button-type-01">가입</button>
         </form>
       </div>
@@ -171,15 +193,29 @@
 </template>
 
 <script setup lang="ts">
+import { EnumCreateShopUserInputDtoRole } from "~~/api/swagger";
+import { userCreate } from "~~/api/user";
+
 definePageMeta({
   layout: "no-header",
 });
 
 const maxStep = 2;
-
 const userStep = useState("useStep", () => 0);
+watch(userStep, () => {
+  if (userStep.value < 0) userStep.value = 0;
+  if (userStep.value > maxStep + 1) userStep.value = maxStep;
+});
+
+// 1.회원선택
 const userSelect = useState("useSelect", () => null);
 
+const onSelectType = (type: EnumCreateShopUserInputDtoRole) => {
+  userSelect.value = type;
+  userStep.value++;
+};
+
+// 2.약관동의
 const isClause = useState("isClause", () => false);
 const clauseAllchked = useState("clauseAll", () => false);
 const clauseList = reactive({
@@ -212,47 +248,8 @@ const clauseAllSelcted = (e) => {
   }
 };
 
-const onSelectType = (type: "개인" | "회원") => {
-  userSelect.value = type;
-  userStep.value++;
-};
-
-const onCreateUser = (e: SubmitEvent) => {
-  const el = e.target as HTMLElement;
-
-  let obj = <
-    {
-      userId: string;
-      userName: string;
-      userPassword: string;
-      userRePassword: string;
-    }
-  >{};
-  el.childNodes.forEach((v) => {
-    const element = v as HTMLInputElement;
-    obj = { ...obj, [element.id]: [element.value] };
-  });
-
-  const { userId, userName, userPassword, userRePassword } = obj;
-  console.log("회원 유형 : " + userSelect.value);
-  console.log("userName : " + userName);
-  console.log("userId : " + userId);
-  console.log("userPassword : " + userPassword);
-  console.log("userRePassword : " + userRePassword);
-
-  // 항목체크
-  if (!isClause.value) {
-    alert("필수 항목을 체크해주세요.");
-    return;
-  }
-
-  // 비밀번호 유효성 체크 & 재입력 확인
-
-  // 회원가입
-  userStep.value++;
-};
-
 watch(clauseList, () => {
+  // 약관 전체 동의
   isClause.value =
     Object.values(clauseList).findIndex((v) => v === false) === -1;
   const isChoiceClause =
@@ -263,10 +260,68 @@ watch(clauseList, () => {
   isFullCheck ? (clauseAllchked.value = true) : (clauseAllchked.value = false);
 });
 
-watch(userStep, () => {
-  if (userStep.value < 0) userStep.value = 0;
-  if (userStep.value > maxStep + 1) userStep.value = maxStep;
+// 3.정보입력
+const useFormErrorLists = reactive({
+  password: null as String | null,
+  rePassword: null as String | null,
 });
+
+const onCreateUser = async (e: SubmitEvent) => {
+  const el = e.target as HTMLElement;
+
+  let obj = <
+    {
+      userId: string;
+      nickName: string;
+      userPassword: string;
+      userRePassword: string;
+    }
+  >{};
+  el.childNodes.forEach((v) => {
+    const element = v as HTMLInputElement;
+    obj = { ...obj, [element.id]: element.value };
+  });
+
+  const { userId, nickName, userPassword, userRePassword } = obj;
+  console.log("회원 유형 : " + userSelect.value);
+  console.log("nickName : " + nickName);
+  console.log("userId : " + userId);
+  console.log("userPassword : " + userPassword);
+  console.log("userRePassword : " + userRePassword);
+
+  // 비밀번호 재입력 확인 & 유효성 체크
+  if (userPassword !== userRePassword) {
+    useFormErrorLists.rePassword = "비밀번호가 다릅니다.";
+    return;
+  } else {
+    useFormErrorLists.rePassword = null;
+  }
+
+  const passwordRegx = new RegExp("^(.{0,5}|[^0-9]*|[^A-Za-z]*|[a-zA-Z0-9]*)$");
+  if (passwordRegx.test(userPassword)) {
+    useFormErrorLists.password = "유효하지않은 패스워드 입니다.";
+    return;
+  } else {
+    useFormErrorLists.password = null;
+  }
+
+  // 항목체크
+  if (!isClause.value) {
+    alert("필수 항목을 체크해주세요.");
+    return;
+  }
+  // 회원가입
+  const { ok, err } = await userCreate(
+    { username: userId, password: userPassword },
+    { nickName, role: userSelect.value }
+  );
+  if (!ok) {
+    alert(err);
+    return;
+  }
+
+  userStep.value++;
+};
 </script>
 
 <style lang="scss">
@@ -287,5 +342,9 @@ button.button-type-01 {
   input {
     @apply border p-2;
   }
+}
+
+.form-error-text {
+  @apply text-red-500 text-[0.7rem];
 }
 </style>
