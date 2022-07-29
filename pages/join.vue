@@ -22,7 +22,7 @@
       </div>
     </div>
     <!-- 개인 회원 & 판매지 회원 -->
-    <section v-if="userStep === 0">
+    <section v-show="userStep === 0">
       <h1 class="text-[2rem] text-center">오신것을 환영합니다.</h1>
       <div class="flex justify-between gap-[3rem] mx-[1rem] mt-[1rem]">
         <div
@@ -50,8 +50,8 @@
       </div>
     </section>
     <!-- 약관동의 -->
-    <section v-else-if="userStep === 1">
-      <div class="flex gap-5 flex-wrap mt-[2rem] mx-[1rem]">
+    <section v-show="userStep === 1">
+      <div class="block sm:flex gap-5 flex-wrap mt-[2rem] mx-[1rem]">
         <p class="text-center text-[2rem]">2 약관 동의</p>
 
         <div class="flex-auto flex flex-col gap-2">
@@ -65,61 +65,138 @@
             />
             <label for="전체동의" class="text-[1.5rem]">전체동의</label>
           </div>
-          <div class="flex items-center gap-1">
+          <div class="flex items-start gap-1">
             <input
+              class="mt-[0.2rem]"
               type="checkbox"
-              name=""
               id="clause1"
               v-model="clauseList.clause1"
             />
-            <label for="clause1">이용약관</label>
-            <span class="text-gray-400">(필수)</span>
+            <div class="relative flex-auto">
+              <label class="absolute left-0 top-0 p-[0.2rem]" for="clause1"
+                >이용약관
+
+                <span class="text-gray-400 ml-1">(필수)</span>
+              </label>
+              <details data-details="Accordion" class="input-details">
+                <summary class="p-[0.2rem]">
+                  <span>자세히보기</span>
+                  <span class="custom-marker">▶</span>
+                </summary>
+                <div class="content">
+                  <p>콘텐츠</p>
+                  <p>ssaa</p>
+                </div>
+              </details>
+            </div>
           </div>
-          <div class="flex items-center gap-1">
+          <div class="flex items-start gap-1">
             <input
+              class="mt-[0.2rem]"
               type="checkbox"
-              name=""
               id="clause2"
               v-model="clauseList.clause2"
             />
-            <label for="clause2">전자금융거래 이용약관</label>
-            <span class="text-gray-400">(필수)</span>
+            <div class="relative flex-auto">
+              <label class="absolute left-0 top-0 p-[0.2rem]" for="clause2"
+                >전자금융거래 이용약관
+
+                <span class="text-gray-400 ml-1">(필수)</span>
+              </label>
+              <details data-details="Accordion" class="input-details">
+                <summary class="p-[0.2rem]">
+                  <span>자세히보기</span>
+                  <span class="custom-marker">▶</span>
+                </summary>
+                <div class="content">
+                  <p>콘텐츠</p>
+                  <p>ssaa</p>
+                </div>
+              </details>
+            </div>
           </div>
-          <div class="flex items-center gap-1">
+          <div class="flex items-start gap-1">
             <input
+              class="mt-[0.2rem]"
               type="checkbox"
-              name=""
               id="clause3"
               v-model="clauseList.clause3"
             />
-            <label for="clause3">개인정보 수집및 이용</label>
-            <span class="text-gray-400">(필수)</span>
+            <div class="relative flex-auto">
+              <label class="absolute left-0 top-0 p-[0.2rem]" for="clause3"
+                >개인정보 수집및 이용
+
+                <span class="text-gray-400 ml-1">(필수)</span>
+              </label>
+              <details data-details="Accordion" class="input-details">
+                <summary class="p-[0.2rem]">
+                  <span>자세히보기</span>
+                  <span class="custom-marker">▶</span>
+                </summary>
+                <div class="content">
+                  <p>콘텐츠</p>
+                  <p>ssaa</p>
+                </div>
+              </details>
+            </div>
           </div>
-          <div class="flex items-center gap-1">
+          <div class="flex items-start gap-1">
             <input
+              class="mt-[0.2rem]"
               type="checkbox"
-              name=""
               id="clause4"
               v-model="clauseList.clause4"
             />
-            <label for="clause4">개인정보 제3자(판매자) 제공</label>
-            <span class="text-gray-400">(필수)</span>
+            <div class="relative flex-auto">
+              <label class="absolute left-0 top-0 p-[0.2rem]" for="clause4"
+                >개인정보 제3자(판매자) 제공
+
+                <span class="text-gray-400 ml-1">(필수)</span>
+              </label>
+              <details data-details="Accordion" class="input-details">
+                <summary class="p-[0.2rem]">
+                  <span>자세히보기</span>
+                  <span class="custom-marker">▶</span>
+                </summary>
+                <div class="content">
+                  <p>콘텐츠</p>
+                  <p>ssaa</p>
+                </div>
+              </details>
+            </div>
           </div>
-          <div class="flex items-center gap-1">
+          <div class="flex items-start gap-1">
             <input
+              class="mt-[0.2rem]"
               type="checkbox"
-              name=""
-              id="clause5"
+              id="choiceClause1"
               v-model="choiceClauseList.clause1"
             />
-            <label for="clause5">혜택 알림 이메일, 문자, 앱 푸시 수신</label>
-            <span class="text-gray-400">(선택)</span>
+            <div class="relative flex-auto">
+              <label
+                class="absolute left-0 top-0 p-[0.2rem]"
+                for="choiceClause1"
+                >혜택 알림 이메일,문자,앱 푸시 수신
+
+                <span class="text-gray-400 ml-1">(선택)</span>
+              </label>
+              <details data-details="Accordion" class="input-details">
+                <summary class="p-[0.2rem]">
+                  <span>자세히보기</span>
+                  <span class="custom-marker">▶</span>
+                </summary>
+                <div class="content">
+                  <p>콘텐츠</p>
+                  <p>ssaa</p>
+                </div>
+              </details>
+            </div>
           </div>
         </div>
       </div>
     </section>
     <!-- 정보 입력 -->
-    <section v-else-if="userStep === 2">
+    <section v-show="userStep === 2">
       <div
         class="flex gap-5 flex-wrap mt-[2rem] mx-[1rem] font-bold text-[.8rem]"
       >
@@ -167,9 +244,10 @@
         </form>
       </div>
     </section>
-    <section v-else>
+    <section v-show="userStep > 2">
       <p class="text-[2rem] text-center">회원가입이 완료되었습니다.</p>
     </section>
+    <!-- 이전 & 다음 버튼 -->
     <div
       class="float-right mt-[1rem] mx-[1rem]"
       v-if="userSelect && userStep <= maxStep"
@@ -195,6 +273,7 @@
 <script setup lang="ts">
 import { EnumCreateShopUserInputDtoRole } from "~~/api/swagger";
 import { userCreate } from "~~/api/user";
+import { Accordion } from "~~/assets/animation/Accordion";
 
 definePageMeta({
   layout: "no-header",
@@ -248,6 +327,14 @@ const clauseAllSelcted = (e) => {
   }
 };
 
+onMounted(() => {
+  const details = document.querySelectorAll("[data-details='Accordion']");
+
+  details.forEach((el) => {
+    new Accordion(el as HTMLElement);
+  });
+});
+
 watch(clauseList, () => {
   // 약관 전체 동의
   isClause.value =
@@ -288,6 +375,13 @@ const onCreateUser = async (e: SubmitEvent) => {
   console.log("userId : " + userId);
   console.log("userPassword : " + userPassword);
   console.log("userRePassword : " + userRePassword);
+
+  // 아이디에 한글이 포함됐을시
+  const hangulReg = new RegExp("[ㄱ-ㅎㅏ-ㅣ가-힣]", "g");
+  if (hangulReg.test) {
+    alert("유효하지 않은 아이디 형식 입니다.");
+    return;
+  }
 
   // 비밀번호 재입력 확인 & 유효성 체크
   if (userPassword !== userRePassword) {
@@ -346,5 +440,44 @@ button.button-type-01 {
 
 .form-error-text {
   @apply text-red-500 text-[0.7rem];
+}
+
+details.input-details {
+  border: 1px solid black;
+
+  summary {
+    cursor: pointer;
+
+    width: 100px;
+    margin-right: 0px;
+    margin-left: auto;
+    background: gray;
+    color: white;
+
+    & ~ .content {
+      padding: 0.5rem;
+      border-top: 1px solid black;
+    }
+
+    // 마커 없애기
+    list-style: none;
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    .custom-marker {
+      float: right;
+      clear: both;
+      pointer-events: auto;
+      transform: rotate(0deg);
+      transition: transform 0.1s;
+    }
+  }
+
+  &[open] summary {
+    .custom-marker {
+      transform: rotate(90deg);
+    }
+  }
 }
 </style>
