@@ -29,13 +29,15 @@ import { defineComponent, onMounted, ref } from "vue";
 import { getImageURLByFormData } from "@/api/file";
 
 export default defineComponent({
-  setup() {
+  setup(_) {
     const tostRef = ref();
     const { $setToastEditor } = useNuxtApp();
     let control: Editor;
     const preview = ref();
+    let imageUrlLists = [];
 
     const getHTML = () => {
+      console.log(control.getMarkdown().toString().length);
       console.log(control.getHTML());
     };
 
@@ -47,10 +49,15 @@ export default defineComponent({
 
       // 백엔드 이미지 올리고 주소 얻기
       const url = await getImageURLByFormData(formData);
+      imageUrlLists.push(url);
 
       control.changeMode("markdown");
       control.insertText(`![image](${url})`);
       control.changeMode("wysiwyg");
+    };
+
+    const uploadImageUrlLists = () => {
+      return imageUrlLists;
     };
 
     const renderPreview = () => {
@@ -61,7 +68,14 @@ export default defineComponent({
       control = $setToastEditor(tostRef.value);
     });
 
-    return { tostRef, getHTML, renderPreview, preview, inertImage };
+    return {
+      tostRef,
+      getHTML,
+      renderPreview,
+      preview,
+      inertImage,
+      uploadImageUrlLists,
+    };
   },
 });
 </script>

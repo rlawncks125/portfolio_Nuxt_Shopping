@@ -274,6 +274,7 @@
 import { EnumCreateShopUserInputDtoRole } from "~~/api/swagger";
 import { userCreate } from "~~/api/user";
 import { Accordion } from "~~/assets/animation/Accordion";
+import { HangulValidation } from "~~/common/Validation";
 
 definePageMeta({
   layout: "no-header",
@@ -328,6 +329,7 @@ const clauseAllSelcted = (e) => {
 };
 
 onMounted(() => {
+  // 디테일 아코디언 애니메이션
   const details = document.querySelectorAll("[data-details='Accordion']");
 
   details.forEach((el) => {
@@ -377,8 +379,7 @@ const onCreateUser = async (e: SubmitEvent) => {
   console.log("userRePassword : " + userRePassword);
 
   // 아이디에 한글이 포함됐을시
-  const hangulReg = new RegExp("[ㄱ-ㅎㅏ-ㅣ가-힣]", "g");
-  if (hangulReg.test) {
+  if (HangulValidation(userId)) {
     alert("유효하지 않은 아이디 형식 입니다.");
     return;
   }

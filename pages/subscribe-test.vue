@@ -40,12 +40,24 @@ export default defineComponent({
 
     // og데이터 할때만 쓰기로
     const { data, pending } = useLazyAsyncData("restaurtInfo", () =>
-      $axios.get("restaurant/11").then((res) => res.data)
+      $axios
+        .get("restaurant/11", {
+          headers: {
+            "acces-token":
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImlhdCI6MTY0MDAxNjExOX0.Z3OfdUYe7sSVdwgO0n6YT-1hlZdcuAz417GecLP3hfk",
+          },
+        })
+        .then((res) => res.data)
     );
 
     onMounted(async () => {
       axiosData.value = await $axios
-        .get("restaurant/11")
+        .get("restaurant/11", {
+          headers: {
+            "acces-token":
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImlhdCI6MTY0MDAxNjExOX0.Z3OfdUYe7sSVdwgO0n6YT-1hlZdcuAz417GecLP3hfk",
+          },
+        })
         .then((res) => res.data);
     });
 

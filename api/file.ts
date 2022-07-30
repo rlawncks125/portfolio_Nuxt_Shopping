@@ -12,3 +12,22 @@ export const getImageURLByFormData = async (form: FormData) => {
     .post("/file", form)
     .then((res) => res.data.secure_url as string);
 };
+
+export const deleteImageUrl = async (url: string) => {
+  // 삭제할 파일 이름 만 추출하는 작업
+  const imageURL = url
+    .split("/")
+    .pop()
+    ?.split(".")[0];
+
+  let isDeleted = false;
+
+  const deleteResult = await ApiServer.axios
+    .delete(`file/${imageURL}`)
+    .then((res: any) => res.data.deleted);
+
+  if (Object.values(deleteResult).length > 0) {
+    isDeleted = true;
+  }
+  return isDeleted;
+};

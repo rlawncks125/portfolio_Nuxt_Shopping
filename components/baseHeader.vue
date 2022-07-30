@@ -5,7 +5,7 @@
       <ul class="warp-items flex justify-end">
         <li>
           <button v-if="isToken" @click="userLogOut">로그아웃</button>
-          <a v-else href="/login"> 로그인 </a>
+          <NuxtLink v-else to="/login">로그인</NuxtLink>
         </li>
         <li>
           <a href="/join"> 회원가입 </a>
@@ -14,16 +14,16 @@
           <a href="/basket"> 장바구니 </a>
         </li>
         <li>
-          <a href="#"> 주문배송 </a>
+          <NuxtLink to="#">주문배송</NuxtLink>
         </li>
         <li>
-          <a href="#"> 내정보 </a>
+          <NuxtLink to="#">내정보</NuxtLink>
         </li>
         <li>
-          <a href="#"> 고객센터 </a>
+          <NuxtLink to="#">고객센터</NuxtLink>
         </li>
         <li>
-          <a href="#"> 판매하기 </a>
+          <NuxtLink to="/selling">판매하기</NuxtLink>
         </li>
       </ul>
     </nav>

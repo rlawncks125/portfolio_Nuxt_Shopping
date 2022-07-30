@@ -29,6 +29,7 @@
 
 <script setup lang="ts">
 import { userLogin } from "~~/api/user";
+import { HangulValidation } from "~~/common/Validation";
 import { useUser } from "~~/sotre/user";
 
 const loginId = useState("loginId", () => "");
@@ -36,6 +37,11 @@ const loginPassword = useState("loginPassword", () => "");
 
 const clickedLogin = async () => {
   console.log(loginId.value, loginPassword.value);
+
+  if (HangulValidation(loginId.value)) {
+    alert("유효하지 않은 아이디 형식 입니다.");
+    return;
+  }
 
   const { ok, err, token } = await userLogin({
     username: loginId.value,

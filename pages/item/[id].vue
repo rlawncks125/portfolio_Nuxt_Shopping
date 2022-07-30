@@ -3,25 +3,27 @@
     <div>아이템 id : {{ params.id }}</div>
     <div
       v-if="item"
-      class="w-[10rem] border border-gray-200 cursor-pointer hover:border-gray-400"
+      class="border border-gray-200 cursor-pointer hover:border-gray-400"
     >
-      <img class="w-full" :src="item.src" alt="" />
-      <div class="p-4">
-        <p>{{ item.title }}</p>
-        <div class="flex gap-2 items-center">
-          <span class="text-red-500">{{ item.sale }}%</span>
-          <p>
-            <span class="font-bold">
-              {{
-                formatToWon(+item.price * ((100 - item.sale) / 100) + "")
-              }}</span
-            ><span class="text-[0.9rem]">원</span>
-          </p>
+      <div class="block sm:flex px-[1rem]">
+        <img class="w-full sm:w-[45%]" :src="item.thumbnailSrc" alt="" />
+        <div class="p-4">
+          <p class="text-[1.5rem]">{{ item.title }}</p>
           <p class="text-gray-400 text-[0.8rem]">
             <del> {{ formatToWon(item.price) }}<span>원</span> </del>
+            <span class="text-red-500 ml-[.5rem] text-[1.2rem]"
+              >{{ item.sale }}%</span
+            >
           </p>
+          <span class="font-bold text-[1.5rem]">
+            {{
+              formatToWon(+item.price * ((100 - item.sale) / 100) + "")
+            }}</span
+          ><span class="text-[0.9rem]">원</span>
         </div>
       </div>
+      <br />
+      <div v-html="item.detailHtml"></div>
     </div>
   </div>
 </template>
@@ -29,19 +31,13 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { formatToWon } from "@/common/format";
-
-interface Iitem {
-  src: string;
-  title: string;
-  price: string;
-  sale: number;
-  itemId: number;
-}
+import { getItem } from "~~/api/item";
+import { Iitem } from "@/api/item";
 
 export default defineComponent({
   setup() {
     const { params } = useRoute();
-    const item = ref();
+    const item = ref<Iitem>();
 
     onMounted(async () => {
       item.value = await getItem(+params.id);
@@ -55,7 +51,7 @@ export default defineComponent({
       // 아이템 정보 가져오기 처리
       getItem(+params.id).then((res) => {
         ogTitle.value = `타이틀 : ${res.title}`;
-        ogSrc.value = res.src;
+        ogSrc.value = res.thumbnailSrc;
         ogDesc.value = `${res.title}의 가격은 ${res.price}입니다.`;
       })
     );
@@ -87,32 +83,6 @@ export default defineComponent({
     return { params, item, formatToWon };
   },
 });
-
-const getItem = async (id: number) => {
-  return new Promise<Iitem>((res, rej) => {
-    setTimeout(() => {
-      if (id === 6) {
-        const mockItme2 = {
-          src: "https://image.iacstatic.co.kr/allkill/item/2022/07/20220720095501441r.jpg",
-          title: "[10%+12%]패션라인신상원피스/팬츠",
-          price: "43000",
-          sale: 70,
-          itemId: 6,
-        };
-        res(mockItme2);
-      } else {
-        const mockItme = {
-          src: "https://image.iacstatic.co.kr/allkill/item/2022/07/20220720100107421r.jpg",
-          title: "휠라 퐁 쏭 4종 택1",
-          price: "29000",
-          sale: 30,
-          itemId: 4,
-        };
-        res(mockItme);
-      }
-    }, 100);
-  });
-};
 </script>
 
 <style scoped></style>

@@ -28,6 +28,10 @@ self.addEventListener("push", (event) => {
   const title = data.title;
   const options = {
     body: data.body,
+    icon:
+      "https://res.cloudinary.com/dhdq4v4ar/image/upload/w_192,h_192/v1659106597/lakun_lx50mu.jpg",
+    // 진동음
+    vibrate: [200, 100, 200, 100, 200, 100, 200],
   };
 
   event.waitUntil(self.registration.showNotification(title, options));
