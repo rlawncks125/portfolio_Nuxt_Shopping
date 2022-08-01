@@ -1,6 +1,6 @@
 import { ApiServer } from "~~/plugins/api-server";
 
-export const getImageURLByFormData = async (form: FormData) => {
+export const getImageURLByFormData = async (file: File) => {
   // useFetch사용시 formData를 몾찾는 에러 발생
   // return await fetch(`${ApiServer.url}/file`, {
   //   method: "post",
@@ -8,6 +8,9 @@ export const getImageURLByFormData = async (form: FormData) => {
   // })
   //   .then((res) => res.json())
   //   .then((result) => result.secure_url as String);
+
+  const form = new FormData();
+  form.append("file", file, file.name);
   return ApiServer.axios
     .post("/file", form)
     .then((res) => res.data.secure_url as string);

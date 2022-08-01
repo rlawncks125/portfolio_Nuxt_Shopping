@@ -3,6 +3,8 @@
     <h1>
       아이템 판매하기
     </h1>
+    <button @click="$router.push('/')">go Home</button>
+    <button @click="isRegistered = true">등록하기</button>
     <div class="px-6 mt-4">
       <ToastUi ref="toastUiRef" />
     </div>
@@ -28,12 +30,19 @@ definePageMeta({
 export default defineComponent({
   setup() {
     const toastUiRef = useState<InstanceType<typeof ToastUi>>("toastUiRef");
+    const isRegistered = ref<boolean>(false);
 
     onBeforeRouteLeave(async (to, form, next) => {
       console.log("라우트 이동 감지");
 
+      // 판매 등록을 했을시
+      if (isRegistered.value) {
+        next();
+        return;
+      }
+
       const isLeave = confirm(
-        "페이지 작성 중입니다 .정말로 이페이지를 나가실건가요?"
+        "변경사항이 저장되지 않습니다. 정말로 페이지를 나가실건가요?"
       );
       if (!isLeave) {
         next(false);
@@ -53,7 +62,7 @@ export default defineComponent({
 
       next();
     });
-    return { toastUiRef };
+    return { toastUiRef, isRegistered };
   },
 });
 </script>

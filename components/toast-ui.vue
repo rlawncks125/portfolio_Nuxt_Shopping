@@ -4,8 +4,17 @@
     <label class="cursor-pointer" for="insert-image">이미지 삽입 </label>
     <input class="w-[0px]" type="file" id="insert-image" @change="inertImage" />
     |
-    <button @click="renderPreview">미리보기</button>
-    <div ref="tostRef"></div>
+    <button @click="renderPreview">미리보기</button> |
+    <button @click="isLoading = !isLoading">로딩변경</button>
+    <div class="relative">
+      <div ref="tostRef"></div>
+      <div
+        v-show="isLoading"
+        class="z-[1000] absolute inset-0 bg-black opacity-40 flex justify-center items-center"
+      >
+        <p class="text-white text-[2rem]">Loading ...</p>
+      </div>
+    </div>
     <!-- 미리보기  -->
     <div class="preview" v-if="preview">
       <div class="content">
@@ -36,6 +45,8 @@ export default defineComponent({
     const preview = ref();
     let imageUrlLists = [];
 
+    const isLoading = ref<boolean>(false);
+
     const getHTML = () => {
       console.log(control.getMarkdown().toString().length);
       console.log(control.getHTML());
@@ -44,12 +55,7 @@ export default defineComponent({
     const inertImage = async (e: any) => {
       const file: File = e.target.files[0];
 
-      const formData = new FormData();
-      formData.append("file", file, file.name);
-
-      // 백엔드 이미지 올리고 주소 얻기
-      const url = await getImageURLByFormData(formData);
-      imageUrlLists.push(url);
+      const url = await uploadImage(file);
 
       control.changeMode("markdown");
       control.insertText(`![image](${url})`);
@@ -60,12 +66,34 @@ export default defineComponent({
       return imageUrlLists;
     };
 
+    const uploadImage = async (file: File) => {
+      // const formData = new FormData();
+      // formData.append("file", file, file.name);
+
+      // 백엔드 이미지 올리고 주소 얻기
+      isLoading.value = true;
+      const url = await getImageURLByFormData(file);
+      imageUrlLists.push(url);
+      isLoading.value = false;
+      return url;
+    };
+
     const renderPreview = () => {
       preview.value = control.getHTML();
     };
 
     onMounted(() => {
       control = $setToastEditor(tostRef.value);
+
+      control.removeHook("addImageBlobHook");
+      control.addHook("addImageBlobHook", async (file: File, callback) => {
+        const url = await uploadImage(file);
+
+        if (url) {
+          imageUrlLists.push(url);
+          callback(url, file.name);
+        }
+      });
     });
 
     return {
@@ -75,6 +103,7 @@ export default defineComponent({
       preview,
       inertImage,
       uploadImageUrlLists,
+      isLoading,
     };
   },
 });
