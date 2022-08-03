@@ -62,6 +62,9 @@ export default defineComponent({
 
       next();
     });
+
+    
+
     return { toastUiRef, isRegistered };
   },
 });

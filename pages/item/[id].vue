@@ -15,13 +15,9 @@
           <div class="p-4 sm:w-[30rem] sm:flex-initial">
             <p class="text-[1.5rem]">{{ item.title }}</p>
             <div class="flex items-center gap-1">
-              <start-fill
-                :star-size="1"
-                :star-num="5"
-                :fill="item.reviews.avgStar"
-              />
+              <start-fill :star-size="1" :star-num="5" :fill="avgStar" />
               <p class="text-[0.8rem] text-gray-500">
-                ({{ item.reviews.count }})
+                ({{ item.reviews.length }})
               </p>
             </div>
             <!-- 금액 표기 -->
@@ -59,12 +55,22 @@
             <div v-if="itemOptions.length > 0">
               <template v-for="(option, index) in itemOptions">
                 <div class="border p-2">
-                  <p>{{ option.name }}</p>
+                  <div class="flex justify-between">
+                    <p>{{ option.name }}</p>
+                    <button @click="deleteOption(index)">
+                      X
+                    </button>
+                  </div>
                   <div class="flex justify-between">
                     <div class="flex gap-2">
                       <button
                         class="border px-2"
-                        @click="itemOptions[index].count--"
+                        @click="
+                          itemOptions[index].count =
+                            itemOptions[index].count-- > 1
+                              ? itemOptions[index].count
+                              : 1
+                        "
                       >
                         -
                       </button>
@@ -82,10 +88,16 @@
               </template>
             </div>
             <!-- 총금액 표기 -->
-            <p class="float-right">
+            <p class="float-right clear-both">
               총 금액 :{{ formatToWon(optionPriceSum) }}원
             </p>
             <!-- 구매 버튼 & 장바구니 버튼 -->
+            <button
+              class="block clear-both float-right border py-2 px-4"
+              @click="onClickBuyItem"
+            >
+              구매하기
+            </button>
           </div>
         </div>
       </section>
@@ -96,9 +108,9 @@
           class="width-container h-full flex text-white gap-[1rem] px-2 items-center font-bold"
         >
           <template
-            v-for="(item, index) in [
+            v-for="(tabName, index) in [
               '상품설명',
-              '구매후기',
+              '구매후기 ',
               '상품문의',
               '교환/반품',
             ]"
@@ -111,21 +123,181 @@
               "
               @click="changeTabMenuByIndex(index)"
             >
-              <p>{{ item }}</p>
+              <p>
+                {{ tabName }}
+                <span class="text-gray-200 font-medium" v-show="index === 1"
+                  >{{ item.reviews.length }}
+                </span>
+              </p>
             </div>
           </template>
         </div>
       </div>
       <!-- 탭 활성화 메뉴 랜더 -->
-      <section class="width-container">
+      <section class="width-container mt-[2rem] px-2">
         <!-- 상품 상세정보 -->
         <div v-show="showTabMenu === 0" v-html="item.detailHtml"></div>
         <!-- 구매후기 -->
-        <div v-show="showTabMenu === 1">구매후기</div>
+        <div v-show="showTabMenu === 1">
+          <h1 class="text-[2rem] text-center">{{ item.title }} 구매후기</h1>
+          <br />
+
+          <!-- 별 평균 & 별 분포도 -->
+          <div
+            class="grid grid-cols-1 md:grid-cols-2 p-[4rem] border border-gray-200"
+          >
+            <!-- 별 평균 -->
+            <div class="border-b-2 md:border-b-0 md:border-r-2 border-gray-200">
+              <p class="text-[3rem] text-center">
+                {{ avgStar }}
+              </p>
+              <start-fill
+                class="mx-auto"
+                :star-size="2.5"
+                :star-num="5"
+                :fill="avgStar"
+              />
+            </div>
+            <!-- 별 분포도 -->
+            <div class="star-dist mt-4 h-[11rem] md:h-auto md:mt-0">
+              <ul class="flex w-full h-full items-end justify-center gap-4">
+                <li>
+                  <p>{{ starDist.five * 100 }}%</p>
+                  <progress max="1" :value="starDist.five"></progress>
+                  <span>
+                    5
+                  </span>
+                </li>
+                <li>
+                  <p>{{ starDist.four * 100 }}%</p>
+                  <progress max="1" :value="starDist.four"></progress>
+                  <span>
+                    4
+                  </span>
+                </li>
+                <li>
+                  <p>{{ starDist.three * 100 }}%</p>
+                  <progress max="1" :value="starDist.three"></progress>
+                  <span>
+                    3
+                  </span>
+                </li>
+                <li>
+                  <p>{{ starDist.two * 100 }}%</p>
+                  <progress max="1" :value="starDist.two"></progress>
+                  <span>
+                    2
+                  </span>
+                </li>
+                <li>
+                  <p>{{ starDist.one * 100 }}%</p>
+                  <progress max="1" :value="starDist.one"></progress>
+                  <span>
+                    1
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 구매 후기 리스트-->
+          <div class="mt-[2rem]">
+            <div
+              v-for="review in item.reviews"
+              class="flex flex-col gap-2 pb-4 border-b-2"
+            >
+              <div class="flex gap-2 text-gray-400">
+                <start-fill :star-size="1" :star-num="5" :fill="review.star" />
+                <p>{{ review.nickName }}</p>
+                <p>{{ review.addDay }}</p>
+              </div>
+              <p class="text-gray-400">선택 : {{ review.title }}</p>
+              <p>
+                {{ review.text }}
+              </p>
+            </div>
+          </div>
+        </div>
         <!-- 상품문의 -->
-        <div v-show="showTabMenu === 2">상품문의</div>
+        <div v-show="showTabMenu === 2">
+          <h1 class="text-[2rem] text-center">{{ item.title }}</h1>
+          <br />
+          <p class="font-bold border-b-2">상품문의 ({{ item.QA.length }})</p>
+          <br />
+          <div>
+            <div class="inquire ">
+              <p class="w-[15%]">답변상태</p>
+              <p class="w-[15%]">문의유형</p>
+              <p class="w-[40%]">문의제목</p>
+              <p class="w-[15%]">작성자</p>
+              <p class="w-[15%]">작성일자</p>
+            </div>
+            <!-- 문의 랜더 -->
+            <div v-for="(qa, index) in item.QA">
+              <div class="flex justify-between text-center border-b">
+                <p class="w-[15%] text-green-600">{{ qa.status }}</p>
+                <p class="w-[15%]">{{ qa.type }}</p>
+                <button
+                  class="w-[40%] hover:underline"
+                  @click="openInquiry(index)"
+                >
+                  {{ qa.title }}
+                </button>
+                <p class="w-[15%]">
+                  {{ qa.nickName.slice(0, qa.nickName.length / 2) }}**
+                </p>
+                <p class="w-[15%]">{{ qa.addDay }}</p>
+              </div>
+              <!-- 문의 내용 -->
+              <div v-show="openInquiryIndex === index">
+                <div class="flex flex-col px-4 gap-6 bg-gray-200 py-4 ">
+                  <!-- 질문 -->
+                  <div class="flex items-center gap-2">
+                    <div
+                      class="w-[1.5rem] h-[1.5rem]  text-center text-white bg-gray-500"
+                      :style="{ borderRadius: '100%', lineHeight: '1.5rem' }"
+                    >
+                      <p>
+                        Q
+                      </p>
+                    </div>
+                    <p>
+                      {{ qa.text }}
+                    </p>
+                  </div>
+
+                  <!-- 답변 -->
+                  <div v-if="qa.answer" class="flex items-center gap-2">
+                    <div
+                      class="w-[1.5rem] h-[1.5rem]  text-center text-white bg-green-400"
+                      :style="{ borderRadius: '100%', lineHeight: '1.5rem' }"
+                    >
+                      <p>
+                        A
+                      </p>
+                    </div>
+                    <p>
+                      {{ qa.answer }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <!-- 교환/반품 -->
-        <div v-show="showTabMenu === 3">교환/반품</div>
+        <div v-show="showTabMenu === 3">
+          교환/반품
+
+          <div>
+            <h1 class="text-[2rem]">판매자정보</h1>
+            <p><span>상호명 : </span>{{ item.sellUserInfo.companyName }}</p>
+            <p><span>대표자 : </span>{{ item.sellUserInfo.represent }}</p>
+            <p><span>연락처 : </span>{{ item.sellUserInfo.phone }}</p>
+            <p><span>상호명 : </span>{{ item.sellUserInfo.companyAddress }}</p>
+            <p><span>이메일 : </span>{{ item.sellUserInfo.eMail }}</p>
+          </div>
+        </div>
       </section>
       <div>
         <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
@@ -145,26 +317,30 @@ export default defineComponent({
     const { params } = useRoute();
     const item = ref<Iitem>();
 
+    const avgStar = ref<number>();
+
     const showTabMenu = useState("showTabMenu", () => 0);
 
-    // 옵션 선택 & 계산
+    // 옵션  & 계산 & 구매
     const itemOptions = ref([]);
 
     // 총합 액수 계산
     const optionPriceSum = computed(() => {
       const salePrice = +item.value.price * ((100 - item.value.sale) / 100);
       // 옵션 총합 계산
-      const optionSum = itemOptions.value.reduce((a, b) => {
-        const ra = (a.price * a.count) | a;
-        const rb = b.price * b.count;
-
-        return toRaw(ra) + toRaw(rb);
-      }, 0);
+      const optionSum = itemOptions.value.reduce(
+        (a, b) => a + toRaw(b.price * b.count),
+        0
+      );
 
       return salePrice + item.value.parcel + optionSum;
     });
-    // 옵션 선택
+    // 옵션
     const selectOption = ref("");
+    const deleteOption = (index: number) => {
+      itemOptions.value = itemOptions.value.filter((v, i) => i !== index);
+    };
+    // 옵션 선택
     watch(selectOption, () => {
       if (selectOption.value === "") return;
 
@@ -189,6 +365,13 @@ export default defineComponent({
       selectOption.value = "";
     });
 
+    // 상품 구매하기
+    const onClickBuyItem = () => {
+      console.log("아이템 정보 :", item.value);
+      console.log("선택 옵션 : ", itemOptions.value);
+      console.log("총합 : ", optionPriceSum.value);
+    };
+
     // 탭메뉴
     const tapMenuRef = ref<HTMLElement>();
 
@@ -198,11 +381,53 @@ export default defineComponent({
       showTabMenu.value = index;
     };
 
+    // 구매후기
+    const starDist = reactive({
+      five: 0,
+      four: 0,
+      three: 0,
+      two: 0,
+      one: 0,
+    });
+
+    // 상품문의
+    const openInquiryIndex = ref();
+    const openInquiry = (index: number) => {
+      if (openInquiryIndex.value === index) {
+        openInquiryIndex.value = null;
+        return;
+      }
+
+      openInquiryIndex.value = index;
+    };
+
     onMounted(async () => {
       const { ok, item: resItem } = await getItem(+params.id);
       if (ok) {
         item.value = resItem;
       }
+
+      // 평균 별점
+      avgStar.value =
+        resItem.reviews.reduce((a, b) => a + b.star, 0) /
+        resItem.reviews.length;
+
+      // 별점 분포도
+      starDist.five =
+        resItem.reviews.filter((v) => v.star === 5).length /
+        resItem.reviews.length;
+      starDist.four =
+        resItem.reviews.filter((v) => v.star === 4).length /
+        resItem.reviews.length;
+      starDist.three =
+        resItem.reviews.filter((v) => v.star === 3).length /
+        resItem.reviews.length;
+      starDist.two =
+        resItem.reviews.filter((v) => v.star === 2).length /
+        resItem.reviews.length;
+      starDist.one =
+        resItem.reviews.filter((v) => v.star === 1).length /
+        resItem.reviews.length;
     });
 
     // og데이터
@@ -251,12 +476,57 @@ export default defineComponent({
       showTabMenu,
       selectOption,
       itemOptions,
+      deleteOption,
       optionPriceSum,
       tapMenuRef,
       changeTabMenuByIndex,
+      onClickBuyItem,
+      avgStar,
+      starDist,
+      openInquiry,
+      openInquiryIndex,
     };
   },
 });
 </script>
 
-<style scoped></style>
+<style lang="scss">
+.star-dist {
+  li {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+
+    progress {
+      transform: rotate(-90deg);
+      height: 1rem;
+      width: 100%;
+      border-radius: 1rem;
+      overflow: hidden;
+
+      &::-webkit-progress-bar {
+        @apply bg-gray-400;
+      }
+
+      &::-webkit-progress-value {
+        @apply bg-red-600;
+      }
+    }
+  }
+}
+
+.inquire {
+  @apply flex justify-between p-1 text-center border-t border-b border-gray-400 bg-gray-200;
+
+  p {
+    @apply overflow-hidden overflow-ellipsis whitespace-nowrap;
+  }
+
+  p ~ p {
+    @apply border-l border-gray-400;
+  }
+}
+</style>

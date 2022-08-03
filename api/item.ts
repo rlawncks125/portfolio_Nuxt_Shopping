@@ -1,13 +1,17 @@
 export interface Iitem {
+  id: number;
   thumbnailSrc: string;
   detailHtml: string;
   title: string;
   price: string;
   sale: number;
-  id: number;
-  // 판매자 정보 ( 회사 , 유저 정보 )
+  // 판매자 유저 정보
   sellUserInfo: {
-    nickName: string;
+    represent: string; //대표자
+    phone: string;
+    eMail: string;
+    companyName: string;
+    companyAddress: string;
   };
   // 배송비 ( 무료 , 금액 ...)
   parcel: number;
@@ -17,15 +21,38 @@ export interface Iitem {
   options: { name: string; price: number }[];
   // 구매후기 | 상품평 ( 갯수 , 평균 별)
   reviews: {
-    avgStar: number;
-    count: number;
-    review: {
-      title: string;
-      text: string;
-    }[];
-  };
+    title: string;
+    text: string;
+    star: number;
+    nickName: string;
+    addDay: string;
+  }[];
   // 상품문의
-  QA: { title: string; text: string }[];
+  QA: {
+    title: string;
+    text: string;
+    status: string;
+    nickName: string;
+    addDay: string;
+    type: string;
+    answer?: string;
+  }[];
+}
+
+// 영수중
+export interface Ireceipt {
+  id: number;
+  title: string;
+  price: string;
+  options: { name: string; price: number; count: number }[];
+  parcel: number; // 배송비
+  // 판매자 유저 정보
+  sellUserInfo: {
+    nickName: string;
+    companyName: string;
+    companyAddress: string;
+  };
+  totalPrice: number; // 결제한 금액
 }
 
 export const getItem = async (id: number) => {
@@ -41,7 +68,7 @@ export const getItem = async (id: number) => {
           price: "43000",
           sale: 70,
           id: 6,
-          parcel: 3000,
+          parcel: 2500,
           options: [
             { name: "옵션1", price: 2000 },
             { name: "옵션2", price: 3000 },
@@ -49,17 +76,38 @@ export const getItem = async (id: number) => {
           ],
           origin: "상세페이지 참조",
           sellUserInfo: {
-            nickName: "판매자1",
+            represent: "판매자1",
+            phone: "010-2020-3131",
+            eMail: "test@nal.me",
+            companyName: "회사명1",
+            companyAddress: "회사 주소1",
           },
-          reviews: {
-            avgStar: 4,
-            count: 3,
-            review: [{ title: "리뷰1", text: "리뷰내용1" }],
-          },
+          reviews: [
+            {
+              title: "리뷰1",
+              text: "리뷰내용1",
+              star: 3,
+              nickName: "유저1",
+              addDay: "2022.02.02",
+            },
+            {
+              title: "리뷰2",
+              text: "리뷰내용2",
+              star: 2,
+              nickName: "유저2",
+              addDay: "2022.02.02",
+            },
+          ],
+
           QA: [
             {
               title: "문의1",
               text: "문의내용1",
+              addDay: "2020-02-02",
+              nickName: "유저1",
+              status: "답변 완료",
+              type: "문의 타입",
+              answer: "답내용 입니다.",
             },
           ],
         };
@@ -77,21 +125,44 @@ export const getItem = async (id: number) => {
           price: "29000",
           sale: 30,
           id: 4,
-          parcel: 3000,
-          options: [{ name: "옵션1", price: 2000 }],
+          parcel: 2500,
+          options: [
+            { name: "옵션1", price: 2000 },
+            { name: "옵션2", price: 3000 },
+            { name: "옵션3", price: 4000 },
+          ],
           origin: "상세페이지 참조",
           sellUserInfo: {
-            nickName: "판매자1",
+            represent: "판매자1",
+            phone: "010-2020-3131",
+            eMail: "test@nal.me",
+            companyName: "회사명1",
+            companyAddress: "회사 주소1",
           },
-          reviews: {
-            avgStar: 4,
-            count: 3,
-            review: [{ title: "리뷰1", text: "리뷰내용1" }],
-          },
+          reviews: [
+            {
+              title: "리뷰1",
+              text: "리뷰내용1",
+              star: 3,
+              nickName: "유저1",
+              addDay: "2022.02.02",
+            },
+            {
+              title: "리뷰2",
+              text: "리뷰내용2",
+              star: 2,
+              nickName: "유저2",
+              addDay: "2022.02.02",
+            },
+          ],
           QA: [
             {
               title: "문의1",
               text: "문의내용1",
+              addDay: "2020-02-02",
+              nickName: "유저1",
+              status: "대기",
+              type: "문의 타입",
             },
           ],
         };
@@ -100,6 +171,6 @@ export const getItem = async (id: number) => {
           item: mockItme,
         });
       }
-    }, 100);
+    }, 200);
   });
 };
