@@ -309,7 +309,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { formatToWon } from "@/common/format";
-import { getItem } from "~~/api/item";
+import { getItem, basketItem } from "~~/api/item";
 import { Iitem } from "@/api/item";
 
 export default defineComponent({
@@ -322,7 +322,13 @@ export default defineComponent({
     const showTabMenu = useState("showTabMenu", () => 0);
 
     // 옵션  & 계산 & 구매
-    const itemOptions = ref([]);
+    const itemOptions = ref<
+      {
+        name: string;
+        price: number;
+        count: number;
+      }[]
+    >([]);
 
     // 총합 액수 계산
     const optionPriceSum = computed(() => {
@@ -333,7 +339,7 @@ export default defineComponent({
         0
       );
 
-      return salePrice + item.value.parcel + optionSum;
+      return salePrice + optionSum + item.value.parcel;
     });
     // 옵션
     const selectOption = ref("");
@@ -365,6 +371,20 @@ export default defineComponent({
       selectOption.value = "";
     });
 
+    // 장바구니 담기
+    const onAddBasketItem = () => {
+      const basketItem: basketItem = {
+        itemId: item.value.id,
+        title: item.value.title,
+        thumbnailSrc: item.value.thumbnailSrc,
+        parcel: item.value.parcel,
+        sale: item.value.sale,
+        price: item.value.price,
+        options: itemOptions.value,
+        totalPrice: optionPriceSum.value,
+      };
+    };
+
     // 상품 구매하기
     const onClickBuyItem = () => {
       console.log("아이템 정보 :", item.value);
@@ -386,15 +406,14 @@ export default defineComponent({
         },
         (rsp) => {
           alert("결제 성공");
-
           // 성공시 api 호출
-          // {아이템 정보 , 결제정보 , }
+          // { 영수증 정보 , 결제정보 }
 
           // 결제 정보
           // imp_uid: rsp.imp_uid, // imp결제 고유 번호
           // merchant_uid: rsp.merchant_uid // 상품 번호
 
-          console.log(rsp);          
+          console.log(rsp);
           // apply_num: "53795311";
           // bank_name: null
           // buyer_addr: "테스트 주소"
@@ -418,8 +437,6 @@ export default defineComponent({
           // pg_type: "payment"
           // receipt_url: "https://iniweb.inicis.com/DefaultWebApp/mall/cr/cm/mCmReceipt_head.jsp?noTid=StdpayISP_INIpayTest20220808010813776666&noMethod=1"
           // status: "paid"
-
-          
         },
         (rsp) => {
           console.log(rsp);

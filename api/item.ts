@@ -1,5 +1,7 @@
 interface ShopUser {
   // 아이디 등등 개인회원과 똑같은 정보
+
+  // 판매회원만 가지고 있는 판매자 정보
   seller: ShopUserSeller;
 }
 
@@ -19,8 +21,6 @@ export interface Iitem {
   title: string;
   price: string;
   sale: number;
-  // 판매자 유저 정보
-  sellUserInfo: ShopUserSeller;
   // 배송비 ( 무료 , 금액 ...)
   parcel: number;
   // 원산지
@@ -45,18 +45,29 @@ export interface Iitem {
     type: string;
     answer?: string;
   }[];
+  // 판매자 유저 정보
+  sellUserInfo: ShopUserSeller;
+}
+
+// 장바구니 아이템
+export interface basketItem {
+  itemId: number;
+  title: string;
+  thumbnailSrc: string;
+  price: string;
+  sale: number;
+  parcel: number; // 배송비
+  options: { name: string; price: number; count: number }[];
+  totalPrice: number; // 총 금액
 }
 
 // 영수중
 export interface Ireceipt {
   id: number;
-  title: string;
-  price: string;
-  options: { name: string; price: number; count: number }[];
-  parcel: number; // 배송비
-  // 판매자 유저 정보
-  sellUserInfo: ShopUserSeller;
-  totalPrice: number; // 결제한 금액
+  Item: basketItem[];
+  sellUserInfo: ShopUserSeller; // 판매자 유저 정보
+  purchasedUser: ShopUser; // 구매한 유저 정보
+  paymentPrice: number; // 결제한 금액
 }
 
 export const getItem = async (id: number) => {

@@ -1,3 +1,5 @@
+import { useUser } from "~~/sotre/user";
+
 interface impParam {
   merchant_uid: string;
   name: string;
@@ -25,6 +27,12 @@ export default defineNuxtPlugin(() => {
         success: (rsp: any) => void,
         fail: (rsp: any) => void
       ) => {
+        const { userInfo } = useUser();
+        console.log("유저 정보: ", userInfo);
+        if (!userInfo) {
+          alert("로그인후 이용해주시기 바랍니다.");
+          return;
+        }
         imp.request_pay(
           {
             // param
@@ -33,11 +41,12 @@ export default defineNuxtPlugin(() => {
             merchant_uid: param.merchant_uid,
             name: param.name,
             amount: param.amount,
-            buyer_email: param.buyer_email,
-            buyer_name: param.buyer_name,
-            buyer_tel: param.buyer_tel,
-            buyer_addr: param.buyer_addr,
-            buyer_postcode: param.buyer_postcode,
+            // 사용자 정보
+            buyer_email: userInfo.email || param.buyer_email,
+            buyer_name: userInfo.nickName || param.buyer_name,
+            buyer_tel: userInfo.tel || param.buyer_tel,
+            buyer_addr: userInfo.addr || param.buyer_addr,
+            buyer_postcode: userInfo.postcode || param.buyer_postcode,
           },
           function(rsp) {
             // callback

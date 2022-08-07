@@ -5,7 +5,7 @@
 /** Generate by swagger-axios-codegen */
 /* eslint-disable */
 // @ts-nocheck
-import axiosStatic, { AxiosInstance, AxiosRequestConfig } from "axios";
+import axiosStatic, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 export interface IRequestOptions extends AxiosRequestConfig {}
 
@@ -26,40 +26,31 @@ export interface ServiceOptions {
 export const serviceOptions: ServiceOptions = {};
 
 // Instance selector
-export function axios(
-  configs: IRequestConfig,
-  resolve: (p: any) => void,
-  reject: (p: any) => void
-): Promise<any> {
+export function axios(configs: IRequestConfig, resolve: (p: any) => void, reject: (p: any) => void): Promise<any> {
   if (serviceOptions.axios) {
     return serviceOptions.axios
       .request(configs)
-      .then((res) => {
+      .then(res => {
         resolve(res.data);
       })
-      .catch((err) => {
+      .catch(err => {
         reject(err);
       });
   } else {
-    throw new Error("please inject yourself instance like axios  ");
+    throw new Error('please inject yourself instance like axios  ');
   }
 }
 
-export function getConfigs(
-  method: string,
-  contentType: string,
-  url: string,
-  options: any
-): IRequestConfig {
+export function getConfigs(method: string, contentType: string, url: string, options: any): IRequestConfig {
   const configs: IRequestConfig = { ...options, method, url };
   configs.headers = {
     ...options.headers,
-    "Content-Type": contentType,
+    'Content-Type': contentType
   };
   return configs;
 }
 
-export const basePath = "";
+export const basePath = '';
 
 export interface IList<T> extends Array<T> {}
 export interface List<T> extends Array<T> {}
@@ -93,18 +84,11 @@ export class UserService {
   /**
    * 로그인 ( login )
    */
-  static userControllerLogin(
-    options: IRequestOptions = {}
-  ): Promise<LoginOutPutDto> {
+  static userControllerLogin(options: IRequestOptions = {}): Promise<LoginOutPutDto> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/user";
+      let url = basePath + '/user';
 
-      const configs: IRequestConfig = getConfigs(
-        "get",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
 
       /** 适配ios13，get请求不允许带body */
 
@@ -114,18 +98,11 @@ export class UserService {
   /**
    * 회원가입
    */
-  static userControllerUserCreate(
-    options: IRequestOptions = {}
-  ): Promise<userCreateOutPutDto> {
+  static userControllerUserCreate(options: IRequestOptions = {}): Promise<userCreateOutPutDto> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/user";
+      let url = basePath + '/user';
 
-      const configs: IRequestConfig = getConfigs(
-        "post",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
 
       let data = null;
 
@@ -145,14 +122,9 @@ export class UserService {
     options: IRequestOptions = {}
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/user";
+      let url = basePath + '/user';
 
-      const configs: IRequestConfig = getConfigs(
-        "patch",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('patch', 'application/json', url, options);
 
       let data = params.body;
 
@@ -166,14 +138,9 @@ export class UserService {
    */
   static userControllerUseDelete(options: IRequestOptions = {}): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/user";
+      let url = basePath + '/user';
 
-      const configs: IRequestConfig = getConfigs(
-        "delete",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('delete', 'application/json', url, options);
 
       let data = null;
 
@@ -187,14 +154,9 @@ export class UserService {
    */
   static userControllerTetUser(options: IRequestOptions = {}): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/user/test";
+      let url = basePath + '/user/test';
 
-      const configs: IRequestConfig = getConfigs(
-        "get",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
 
       /** 适配ios13，get请求不允许带body */
 
@@ -207,18 +169,11 @@ export class RoomService {
   /**
    * 내가 들어간방들 정보 ( myRoomsInfo )
    */
-  static roomControllerMyRoomsInfo(
-    options: IRequestOptions = {}
-  ): Promise<MyRoomsOutPutDto> {
+  static roomControllerMyRoomsInfo(options: IRequestOptions = {}): Promise<MyRoomsOutPutDto> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/room";
+      let url = basePath + '/room';
 
-      const configs: IRequestConfig = getConfigs(
-        "get",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
 
       /** 适配ios13，get请求不允许带body */
 
@@ -236,14 +191,9 @@ export class RoomService {
     options: IRequestOptions = {}
   ): Promise<CreateRoomOutPutDto> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/room";
+      let url = basePath + '/room';
 
-      const configs: IRequestConfig = getConfigs(
-        "post",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
 
       let data = params.body;
 
@@ -255,18 +205,11 @@ export class RoomService {
   /**
    * 참여 신청한 방목록 ( myApprovalWait )
    */
-  static roomControllerMyApprovalWait(
-    options: IRequestOptions = {}
-  ): Promise<myApprovalWaitRoomsOutPutDto> {
+  static roomControllerMyApprovalWait(options: IRequestOptions = {}): Promise<myApprovalWaitRoomsOutPutDto> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/room/myApprovalWait";
+      let url = basePath + '/room/myApprovalWait';
 
-      const configs: IRequestConfig = getConfigs(
-        "get",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
 
       /** 适配ios13，get请求不允许带body */
 
@@ -284,14 +227,9 @@ export class RoomService {
     options: IRequestOptions = {}
   ): Promise<RoomListOutPutDto> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/room/list";
+      let url = basePath + '/room/list';
 
-      const configs: IRequestConfig = getConfigs(
-        "post",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
 
       let data = params.body;
 
@@ -311,15 +249,10 @@ export class RoomService {
     options: IRequestOptions = {}
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/room/{uuid}";
-      url = url.replace("{uuid}", params["uuid"] + "");
+      let url = basePath + '/room/{uuid}';
+      url = url.replace('{uuid}', params['uuid'] + '');
 
-      const configs: IRequestConfig = getConfigs(
-        "delete",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('delete', 'application/json', url, options);
 
       let data = null;
 
@@ -331,18 +264,11 @@ export class RoomService {
   /**
    * 내가 방장인 방들 조회 ( mySuperRooms )
    */
-  static roomControllerMySuperRooms(
-    options: IRequestOptions = {}
-  ): Promise<MyCreateRoomsOutPutDto> {
+  static roomControllerMySuperRooms(options: IRequestOptions = {}): Promise<MyCreateRoomsOutPutDto> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/room/mySuperRooms";
+      let url = basePath + '/room/mySuperRooms';
 
-      const configs: IRequestConfig = getConfigs(
-        "get",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
 
       /** 适配ios13，get请求不允许带body */
 
@@ -360,14 +286,9 @@ export class RoomService {
     options: IRequestOptions = {}
   ): Promise<RoomInfoOutPutDto> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/room/info";
+      let url = basePath + '/room/info';
 
-      const configs: IRequestConfig = getConfigs(
-        "post",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
 
       let data = params.body;
 
@@ -387,14 +308,9 @@ export class RoomService {
     options: IRequestOptions = {}
   ): Promise<EdtiRoomOutPutDto> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/room/edit";
+      let url = basePath + '/room/edit';
 
-      const configs: IRequestConfig = getConfigs(
-        "patch",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('patch', 'application/json', url, options);
 
       let data = params.body;
 
@@ -414,14 +330,9 @@ export class RoomService {
     options: IRequestOptions = {}
   ): Promise<JoinRoomOutPutDto> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/room/join";
+      let url = basePath + '/room/join';
 
-      const configs: IRequestConfig = getConfigs(
-        "post",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
 
       let data = params.body;
 
@@ -441,14 +352,9 @@ export class RoomService {
     options: IRequestOptions = {}
   ): Promise<AcceptUserOutPutDto> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/room/accept";
+      let url = basePath + '/room/accept';
 
-      const configs: IRequestConfig = getConfigs(
-        "post",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
 
       let data = params.body;
 
@@ -468,14 +374,9 @@ export class RoomService {
     options: IRequestOptions = {}
   ): Promise<LeaveRoomOutPutDto> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/room/leave";
+      let url = basePath + '/room/leave';
 
-      const configs: IRequestConfig = getConfigs(
-        "post",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
 
       let data = params.body;
 
@@ -490,18 +391,11 @@ export class RestaurantService {
   /**
    * 레스토랑 정보 조회 ( getRestaurantById )
    */
-  static restaurantControllerGetRestaurantById(
-    options: IRequestOptions = {}
-  ): Promise<GetRestaurantByIdOutPutDto> {
+  static restaurantControllerGetRestaurantById(options: IRequestOptions = {}): Promise<GetRestaurantByIdOutPutDto> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/restaurant/{id}";
+      let url = basePath + '/restaurant/{id}';
 
-      const configs: IRequestConfig = getConfigs(
-        "get",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
 
       /** 适配ios13，get请求不允许带body */
 
@@ -511,18 +405,11 @@ export class RestaurantService {
   /**
    * 레스토랑 삭제 ( removeRestaurant )
    */
-  static restaurantControllerRemoveRestaurant(
-    options: IRequestOptions = {}
-  ): Promise<any> {
+  static restaurantControllerRemoveRestaurant(options: IRequestOptions = {}): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/restaurant/{id}";
+      let url = basePath + '/restaurant/{id}';
 
-      const configs: IRequestConfig = getConfigs(
-        "delete",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('delete', 'application/json', url, options);
 
       let data = null;
 
@@ -542,14 +429,9 @@ export class RestaurantService {
     options: IRequestOptions = {}
   ): Promise<CreateRestaurantOutPutDto> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/restaurant";
+      let url = basePath + '/restaurant';
 
-      const configs: IRequestConfig = getConfigs(
-        "post",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
 
       let data = params.body;
 
@@ -569,14 +451,9 @@ export class RestaurantService {
     options: IRequestOptions = {}
   ): Promise<AddRestaurantCommentByIdIdOutPutDto> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/restaurant/comment";
+      let url = basePath + '/restaurant/comment';
 
-      const configs: IRequestConfig = getConfigs(
-        "post",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
 
       let data = params.body;
 
@@ -596,14 +473,9 @@ export class RestaurantService {
     options: IRequestOptions = {}
   ): Promise<EditCommentMessageOutPutDto> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/restaurant/comment";
+      let url = basePath + '/restaurant/comment';
 
-      const configs: IRequestConfig = getConfigs(
-        "patch",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('patch', 'application/json', url, options);
 
       let data = params.body;
 
@@ -623,14 +495,9 @@ export class RestaurantService {
     options: IRequestOptions = {}
   ): Promise<AddMessageByCommentIdOutPutDto> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/restaurant/comment/addMessage";
+      let url = basePath + '/restaurant/comment/addMessage';
 
-      const configs: IRequestConfig = getConfigs(
-        "post",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
 
       let data = params.body;
 
@@ -650,14 +517,9 @@ export class RestaurantService {
     options: IRequestOptions = {}
   ): Promise<EditCommentChildMessageOutPutDto> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/restaurant/comment/addMessage";
+      let url = basePath + '/restaurant/comment/addMessage';
 
-      const configs: IRequestConfig = getConfigs(
-        "patch",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('patch', 'application/json', url, options);
 
       let data = params.body;
 
@@ -669,18 +531,11 @@ export class RestaurantService {
   /**
    * 댓글 정보 얻기 ( addMessageById 없어도 될듯? )
    */
-  static restaurantControllerAddMessageById(
-    options: IRequestOptions = {}
-  ): Promise<any> {
+  static restaurantControllerAddMessageById(options: IRequestOptions = {}): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/restaurant/comment/{id}";
+      let url = basePath + '/restaurant/comment/{id}';
 
-      const configs: IRequestConfig = getConfigs(
-        "get",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
 
       /** 适配ios13，get请求不允许带body */
 
@@ -690,18 +545,11 @@ export class RestaurantService {
   /**
    * 댓글 삭제 ( removeMessageById )
    */
-  static restaurantControllerRemoveMessageById(
-    options: IRequestOptions = {}
-  ): Promise<RemoveMessageByIdOutPutDto> {
+  static restaurantControllerRemoveMessageById(options: IRequestOptions = {}): Promise<RemoveMessageByIdOutPutDto> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/restaurant/comment/{id}";
+      let url = basePath + '/restaurant/comment/{id}';
 
-      const configs: IRequestConfig = getConfigs(
-        "delete",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('delete', 'application/json', url, options);
 
       let data = null;
 
@@ -724,14 +572,9 @@ export class SubwayService {
     options: IRequestOptions = {}
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/subway";
+      let url = basePath + '/subway';
 
-      const configs: IRequestConfig = getConfigs(
-        "post",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
 
       let data = params.body;
 
@@ -754,14 +597,9 @@ export class ShopUserService {
     options: IRequestOptions = {}
   ): Promise<CreateShopUserOutPut> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/shop-user";
+      let url = basePath + '/shop-user';
 
-      const configs: IRequestConfig = getConfigs(
-        "post",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
 
       let data = params.body;
 
@@ -773,18 +611,11 @@ export class ShopUserService {
   /**
    * 로그인
    */
-  static shopUserControllerUserLogin(
-    options: IRequestOptions = {}
-  ): Promise<LoginShopUserOutPut> {
+  static shopUserControllerUserLogin(options: IRequestOptions = {}): Promise<LoginShopUserOutPut> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/shop-user";
+      let url = basePath + '/shop-user';
 
-      const configs: IRequestConfig = getConfigs(
-        "get",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
 
       /** 适配ios13，get请求不允许带body */
 
@@ -802,14 +633,9 @@ export class ShopUserService {
     options: IRequestOptions = {}
   ): Promise<UpdateShopUserOutPut> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/shop-user";
+      let url = basePath + '/shop-user';
 
-      const configs: IRequestConfig = getConfigs(
-        "patch",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('patch', 'application/json', url, options);
 
       let data = params.body;
 
@@ -821,18 +647,11 @@ export class ShopUserService {
   /**
    * 유저삭제
    */
-  static shopUserControllerUserDlete(
-    options: IRequestOptions = {}
-  ): Promise<CoreOutPut> {
+  static shopUserControllerUserDlete(options: IRequestOptions = {}): Promise<CoreOutPut> {
     return new Promise((resolve, reject) => {
-      let url = basePath + "/shop-user";
+      let url = basePath + '/shop-user';
 
-      const configs: IRequestConfig = getConfigs(
-        "delete",
-        "application/json",
-        url,
-        options
-      );
+      const configs: IRequestConfig = getConfigs('delete', 'application/json', url, options);
 
       let data = null;
 
@@ -1516,8 +1335,20 @@ export interface CreateShopUserInputDto {
   /** 닉네임 입니다. */
   nickName: string;
 
+  /** 이메일 주소입니다. */
+  email: string;
+
   /** 역할 */
   role: EnumCreateShopUserInputDtoRole;
+
+  /** 주소 입니다. */
+  addr: string;
+
+  /** 핸드폰 번호입니다. */
+  tel: string;
+
+  /** 우편전자 입니다. */
+  postcode: string;
 }
 
 export interface CreateShopUserOutPut {
@@ -1526,6 +1357,35 @@ export interface CreateShopUserOutPut {
 
   /** 에러 메세지입니다. */
   err?: string;
+}
+
+export interface ShopUser {
+  /** id */
+  id: number;
+
+  /** password */
+  password: string;
+
+  /** 유저 아이디 입니다. */
+  userId: string;
+
+  /** 닉네임 입니다. */
+  nickName: string;
+
+  /** 이메일 주소입니다. */
+  email: string;
+
+  /** 역할 */
+  role: EnumShopUserRole;
+
+  /** 주소 입니다. */
+  addr: string;
+
+  /** 핸드폰 번호입니다. */
+  tel: string;
+
+  /** 우편전자 입니다. */
+  postcode: string;
 }
 
 export interface LoginShopUserOutPut {
@@ -1537,6 +1397,9 @@ export interface LoginShopUserOutPut {
 
   /** 토큰 */
   token: string;
+
+  /** 유저 */
+  user: CombinedUserTypes;
 }
 
 export interface UpdateShopUserInput {
@@ -1545,6 +1408,18 @@ export interface UpdateShopUserInput {
 
   /** 닉네임 입니다. */
   nickName: string;
+
+  /** 이메일 주소입니다. */
+  email: string;
+
+  /** 주소 입니다. */
+  addr: string;
+
+  /** 핸드폰 번호입니다. */
+  tel: string;
+
+  /** 우편전자 입니다. */
+  postcode: string;
 }
 
 export interface UpdateShopUserOutPut {
@@ -1568,17 +1443,17 @@ export type CombinedResturantSuperUserTypes = SuperUserDto;
 export type CombinedLatingTypes = Lating;
 export type CombinedSuperUserTypes = User;
 export enum EnumRoomListInputDtoSearchType {
-  "All" = "All",
-  "RoomName" = "RoomName",
-  "SuperUser" = "SuperUser",
+  'All' = 'All',
+  'RoomName' = 'RoomName',
+  'SuperUser' = 'SuperUser'
 }
 export type CombinedSuperUserinfoTypes = superUserInfoDto;
 export type CombinedRoomTypes = RoomOutPutDto;
 export type CombinedSuperUserInfoTypes = RoomUsersDto;
 export type CombinedParentRoomTypes = Room;
 export enum EnumUserCommentInfoRole {
-  "User" = "User",
-  "Anonymous" = "Anonymous",
+  'User' = 'User',
+  'Anonymous' = 'Anonymous'
 }
 export type CombinedUserInfoTypes = UserCommentInfo;
 export type CombinedParentRestaurantTypes = Restaurant;
@@ -1586,307 +1461,312 @@ export type CombinedMessageTypes = messageType;
 export type CombinedRoomInfoTypes = RoominfoDto;
 export type CombinedRestaurantTypes = Restaurant;
 export enum EnumAddRestaurantCommentByIdIdInputDtoRole {
-  "User" = "User",
-  "Anonymous" = "Anonymous",
+  'User' = 'User',
+  'Anonymous' = 'Anonymous'
 }
 export enum EnumAddMessageByCommentIdInPutDtoRole {
-  "User" = "User",
-  "Anonymous" = "Anonymous",
+  'User' = 'User',
+  'Anonymous' = 'Anonymous'
 }
 export enum EnumGetSubWayScheduleInPutDtoType {
-  "incheon1up" = "incheon1up",
-  "incheon1down" = "incheon1down",
-  "incheon2up" = "incheon2up",
-  "incheon2down" = "incheon2down",
-  "seoul1up" = "seoul1up",
-  "seoul1down" = "seoul1down",
-  "station7up" = "station7up",
-  "station7down" = "station7down",
-  "suinup" = "suinup",
-  "suindown" = "suindown",
+  'incheon1up' = 'incheon1up',
+  'incheon1down' = 'incheon1down',
+  'incheon2up' = 'incheon2up',
+  'incheon2down' = 'incheon2down',
+  'seoul1up' = 'seoul1up',
+  'seoul1down' = 'seoul1down',
+  'station7up' = 'station7up',
+  'station7down' = 'station7down',
+  'suinup' = 'suinup',
+  'suindown' = 'suindown'
 }
 export enum EnumGetSubWayScheduleInPutDtoStation1 {
-  "국제업무지구" = "국제업무지구",
-  "센트럴파크" = "센트럴파크",
-  "인천대입구" = "인천대입구",
-  "지식정보단지" = "지식정보단지",
-  "테크노파크" = "테크노파크",
-  "캠퍼스타운" = "캠퍼스타운",
-  "동막" = "동막",
-  "동춘" = "동춘",
-  "원인재" = "원인재",
-  "신연수" = "신연수",
-  "선학" = "선학",
-  "문학경기장" = "문학경기장",
-  "인천터미널" = "인천터미널",
-  "예술회관" = "예술회관",
-  "인천시청" = "인천시청",
-  "간석오거리" = "간석오거리",
-  "부평삼거리" = "부평삼거리",
-  "동수" = "동수",
-  "부평" = "부평",
-  "부평시장" = "부평시장",
-  "부평구청" = "부평구청",
-  "갈산" = "갈산",
-  "작전" = "작전",
-  "경인교대" = "경인교대",
-  "계산" = "계산",
-  "임학" = "임학",
-  "박촌" = "박촌",
-  "귤현" = "귤현",
-  "계양" = "계양",
+  '국제업무지구' = '국제업무지구',
+  '센트럴파크' = '센트럴파크',
+  '인천대입구' = '인천대입구',
+  '지식정보단지' = '지식정보단지',
+  '테크노파크' = '테크노파크',
+  '캠퍼스타운' = '캠퍼스타운',
+  '동막' = '동막',
+  '동춘' = '동춘',
+  '원인재' = '원인재',
+  '신연수' = '신연수',
+  '선학' = '선학',
+  '문학경기장' = '문학경기장',
+  '인천터미널' = '인천터미널',
+  '예술회관' = '예술회관',
+  '인천시청' = '인천시청',
+  '간석오거리' = '간석오거리',
+  '부평삼거리' = '부평삼거리',
+  '동수' = '동수',
+  '부평' = '부평',
+  '부평시장' = '부평시장',
+  '부평구청' = '부평구청',
+  '갈산' = '갈산',
+  '작전' = '작전',
+  '경인교대' = '경인교대',
+  '계산' = '계산',
+  '임학' = '임학',
+  '박촌' = '박촌',
+  '귤현' = '귤현',
+  '계양' = '계양'
 }
 export enum EnumGetSubWayScheduleInPutDtoStation2 {
-  "운연" = "운연",
-  "인천대공원" = "인천대공원",
-  "남동구청" = "남동구청",
-  "만수" = "만수",
-  "모래내시장" = "모래내시장",
-  "석천사거리" = "석천사거리",
-  "인천시청" = "인천시청",
-  "석바위시장" = "석바위시장",
-  "시민공원" = "시민공원",
-  "주안" = "주안",
-  "주안국가산단" = "주안국가산단",
-  "가재울" = "가재울",
-  "인천가좌" = "인천가좌",
-  "서부여성회관" = "서부여성회관",
-  "석남" = "석남",
-  "가정중앙시장" = "가정중앙시장",
-  "가정" = "가정",
-  "서구청" = "서구청",
-  "아시아드경기장" = "아시아드경기장",
-  "검바위" = "검바위",
-  "검암" = "검암",
-  "독정" = "독정",
-  "완정" = "완정",
-  "마전" = "마전",
-  "검단사거리" = "검단사거리",
-  "왕길" = "왕길",
-  "검단오류" = "검단오류",
+  '운연' = '운연',
+  '인천대공원' = '인천대공원',
+  '남동구청' = '남동구청',
+  '만수' = '만수',
+  '모래내시장' = '모래내시장',
+  '석천사거리' = '석천사거리',
+  '인천시청' = '인천시청',
+  '석바위시장' = '석바위시장',
+  '시민공원' = '시민공원',
+  '주안' = '주안',
+  '주안국가산단' = '주안국가산단',
+  '가재울' = '가재울',
+  '인천가좌' = '인천가좌',
+  '서부여성회관' = '서부여성회관',
+  '석남' = '석남',
+  '가정중앙시장' = '가정중앙시장',
+  '가정' = '가정',
+  '서구청' = '서구청',
+  '아시아드경기장' = '아시아드경기장',
+  '검바위' = '검바위',
+  '검암' = '검암',
+  '독정' = '독정',
+  '완정' = '완정',
+  '마전' = '마전',
+  '검단사거리' = '검단사거리',
+  '왕길' = '왕길',
+  '검단오류' = '검단오류'
 }
 export enum EnumGetSubWayScheduleInPutDtoStation3 {
-  "신창" = "신창",
-  "온양온천" = "온양온천",
-  "배방" = "배방",
-  "아산" = "아산",
-  "쌍용" = "쌍용",
-  "봉명" = "봉명",
-  "천안" = "천안",
-  "두정" = "두정",
-  "직산" = "직산",
-  "성환" = "성환",
-  "평택" = "평택",
-  "평택지제" = "평택지제",
-  "서정리" = "서정리",
-  "송탄" = "송탄",
-  "진위" = "진위",
-  "오산" = "오산",
-  "오산대" = "오산대",
-  "세마" = "세마",
-  "서동탄" = "서동탄",
-  "병점" = "병점",
-  "세류" = "세류",
-  "수원" = "수원",
-  "화서" = "화서",
-  "성균관대" = "성균관대",
-  "의왕" = "의왕",
-  "당정" = "당정",
-  "군포" = "군포",
-  "금정" = "금정",
-  "명학" = "명학",
-  "안양" = "안양",
-  "관악" = "관악",
-  "석수" = "석수",
-  "광명" = "광명",
-  "금천구청" = "금천구청",
-  "독산" = "독산",
-  "가산디지털단지" = "가산디지털단지",
-  "인천" = "인천",
-  "동인천" = "동인천",
-  "도원" = "도원",
-  "제물포" = "제물포",
-  "도화" = "도화",
-  "주안" = "주안",
-  "간석" = "간석",
-  "동암" = "동암",
-  "백운" = "백운",
-  "부평" = "부평",
-  "부개" = "부개",
-  "송내" = "송내",
-  "중동" = "중동",
-  "부천" = "부천",
-  "소사" = "소사",
-  "역곡" = "역곡",
-  "온수" = "온수",
-  "오류동" = "오류동",
-  "개봉" = "개봉",
-  "구일" = "구일",
-  "구로" = "구로",
-  "신도림" = "신도림",
-  "영등포" = "영등포",
-  "신길" = "신길",
-  "대방" = "대방",
-  "노량진" = "노량진",
-  "용산" = "용산",
-  "남영" = "남영",
-  "서울역" = "서울역",
-  "시청" = "시청",
-  "종각" = "종각",
-  "종로3가" = "종로3가",
-  "종로5가" = "종로5가",
-  "동대문" = "동대문",
-  "동묘앞" = "동묘앞",
-  "신설동" = "신설동",
-  "제기동" = "제기동",
-  "청량리" = "청량리",
-  "회기" = "회기",
-  "외대앞" = "외대앞",
-  "신이문" = "신이문",
-  "석계" = "석계",
-  "광운대" = "광운대",
-  "월계" = "월계",
-  "녹천" = "녹천",
-  "창동" = "창동",
-  "방학" = "방학",
-  "도봉" = "도봉",
-  "도봉산" = "도봉산",
-  "망월사" = "망월사",
-  "회룡" = "회룡",
-  "의정부" = "의정부",
-  "가능" = "가능",
-  "녹양" = "녹양",
-  "양주" = "양주",
-  "마전" = "마전",
-  "덕계" = "덕계",
-  "덕정" = "덕정",
-  "지행" = "지행",
-  "동두천중앙" = "동두천중앙",
-  "보산" = "보산",
-  "동두천" = "동두천",
-  "소요산" = "소요산",
+  '신창' = '신창',
+  '온양온천' = '온양온천',
+  '배방' = '배방',
+  '아산' = '아산',
+  '쌍용' = '쌍용',
+  '봉명' = '봉명',
+  '천안' = '천안',
+  '두정' = '두정',
+  '직산' = '직산',
+  '성환' = '성환',
+  '평택' = '평택',
+  '평택지제' = '평택지제',
+  '서정리' = '서정리',
+  '송탄' = '송탄',
+  '진위' = '진위',
+  '오산' = '오산',
+  '오산대' = '오산대',
+  '세마' = '세마',
+  '서동탄' = '서동탄',
+  '병점' = '병점',
+  '세류' = '세류',
+  '수원' = '수원',
+  '화서' = '화서',
+  '성균관대' = '성균관대',
+  '의왕' = '의왕',
+  '당정' = '당정',
+  '군포' = '군포',
+  '금정' = '금정',
+  '명학' = '명학',
+  '안양' = '안양',
+  '관악' = '관악',
+  '석수' = '석수',
+  '광명' = '광명',
+  '금천구청' = '금천구청',
+  '독산' = '독산',
+  '가산디지털단지' = '가산디지털단지',
+  '인천' = '인천',
+  '동인천' = '동인천',
+  '도원' = '도원',
+  '제물포' = '제물포',
+  '도화' = '도화',
+  '주안' = '주안',
+  '간석' = '간석',
+  '동암' = '동암',
+  '백운' = '백운',
+  '부평' = '부평',
+  '부개' = '부개',
+  '송내' = '송내',
+  '중동' = '중동',
+  '부천' = '부천',
+  '소사' = '소사',
+  '역곡' = '역곡',
+  '온수' = '온수',
+  '오류동' = '오류동',
+  '개봉' = '개봉',
+  '구일' = '구일',
+  '구로' = '구로',
+  '신도림' = '신도림',
+  '영등포' = '영등포',
+  '신길' = '신길',
+  '대방' = '대방',
+  '노량진' = '노량진',
+  '용산' = '용산',
+  '남영' = '남영',
+  '서울역' = '서울역',
+  '시청' = '시청',
+  '종각' = '종각',
+  '종로3가' = '종로3가',
+  '종로5가' = '종로5가',
+  '동대문' = '동대문',
+  '동묘앞' = '동묘앞',
+  '신설동' = '신설동',
+  '제기동' = '제기동',
+  '청량리' = '청량리',
+  '회기' = '회기',
+  '외대앞' = '외대앞',
+  '신이문' = '신이문',
+  '석계' = '석계',
+  '광운대' = '광운대',
+  '월계' = '월계',
+  '녹천' = '녹천',
+  '창동' = '창동',
+  '방학' = '방학',
+  '도봉' = '도봉',
+  '도봉산' = '도봉산',
+  '망월사' = '망월사',
+  '회룡' = '회룡',
+  '의정부' = '의정부',
+  '가능' = '가능',
+  '녹양' = '녹양',
+  '양주' = '양주',
+  '마전' = '마전',
+  '덕계' = '덕계',
+  '덕정' = '덕정',
+  '지행' = '지행',
+  '동두천중앙' = '동두천중앙',
+  '보산' = '보산',
+  '동두천' = '동두천',
+  '소요산' = '소요산'
 }
 export enum EnumGetSubWayScheduleInPutDtoStation4 {
-  "석남" = "석남",
-  "산곡" = "산곡",
-  "부평구청" = "부평구청",
-  "굴포천" = "굴포천",
-  "삼산체육관" = "삼산체육관",
-  "상동" = "상동",
-  "부천시청" = "부천시청",
-  "신중동" = "신중동",
-  "춘의" = "춘의",
-  "부천종합운동장" = "부천종합운동장",
-  "까치울" = "까치울",
-  "온수" = "온수",
-  "천왕" = "천왕",
-  "광명사거리" = "광명사거리",
-  "철산" = "철산",
-  "가산디지털단지" = "가산디지털단지",
-  "남구로" = "남구로",
-  "대림" = "대림",
-  "신풍" = "신풍",
-  "보라매" = "보라매",
-  "신대방삼거리" = "신대방삼거리",
-  "장승배기" = "장승배기",
-  "상도" = "상도",
-  "숭실대입구" = "숭실대입구",
-  "남성" = "남성",
-  "이수" = "이수",
-  "내방" = "내방",
-  "고속터미널" = "고속터미널",
-  "반포" = "반포",
-  "논현" = "논현",
-  "학동" = "학동",
-  "강남구청" = "강남구청",
-  "청담" = "청담",
-  "뚝섬유원지" = "뚝섬유원지",
-  "건대입구" = "건대입구",
-  "어린이대공원" = "어린이대공원",
-  "군자" = "군자",
-  "중곡" = "중곡",
-  "용마산" = "용마산",
-  "사가정" = "사가정",
-  "면목" = "면목",
-  "상봉" = "상봉",
-  "중화" = "중화",
-  "먹골" = "먹골",
-  "태릉입구" = "태릉입구",
-  "공릉" = "공릉",
-  "하계" = "하계",
-  "중계" = "중계",
-  "노원" = "노원",
-  "마들" = "마들",
-  "수락산" = "수락산",
-  "도봉산" = "도봉산",
-  "장암" = "장암",
+  '석남' = '석남',
+  '산곡' = '산곡',
+  '부평구청' = '부평구청',
+  '굴포천' = '굴포천',
+  '삼산체육관' = '삼산체육관',
+  '상동' = '상동',
+  '부천시청' = '부천시청',
+  '신중동' = '신중동',
+  '춘의' = '춘의',
+  '부천종합운동장' = '부천종합운동장',
+  '까치울' = '까치울',
+  '온수' = '온수',
+  '천왕' = '천왕',
+  '광명사거리' = '광명사거리',
+  '철산' = '철산',
+  '가산디지털단지' = '가산디지털단지',
+  '남구로' = '남구로',
+  '대림' = '대림',
+  '신풍' = '신풍',
+  '보라매' = '보라매',
+  '신대방삼거리' = '신대방삼거리',
+  '장승배기' = '장승배기',
+  '상도' = '상도',
+  '숭실대입구' = '숭실대입구',
+  '남성' = '남성',
+  '이수' = '이수',
+  '내방' = '내방',
+  '고속터미널' = '고속터미널',
+  '반포' = '반포',
+  '논현' = '논현',
+  '학동' = '학동',
+  '강남구청' = '강남구청',
+  '청담' = '청담',
+  '뚝섬유원지' = '뚝섬유원지',
+  '건대입구' = '건대입구',
+  '어린이대공원' = '어린이대공원',
+  '군자' = '군자',
+  '중곡' = '중곡',
+  '용마산' = '용마산',
+  '사가정' = '사가정',
+  '면목' = '면목',
+  '상봉' = '상봉',
+  '중화' = '중화',
+  '먹골' = '먹골',
+  '태릉입구' = '태릉입구',
+  '공릉' = '공릉',
+  '하계' = '하계',
+  '중계' = '중계',
+  '노원' = '노원',
+  '마들' = '마들',
+  '수락산' = '수락산',
+  '도봉산' = '도봉산',
+  '장암' = '장암'
 }
 export enum EnumGetSubWayScheduleInPutDtoStation5 {
-  "인천" = "인천",
-  "신포" = "신포",
-  "숭의" = "숭의",
-  "인하대" = "인하대",
-  "송도" = "송도",
-  "연수" = "연수",
-  "원인재" = "원인재",
-  "남동인더스파크" = "남동인더스파크",
-  "호구포" = "호구포",
-  "인천논현" = "인천논현",
-  "소래포구" = "소래포구",
-  "월곶" = "월곶",
-  "달월" = "달월",
-  "오이도" = "오이도",
-  "정왕" = "정왕",
-  "신길온천" = "신길온천",
-  "안산" = "안산",
-  "초지" = "초지",
-  "고잔" = "고잔",
-  "중앙" = "중앙",
-  "한대앞" = "한대앞",
-  "사리" = "사리",
-  "야목" = "야목",
-  "어천" = "어천",
-  "오목천" = "오목천",
-  "고색" = "고색",
-  "수원" = "수원",
-  "매교" = "매교",
-  "수원시청" = "수원시청",
-  "매탄권선" = "매탄권선",
-  "망포" = "망포",
-  "영통" = "영통",
-  "청명" = "청명",
-  "상갈" = "상갈",
-  "기흥" = "기흥",
-  "신갈" = "신갈",
-  "구성" = "구성",
-  "보정" = "보정",
-  "죽전" = "죽전",
-  "오리" = "오리",
-  "미금" = "미금",
-  "정자" = "정자",
-  "수내" = "수내",
-  "서현" = "서현",
-  "이매" = "이매",
-  "야탑" = "야탑",
-  "모란" = "모란",
-  "태평" = "태평",
-  "가천대" = "가천대",
-  "복정" = "복정",
-  "수서" = "수서",
-  "대모산입구" = "대모산입구",
-  "개포동" = "개포동",
-  "구룡" = "구룡",
-  "도곡" = "도곡",
-  "한티" = "한티",
-  "선릉" = "선릉",
-  "선정릉" = "선정릉",
-  "강남구청" = "강남구청",
-  "압구정로데오" = "압구정로데오",
-  "서울숲" = "서울숲",
-  "왕십리" = "왕십리",
-  "청량리" = "청량리",
+  '인천' = '인천',
+  '신포' = '신포',
+  '숭의' = '숭의',
+  '인하대' = '인하대',
+  '송도' = '송도',
+  '연수' = '연수',
+  '원인재' = '원인재',
+  '남동인더스파크' = '남동인더스파크',
+  '호구포' = '호구포',
+  '인천논현' = '인천논현',
+  '소래포구' = '소래포구',
+  '월곶' = '월곶',
+  '달월' = '달월',
+  '오이도' = '오이도',
+  '정왕' = '정왕',
+  '신길온천' = '신길온천',
+  '안산' = '안산',
+  '초지' = '초지',
+  '고잔' = '고잔',
+  '중앙' = '중앙',
+  '한대앞' = '한대앞',
+  '사리' = '사리',
+  '야목' = '야목',
+  '어천' = '어천',
+  '오목천' = '오목천',
+  '고색' = '고색',
+  '수원' = '수원',
+  '매교' = '매교',
+  '수원시청' = '수원시청',
+  '매탄권선' = '매탄권선',
+  '망포' = '망포',
+  '영통' = '영통',
+  '청명' = '청명',
+  '상갈' = '상갈',
+  '기흥' = '기흥',
+  '신갈' = '신갈',
+  '구성' = '구성',
+  '보정' = '보정',
+  '죽전' = '죽전',
+  '오리' = '오리',
+  '미금' = '미금',
+  '정자' = '정자',
+  '수내' = '수내',
+  '서현' = '서현',
+  '이매' = '이매',
+  '야탑' = '야탑',
+  '모란' = '모란',
+  '태평' = '태평',
+  '가천대' = '가천대',
+  '복정' = '복정',
+  '수서' = '수서',
+  '대모산입구' = '대모산입구',
+  '개포동' = '개포동',
+  '구룡' = '구룡',
+  '도곡' = '도곡',
+  '한티' = '한티',
+  '선릉' = '선릉',
+  '선정릉' = '선정릉',
+  '강남구청' = '강남구청',
+  '압구정로데오' = '압구정로데오',
+  '서울숲' = '서울숲',
+  '왕십리' = '왕십리',
+  '청량리' = '청량리'
 }
 export enum EnumCreateShopUserInputDtoRole {
-  "company" = "company",
-  "customer" = "customer",
+  'company' = 'company',
+  'customer' = 'customer'
 }
+export enum EnumShopUserRole {
+  'company' = 'company',
+  'customer' = 'customer'
+}
+export type CombinedUserTypes = ShopUser;

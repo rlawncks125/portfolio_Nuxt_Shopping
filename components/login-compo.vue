@@ -43,7 +43,7 @@ const clickedLogin = async () => {
     return;
   }
 
-  const { ok, err, token } = await userLogin({
+  const { ok, err, token, user } = await userLogin({
     username: loginId.value,
     password: loginPassword.value,
   });
@@ -53,8 +53,9 @@ const clickedLogin = async () => {
     return;
   }
 
-  const { setUserToken } = useUser();
+  const { setUserToken, setUser } = useUser();
   setUserToken(token);
+  setUser(user);
 
   // 로그인 페이지일시 홈 화면으로 다이렉트
   if (useRoute().path === "/login") {

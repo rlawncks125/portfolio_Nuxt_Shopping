@@ -1,4 +1,4 @@
-export const formatToWon = (price: string, isCurrency = false) => {
+export const formatToWon = (price: string | number, isCurrency = false) => {
   return new Intl.NumberFormat(
     "ko-KR",
     isCurrency

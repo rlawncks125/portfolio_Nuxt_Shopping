@@ -58,6 +58,12 @@ export default defineNuxtConfig({
         src: "https://cdn.iamport.kr/js/iamport.payment-1.2.0.js",
         type: "text/javascript",
       },
+      // 다음 우편번호 서비스
+      {
+        src:
+          "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js",
+        type: "text/javascript",
+      },
     ],
   },
 });

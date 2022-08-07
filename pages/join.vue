@@ -206,6 +206,7 @@
           class="user-form flex-auto flex flex-col gap-[1rem]"
           @submit.prevent="onCreateUser"
         >
+          <!-- 닉네임 -->
           <label for="nickName">닉네임</label>
           <input
             type="text"
@@ -213,23 +214,27 @@
             id="nickName"
             placeholder="닉네임"
           />
+          <!-- 아이디 -->
           <label for="userId">아이디</label>
           <input type="text" name="userId" id="userId" placeholder="아이디" />
+          <!-- 패스워드 -->
           <label for="userPassword"
             >패스워드
-            <span class="text-gray-600"
-              >( 특수문자,영문,숫자를 포함한 6자리 이상 )</span
-            ></label
-          >
+            <span class="text-gray-600">
+              ( 특수문자,영문,숫자를 포함한 6자리 이상 )
+            </span>
+          </label>
           <input
             type="password"
             name="userPassword"
             id="userPassword"
             placeholder="패스워드"
+            v-model="infoForm.password"
           />
           <span v-if="useFormErrorLists.password" class="form-error-text">
             {{ useFormErrorLists.password }}
           </span>
+          <!-- 패스워드 재입력 -->
           <label for="userRePassword">패스워드 재입력</label>
           <input
             type="password"
@@ -240,6 +245,57 @@
           <span v-if="useFormErrorLists.rePassword" class="form-error-text">
             {{ useFormErrorLists.rePassword }}
           </span>
+          <!-- 이메일 -->
+          <label for="email">이메일</label>
+          <input
+            type="text"
+            name="email"
+            id="email"
+            placeholder="이메일"
+            v-model="infoForm.email"
+          />
+          <span v-if="useFormErrorLists.email" class="form-error-text">
+            {{ useFormErrorLists.email }}
+          </span>
+          <!-- 연락처  -->
+          <label for="tel">연락처</label>
+          <input
+            type="tel"
+            name="tel"
+            id="tel"
+            placeholder="연락처 '-'를 포함해도 되고 안해도됨"
+            v-model="infoForm.tel"
+          />
+          <span v-if="useFormErrorLists.tel" class="form-error-text">
+            {{ useFormErrorLists.tel }}
+          </span>
+          <!-- 주소 & 우편번호 -->
+          <label for="addr"
+            >주소 <button @click.prevent="findAddr">찾기</button></label
+          >
+          <input
+            disabled
+            type="text"
+            name="postcode"
+            id="postcode"
+            placeholder="우편번호"
+            v-model="infoForm.postcode"
+          />
+          <input
+            disabled
+            type="text"
+            name="addr"
+            id="addr"
+            placeholder="주소"
+            v-model="infoForm.addr"
+          />
+          <input
+            type="text"
+            name="addrDetail"
+            id="addrDetail"
+            placeholder="주소 상세"
+            v-model="infoForm.addrDetail"
+          />
           <button class="button-type-01">가입</button>
         </form>
       </div>
@@ -274,7 +330,12 @@
 import { EnumCreateShopUserInputDtoRole } from "~~/api/swagger";
 import { userCreate } from "~~/api/user";
 import { Accordion } from "~~/assets/animation/Accordion";
-import { HangulValidation } from "~~/common/Validation";
+import {
+  HangulValidation,
+  PasswordValidation,
+  EmailValidation,
+  TelValidation,
+} from "~~/common/Validation";
 
 definePageMeta({
   layout: "no-header",
@@ -353,30 +414,72 @@ watch(clauseList, () => {
 const useFormErrorLists = reactive({
   password: null as String | null,
   rePassword: null as String | null,
+  tel: null as String | null,
+  email: null as String | null,
 });
 
-const onCreateUser = async (e: SubmitEvent) => {
-  const el = e.target as HTMLElement;
+const infoForm = reactive({
+  addr: "" as string,
+  addrDetail: "" as string,
+  postcode: "" as string,
+  password: "" as string,
+  tel: "" as string,
+  email: "" as string,
+});
 
-  let obj = <
-    {
-      userId: string;
-      nickName: string;
-      userPassword: string;
-      userRePassword: string;
-    }
-  >{};
-  el.childNodes.forEach((v) => {
+const findAddr = () => {
+  console.log("주소 찾기");
+  // @ts-ignore
+  new daum.Postcode({
+    oncomplete: function(data) {
+      infoForm.addr = data.address;
+      infoForm.postcode = data.zonecode;
+
+      // console.log(data);
+    },
+  }).open();
+};
+
+const onCreateUser = async (e: SubmitEvent) => {
+  const elForm = e.target as HTMLElement;
+
+  let obj: {
+    userId: string;
+    nickName: string;
+    userPassword: string;
+    userRePassword: string;
+    email: string;
+    tel: string;
+    postcode: string;
+    addr: string;
+    addrDetail: string;
+  };
+  // id값 찾아서 추가
+  elForm.childNodes.forEach((v) => {
     const element = v as HTMLInputElement;
     obj = { ...obj, [element.id]: element.value };
   });
 
-  const { userId, nickName, userPassword, userRePassword } = obj;
+  const {
+    userId,
+    nickName,
+    userPassword,
+    userRePassword,
+    email,
+    tel,
+    addr,
+    addrDetail,
+    postcode,
+  } = obj;
   console.log("회원 유형 : " + userSelect.value);
   console.log("nickName : " + nickName);
   console.log("userId : " + userId);
+  console.log("email : " + email);
+  console.log("tel : " + tel);
   console.log("userPassword : " + userPassword);
-  console.log("userRePassword : " + userRePassword);
+  console.log("postcode : " + postcode);
+  console.log("addr : " + addr);
+  console.log("addrDetail : " + addrDetail);
 
   // 아이디에 한글이 포함됐을시
   if (HangulValidation(userId)) {
@@ -384,7 +487,7 @@ const onCreateUser = async (e: SubmitEvent) => {
     return;
   }
 
-  // 비밀번호 재입력 확인 & 유효성 체크
+  // 비밀번호 재입력 확인
   if (userPassword !== userRePassword) {
     useFormErrorLists.rePassword = "비밀번호가 다릅니다.";
     return;
@@ -392,12 +495,10 @@ const onCreateUser = async (e: SubmitEvent) => {
     useFormErrorLists.rePassword = null;
   }
 
-  const passwordRegx = new RegExp("^(.{0,5}|[^0-9]*|[^A-Za-z]*|[a-zA-Z0-9]*)$");
-  if (passwordRegx.test(userPassword)) {
-    useFormErrorLists.password = "유효하지않은 패스워드 입니다.";
+  // 이메일 입력 & 이메일 유효성 체크
+  if (email.length === 0) {
+    alert("이메일을 입력해주세요");
     return;
-  } else {
-    useFormErrorLists.password = null;
   }
 
   // 항목체크
@@ -408,7 +509,14 @@ const onCreateUser = async (e: SubmitEvent) => {
   // 회원가입
   const { ok, err } = await userCreate(
     { username: userId, password: userPassword },
-    { nickName, role: userSelect.value }
+    {
+      nickName,
+      role: userSelect.value,
+      email,
+      addr: `${addr} ${addrDetail}`,
+      postcode,
+      tel,
+    }
   );
   if (!ok) {
     alert(err);
@@ -417,6 +525,40 @@ const onCreateUser = async (e: SubmitEvent) => {
 
   userStep.value++;
 };
+
+// 정보 입력 유효성 체크
+watch(
+  () => infoForm.password,
+  () => {
+    if (!PasswordValidation(infoForm.password)) {
+      useFormErrorLists.password = "유효하지않은 패스워드 입니다.";
+    } else {
+      useFormErrorLists.password = null;
+    }
+  }
+);
+
+watch(
+  () => infoForm.tel,
+  () => {
+    if (!TelValidation(infoForm.tel)) {
+      useFormErrorLists.tel = "유효하지않은 연락처 형식 입니다.";
+    } else {
+      useFormErrorLists.tel = null;
+    }
+  }
+);
+
+watch(
+  () => infoForm.email,
+  () => {
+    if (!EmailValidation(infoForm.email)) {
+      useFormErrorLists.email = "유효하지않은 이메일 형식 입니다.";
+    } else {
+      useFormErrorLists.email = null;
+    }
+  }
+);
 </script>
 
 <style lang="scss">
