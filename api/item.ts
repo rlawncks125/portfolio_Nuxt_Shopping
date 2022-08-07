@@ -1,3 +1,17 @@
+interface ShopUser {
+  // 아이디 등등 개인회원과 똑같은 정보
+  seller: ShopUserSeller;
+}
+
+// 판매자 정보
+interface ShopUserSeller {
+  represent: string; //대표자
+  phone: string;
+  eMail: string;
+  companyName: string;
+  companyAddress: string;
+}
+
 export interface Iitem {
   id: number;
   thumbnailSrc: string;
@@ -6,13 +20,7 @@ export interface Iitem {
   price: string;
   sale: number;
   // 판매자 유저 정보
-  sellUserInfo: {
-    represent: string; //대표자
-    phone: string;
-    eMail: string;
-    companyName: string;
-    companyAddress: string;
-  };
+  sellUserInfo: ShopUserSeller;
   // 배송비 ( 무료 , 금액 ...)
   parcel: number;
   // 원산지
@@ -47,11 +55,7 @@ export interface Ireceipt {
   options: { name: string; price: number; count: number }[];
   parcel: number; // 배송비
   // 판매자 유저 정보
-  sellUserInfo: {
-    nickName: string;
-    companyName: string;
-    companyAddress: string;
-  };
+  sellUserInfo: ShopUserSeller;
   totalPrice: number; // 결제한 금액
 }
 

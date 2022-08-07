@@ -42,7 +42,23 @@ export default defineNuxtConfig({
     //  }
     public: {
       apiServer: process.env.APISERVER || "http://localhost:3030",
+      impCodeApi: "imp85605338",
     },
+  },
+
+  meta: {
+    script: [
+      // jquery
+      {
+        src: "https://code.jquery.com/jquery-1.12.4.min.js",
+        type: "text/javascript",
+      },
+      // iamport
+      {
+        src: "https://cdn.iamport.kr/js/iamport.payment-1.2.0.js",
+        type: "text/javascript",
+      },
+    ],
   },
 });
 
@@ -53,5 +69,6 @@ declare module "@nuxt/schema" {
   // }
   interface PublicRuntimeConfig {
     apiServer: string;
+    impCodeApi: string;
   }
 }

@@ -3,7 +3,7 @@
     <div>아이템 id : {{ params.id }}</div>
     <div v-if="item" class="text-[1.1rem]">
       <!-- 상품정보 헤드 -->
-      <section class="width-container">
+      <section class="width-container mb-[3rem]">
         <div class="block sm:flex px-[1rem]">
           <div class="w-auto sm:flex-auto">
             <img
@@ -370,6 +370,62 @@ export default defineComponent({
       console.log("아이템 정보 :", item.value);
       console.log("선택 옵션 : ", itemOptions.value);
       console.log("총합 : ", optionPriceSum.value);
+
+      const { $impPayment } = useNuxtApp();
+
+      $impPayment(
+        {
+          amount: 500, // 결제할 금액
+          name: item.value.title,
+          merchant_uid: `merchant_F${item.value.id}_${Date.now()}`,
+          buyer_addr: "테스트 주소",
+          buyer_email: "rlawnks125@naver.com",
+          buyer_name: "사용자",
+          buyer_tel: "010-7115-9176",
+          buyer_postcode: "123-456",
+        },
+        (rsp) => {
+          alert("결제 성공");
+
+          // 성공시 api 호출
+          // {아이템 정보 , 결제정보 , }
+
+          // 결제 정보
+          // imp_uid: rsp.imp_uid, // imp결제 고유 번호
+          // merchant_uid: rsp.merchant_uid // 상품 번호
+
+          console.log(rsp);          
+          // apply_num: "53795311";
+          // bank_name: null
+          // buyer_addr: "테스트 주소"
+          // buyer_email: "rlawnks125@naver.com"
+          // buyer_name: "사용자"
+          // buyer_postcode: "123-456"
+          // buyer_tel: "010-7115-9176"
+          // card_name: "BC카드"
+          // card_number: "910003*********9"
+          // card_quota: 0
+          // currency: "KRW"
+          // custom_data: null
+          // imp_uid: "imp_653448500730"
+          // merchant_uid: "merchant_F6_1659888448609"
+          // name: "[10%+12%]패션라인신상원피스/팬츠"
+          // paid_amount: 500
+          // paid_at: 1659888494
+          // pay_method: "card"
+          // pg_provider: "html5_inicis"
+          // pg_tid: "StdpayISP_INIpayTest20220808010813776666"
+          // pg_type: "payment"
+          // receipt_url: "https://iniweb.inicis.com/DefaultWebApp/mall/cr/cm/mCmReceipt_head.jsp?noTid=StdpayISP_INIpayTest20220808010813776666&noMethod=1"
+          // status: "paid"
+
+          
+        },
+        (rsp) => {
+          console.log(rsp);
+          alert(rsp.error_msg);
+        }
+      );
     };
 
     // 탭메뉴
