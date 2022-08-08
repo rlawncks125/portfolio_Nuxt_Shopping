@@ -397,12 +397,7 @@ export default defineComponent({
         {
           amount: 500, // 결제할 금액
           name: item.value.title,
-          merchant_uid: `merchant_F${item.value.id}_${Date.now()}`,
-          buyer_addr: "테스트 주소",
-          buyer_email: "rlawnks125@naver.com",
-          buyer_name: "사용자",
-          buyer_tel: "010-7115-9176",
-          buyer_postcode: "123-456",
+          itemId: item.value.id + "",
         },
         (rsp) => {
           alert("결제 성공");

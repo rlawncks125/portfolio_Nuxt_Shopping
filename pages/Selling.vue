@@ -4,10 +4,17 @@
       아이템 판매하기
     </h1>
     <button @click="$router.push('/')">go Home</button>
-    <button @click="isRegistered = true">등록하기</button>
-    <div class="px-6 mt-4">
-      <ToastUi ref="toastUiRef" />
-    </div>
+    <!-- 판매자 등록 -->
+    <section v-if="!sellerInfo">
+      <h1>판매자 등록이 필요합니다.</h1>
+    </section>
+    <!-- 아이템 등록 -->
+    <section v-else>
+      <button @click="isRegistered = true">등록하기</button>
+      <div class="px-6 mt-4">
+        <ToastUi ref="toastUiRef" />
+      </div>
+    </section>
   </div>
 </template>
 
@@ -16,12 +23,9 @@ import { defineComponent } from "vue";
 import { ToastUi } from "~~/.nuxt/components";
 import { deleteImageUrl } from "@/api/file";
 import { onBeforeRouteLeave } from "vue-router";
-
-// thumbnailSrc: string;
-// detailHtml: string;
-// title: string;
-// price: string;
-// sale: number;
+import { storeToRefs } from "pinia";
+import { useUser } from "~~/sotre/user";
+import { EnumUserInfoRole } from "~~/api/swagger";
 
 definePageMeta({
   layout: "login-required",
@@ -31,6 +35,16 @@ export default defineComponent({
   setup() {
     const toastUiRef = useState<InstanceType<typeof ToastUi>>("toastUiRef");
     const isRegistered = ref<boolean>(false);
+    const { sellerInfo, userInfo } = storeToRefs(useUser());
+
+    onMounted(() => {
+      // 판매자가 아닐시 홈페이지로 리다렉트
+      if (userInfo.value.role !== EnumUserInfoRole.company) {
+        alert("판매자가 아닙니다.");
+        isRegistered.value = true;
+        useRouter().push("/");
+      }
+    });
 
     onBeforeRouteLeave(async (to, form, next) => {
       console.log("라우트 이동 감지");
@@ -63,9 +77,7 @@ export default defineComponent({
       next();
     });
 
-    
-
-    return { toastUiRef, isRegistered };
+    return { toastUiRef, isRegistered, sellerInfo };
   },
 });
 </script>

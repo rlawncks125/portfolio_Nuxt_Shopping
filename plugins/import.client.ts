@@ -1,14 +1,14 @@
 import { useUser } from "~~/sotre/user";
 
 interface impParam {
-  merchant_uid: string;
+  itemId: string;
   name: string;
   amount: number;
-  buyer_email: string;
-  buyer_name: string;
-  buyer_tel: string;
-  buyer_addr: string;
-  buyer_postcode: string;
+  // buyer_email: string;
+  // buyer_name: string;
+  // buyer_tel: string;
+  // buyer_addr: string;
+  // buyer_postcode: string;
 }
 
 export default defineNuxtPlugin(() => {
@@ -38,15 +38,16 @@ export default defineNuxtPlugin(() => {
             // param
             pg: "html5_inicis",
             pay_method: "card",
-            merchant_uid: param.merchant_uid,
             name: param.name,
             amount: param.amount,
+            // merchant_uid: param.merchant_uid,
+            merchant_uid: `merchant_F${param.itemId}_${Date.now()}`,
             // 사용자 정보
-            buyer_email: userInfo.email || param.buyer_email,
-            buyer_name: userInfo.nickName || param.buyer_name,
-            buyer_tel: userInfo.tel || param.buyer_tel,
-            buyer_addr: userInfo.addr || param.buyer_addr,
-            buyer_postcode: userInfo.postcode || param.buyer_postcode,
+            buyer_email: userInfo.email,
+            buyer_name: userInfo.nickName,
+            buyer_tel: userInfo.tel,
+            buyer_addr: userInfo.addr,
+            buyer_postcode: userInfo.postcode,
           },
           function(rsp) {
             // callback

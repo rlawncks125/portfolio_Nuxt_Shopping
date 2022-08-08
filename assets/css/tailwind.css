@@ -5,3 +5,7 @@
 .width-container {
   @apply max-w-container mx-auto;
 }
+
+.three-dot {
+  @apply overflow-hidden overflow-ellipsis whitespace-nowrap;
+}

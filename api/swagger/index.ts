@@ -660,6 +660,102 @@ export class ShopUserService {
       axios(configs, resolve, reject);
     });
   }
+  /**
+   * 패스워드 확인
+   */
+  static shopUserControllerPasswordConfirm(options: IRequestOptions = {}): Promise<CoreOutPut> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/shop-user/passwordConfirm';
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+
+      /** 适配ios13，get请求不允许带body */
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   * 패스워드 찾기
+   */
+  static shopUserControllerFindPassword(
+    params: {
+      /** requestBody */
+      body?: FindPasswordInputDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<CoreOutPut> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/shop-user/findPassword';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   * 회사 정보 추가
+   */
+  static shopUserControllerAddCompany(
+    params: {
+      /** requestBody */
+      body?: AddCompanyInputDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<AddCompanyOutPutDto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/shop-user/company';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   * 회사 정보 변경
+   */
+  static shopUserControllerUpdateCompany(
+    params: {
+      /** requestBody */
+      body?: UpdateCompanyInutDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<UpdateCompanyOutPutDto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/shop-user/company';
+
+      const configs: IRequestConfig = getConfigs('patch', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   * 회사 정보 삭제
+   */
+  static shopUserControllerDeleteCompany(options: IRequestOptions = {}): Promise<UpdateCompanyOutPutDto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/shop-user/company';
+
+      const configs: IRequestConfig = getConfigs('delete', 'application/json', url, options);
+
+      let data = null;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
 }
 
 export interface UserOutPut {
@@ -1359,16 +1455,7 @@ export interface CreateShopUserOutPut {
   err?: string;
 }
 
-export interface ShopUser {
-  /** id */
-  id: number;
-
-  /** password */
-  password: string;
-
-  /** 유저 아이디 입니다. */
-  userId: string;
-
+export interface UserInfo {
   /** 닉네임 입니다. */
   nickName: string;
 
@@ -1376,7 +1463,7 @@ export interface ShopUser {
   email: string;
 
   /** 역할 */
-  role: EnumShopUserRole;
+  role: EnumUserInfoRole;
 
   /** 주소 입니다. */
   addr: string;
@@ -1386,6 +1473,26 @@ export interface ShopUser {
 
   /** 우편전자 입니다. */
   postcode: string;
+}
+
+export interface ShopUserSeller {
+  /** id */
+  id: number;
+
+  /** 대표자 */
+  represent: string;
+
+  /** 핸드폰 번호 */
+  phone: string;
+
+  /** 이메일 주소 */
+  eMail: string;
+
+  /** 회사명 */
+  companyName: string;
+
+  /** 회사주소 */
+  companyAddress: string;
 }
 
 export interface LoginShopUserOutPut {
@@ -1399,27 +1506,43 @@ export interface LoginShopUserOutPut {
   token: string;
 
   /** 유저 */
-  user: CombinedUserTypes;
+  userInfo: CombinedUserInfoTypes;
+
+  /** 판매자정보 */
+  sellerInfo: CombinedSellerInfoTypes;
+}
+
+export interface CoreOutPut {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
+}
+
+export interface FindPasswordInputDto {
+  /** 이메일 주소입니다. */
+  email: string;
 }
 
 export interface UpdateShopUserInput {
   /** password */
-  password: string;
+  password?: string;
 
   /** 닉네임 입니다. */
-  nickName: string;
+  nickName?: string;
 
   /** 이메일 주소입니다. */
-  email: string;
+  email?: string;
 
   /** 주소 입니다. */
-  addr: string;
+  addr?: string;
 
   /** 핸드폰 번호입니다. */
-  tel: string;
+  tel?: string;
 
   /** 우편전자 입니다. */
-  postcode: string;
+  postcode?: string;
 }
 
 export interface UpdateShopUserOutPut {
@@ -1430,7 +1553,49 @@ export interface UpdateShopUserOutPut {
   err?: string;
 }
 
-export interface CoreOutPut {
+export interface AddCompanyInputDto {
+  /** 대표자 */
+  represent: string;
+
+  /** 핸드폰 번호 */
+  phone: string;
+
+  /** 이메일 주소 */
+  eMail: string;
+
+  /** 회사명 */
+  companyName: string;
+
+  /** 회사주소 */
+  companyAddress: string;
+}
+
+export interface AddCompanyOutPutDto {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
+}
+
+export interface UpdateCompanyInutDto {
+  /** 대표자 */
+  represent?: string;
+
+  /** 핸드폰 번호 */
+  phone?: string;
+
+  /** 이메일 주소 */
+  eMail?: string;
+
+  /** 회사명 */
+  companyName?: string;
+
+  /** 회사주소 */
+  companyAddress?: string;
+}
+
+export interface UpdateCompanyOutPutDto {
   /** 성공 여부입니다. */
   ok: boolean;
 
@@ -1455,7 +1620,7 @@ export enum EnumUserCommentInfoRole {
   'User' = 'User',
   'Anonymous' = 'Anonymous'
 }
-export type CombinedUserInfoTypes = UserCommentInfo;
+export type CombinedUserInfoTypes = UserInfo;
 export type CombinedParentRestaurantTypes = Restaurant;
 export type CombinedMessageTypes = messageType;
 export type CombinedRoomInfoTypes = RoominfoDto;
@@ -1765,8 +1930,8 @@ export enum EnumCreateShopUserInputDtoRole {
   'company' = 'company',
   'customer' = 'customer'
 }
-export enum EnumShopUserRole {
+export enum EnumUserInfoRole {
   'company' = 'company',
   'customer' = 'customer'
 }
-export type CombinedUserTypes = ShopUser;
+export type CombinedSellerInfoTypes = ShopUserSeller;

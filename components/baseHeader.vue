@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 네비 아이템 -->
-    <nav class="width-container my-1">
+    <nav class="width-container my-1 px-1 text-[0.8rem]">
       <ul class="warp-items flex justify-end">
         <li>
           <button v-if="isToken" @click="userLogOut">로그아웃</button>
@@ -22,7 +22,7 @@
         <li>
           <NuxtLink to="#">고객센터</NuxtLink>
         </li>
-        <li>
+        <li v-if="userInfo && userInfo.role === EnumUserInfoRole.company">
           <NuxtLink to="/selling">판매하기</NuxtLink>
         </li>
       </ul>
@@ -30,7 +30,7 @@
 
     <!-- 검색 -->
     <section id="serch" class="relative my-2">
-      <div class="width-container h-[5rem] flex items-center">
+      <div class="width-container w-auto sm:h-[5rem] flex items-center">
         <a href="/" class="h-full">
           <img
             class="h-full object-cover"
@@ -49,20 +49,24 @@
           />
         </div>
       </div>
-      <div class="absolute top-0 right-0 border w-[5rem] h-[5rem]">ad</div>
+      <div
+        class="hidden md:block absolute top-0 right-0 border w-[5rem] h-[5rem]"
+      >
+        ad
+      </div>
     </section>
 
     <!-- 포인트 & 혜택   -->
     <section id="point" class="border-t font-bold text-[0.8rem]">
       <!-- 서비스 -->
-      <div class="width-container flex justify-between my-4">
+      <div class="width-container flex flex-wrap justify-between my-4">
         <!-- 배송 & 혜택 -->
-        <div class="flex">
-          <div class="pr-[2rem] cursor-pointer">
+        <div class="flex flex-wrap">
+          <div class="pr-[2rem] pl-1 cursor-pointer">
             <LazyFaIcon icon="align-justify" size="sm" />
             <span> 전체 카테고리 </span>
           </div>
-          <ul class="warp-items flex">
+          <ul class="flex gap-4">
             <li>
               <a href="#">쿠폰포인트</a>
             </li>
@@ -104,9 +108,10 @@
 
 <script lang="ts" setup>
 import { storeToRefs } from "pinia";
+import { EnumUserInfoRole } from "~~/api/swagger";
 import { useUser } from "~~/sotre/user";
 
-const { userToken: isToken } = storeToRefs(useUser());
+const { userToken: isToken, userInfo } = storeToRefs(useUser());
 const { userLogOut } = useUser();
 </script>
 

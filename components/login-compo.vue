@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="text-[1.4rem]">
     <div>Login 컴포넌트</div>
     <div
-      class="border flex flex-col max-w-[20rem] gap-[1rem] mx-auto mt-[4rem] p-4"
+      class="border flex flex-col max-w-[30rem] gap-[1rem] mx-auto mt-[4rem] p-4"
     >
       <div class="flex flex-wrap px-2 gap-2">
         <label for="userid">아이디 :</label>
@@ -22,7 +22,12 @@
           id="password"
         />
       </div>
-      <button @click="clickedLogin">로그인</button>
+      <button
+        class="border py-1 bg-gray-100 hover:bg-gray-200"
+        @click="clickedLogin"
+      >
+        로그인
+      </button>
     </div>
   </div>
 </template>
@@ -43,7 +48,7 @@ const clickedLogin = async () => {
     return;
   }
 
-  const { ok, err, token, user } = await userLogin({
+  const { ok, err, token, userInfo, sellerInfo } = await userLogin({
     username: loginId.value,
     password: loginPassword.value,
   });
@@ -53,9 +58,13 @@ const clickedLogin = async () => {
     return;
   }
 
-  const { setUserToken, setUser } = useUser();
+  const { setUserToken, setUser, setSeller } = useUser();
   setUserToken(token);
-  setUser(user);
+  setUser(userInfo);
+  setSeller(sellerInfo);
+
+  loginId.value = "";
+  loginPassword.value = "";
 
   // 로그인 페이지일시 홈 화면으로 다이렉트
   if (useRoute().path === "/login") {

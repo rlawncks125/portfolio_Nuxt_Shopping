@@ -43,7 +43,7 @@ useHead({
 </script>
 
 <style>
-body {
-  font-size: 10px;
+html {
+  @apply text-[10px] md:text-[14px];
 }
 </style>
