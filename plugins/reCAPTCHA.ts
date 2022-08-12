@@ -10,15 +10,19 @@ export default defineNuxtPlugin(() => {
       reCAPTCHA: (el: HTMLElement, result: (res: any) => void) => {
         const verifyCallback = async (response: any) => {
           console.log(response);
-          const res = await axios.post(
-            "https://www.google.com/recaptcha/api/siteverify",
-            {
+          // const res = await axios.post(
+          //   "https://www.google.com/recaptcha/api/siteverify",
+          //   {
+          //     secret: reCAPTCHA_SECRET_KEY,
+          //     response,
+          //   }
+          // );
+          await useFetch("/api/reCAPTCHA_verify", {
+            body: {
               secret: reCAPTCHA_SECRET_KEY,
               response,
-            }
-          );
-
-          result(res);
+            },
+          }).then((res) => result(res));
         };
 
         // @ts-ignore
