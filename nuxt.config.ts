@@ -43,6 +43,12 @@ export default defineNuxtConfig({
     public: {
       apiServer: process.env.APISERVER || "http://localhost:3030",
       impCodeApi: "imp85605338",
+      reCAPTCHA_SITE_KEY:
+        process.env.reCAPTCHA_SITE_KEY ||
+        "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI",
+      reCAPTCHA_SECRET_KEY:
+        process.env.reCAPTCHA_SECRET_KEY ||
+        "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe",
     },
   },
 
@@ -64,6 +70,11 @@ export default defineNuxtConfig({
           "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js",
         type: "text/javascript",
       },
+      // reCAPTCHA
+      {
+        src: "https://www.google.com/recaptcha/api.js",
+        type: "text/javascript",
+      },
     ],
   },
 });
@@ -76,5 +87,7 @@ declare module "@nuxt/schema" {
   interface PublicRuntimeConfig {
     apiServer: string;
     impCodeApi: string;
+    reCAPTCHA_SITE_KEY: string;
+    reCAPTCHA_SECRET_KEY: string;
   }
 }

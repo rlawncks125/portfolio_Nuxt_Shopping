@@ -1,7 +1,7 @@
 <template>
   <div>
     <LoadingBar :size="2" :is-show="false"></LoadingBar>
-
+    <ReCAPTCHA />
     <!-- 카테고리 & 배너 -->
     <section
       id="category"
