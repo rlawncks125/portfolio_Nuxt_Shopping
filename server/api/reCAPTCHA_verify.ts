@@ -11,5 +11,5 @@ export default defineEventHandler(async (event) => {
   //   method: "POST",
   // }).then((res) => res.json());
 
-  return await axios.get(url).then((res) => res.data);
+  return await axios.post(url).then((res) => res.data);
 });
