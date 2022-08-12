@@ -28,6 +28,9 @@
       >
         로그인
       </button>
+      <div class="flex justify-center">
+        <ReCAPTCHA />
+      </div>
     </div>
   </div>
 </template>

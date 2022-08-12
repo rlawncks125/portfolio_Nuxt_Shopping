@@ -1,11 +1,17 @@
 import axios from "axios";
-import { defineHandler } from "h3";
+import { defineEventHandler } from "h3";
 
-export default defineHandler(async (event) => {
-  const body = useBody(event);
+export default defineEventHandler(async (event) => {
+  const body = (await useBody(event)) as {
+    secret: string;
+    response: string;
+  };
 
-  return await axios.post(
-    "https://www.google.com/recaptcha/api/siteverify",
-    body
-  );
+  const url = `https://www.google.com/recaptcha/api/siteverify?secret=${body.secret}&response=${body.response}`;
+
+  // return await fetch(url, {
+  //   method: "POST",
+  // }).then((res) => res.json());
+
+  return await axios.get(url).then((res) => res.data);
 });
