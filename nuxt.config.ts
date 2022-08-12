@@ -40,16 +40,17 @@ export default defineNuxtConfig({
     //  public: {
     //    apiBase: '/api'
     //  }
+
     public: {
       apiServer: process.env.APISERVER || "http://localhost:3030",
       impCodeApi: "imp85605338",
       reCAPTCHA_SITE_KEY:
         process.env.reCAPTCHA_SITE_KEY ||
         "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI",
-      reCAPTCHA_SECRET_KEY:
-        process.env.reCAPTCHA_SECRET_KEY ||
-        "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe",
     },
+    reCAPTCHA_SECRET_KEY:
+      process.env.reCAPTCHA_SECRET_KEY ||
+      "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe",
   },
 
   meta: {
@@ -81,13 +82,13 @@ export default defineNuxtConfig({
 
 // runtimeConfig 타입 정의
 declare module "@nuxt/schema" {
-  // interface RuntimeConfig {
-  //     apiBase: string
-  // }
+  interface RuntimeConfig {
+    //     apiBase: string
+    reCAPTCHA_SECRET_KEY: string;
+  }
   interface PublicRuntimeConfig {
     apiServer: string;
     impCodeApi: string;
     reCAPTCHA_SITE_KEY: string;
-    reCAPTCHA_SECRET_KEY: string;
   }
 }

@@ -2,12 +2,10 @@ import axios from "axios";
 import { defineEventHandler } from "h3";
 
 export default defineEventHandler(async (event) => {
-  const body = (await useBody(event)) as {
-    secret: string;
-    response: string;
-  };
+  const { reCAPTCHA_SECRET_KEY } = useRuntimeConfig();
+  const response = await useBody(event);
 
-  const url = `https://www.google.com/recaptcha/api/siteverify?secret=${body.secret}&response=${body.response}`;
+  const url = `https://www.google.com/recaptcha/api/siteverify?secret=${reCAPTCHA_SECRET_KEY}&response=${response}`;
 
   // return await fetch(url, {
   //   method: "POST",

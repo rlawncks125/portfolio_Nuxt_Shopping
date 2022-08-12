@@ -23,13 +23,17 @@
         />
       </div>
       <button
-        class="border py-1 bg-gray-100 hover:bg-gray-200"
+        class="border py-1 "
+        :class="
+          isRobotCheked ? 'bg-blue-400  hover:bg-blue-500' : 'bg-gray-100'
+        "
         @click="clickedLogin"
+        :disabled="!isRobotCheked"
       >
         로그인
       </button>
       <div class="flex justify-center">
-        <ReCAPTCHA />
+        <ReCAPTCHA @success="(e) => (isRobotCheked = e)" />
       </div>
     </div>
   </div>
@@ -42,9 +46,13 @@ import { useUser } from "~~/sotre/user";
 
 const loginId = useState("loginId", () => "");
 const loginPassword = useState("loginPassword", () => "");
+const isRobotCheked = useState("isRobotChked", () => false);
 
 const clickedLogin = async () => {
-  console.log(loginId.value, loginPassword.value);
+  if (!isRobotCheked.value) {
+    alert("유효하지 않은 접근 방법입니다.");
+    return;
+  }
 
   if (HangulValidation(loginId.value)) {
     alert("유효하지 않은 아이디 형식 입니다.");

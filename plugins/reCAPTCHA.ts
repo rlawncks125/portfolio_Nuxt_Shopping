@@ -1,23 +1,18 @@
-import axios from "axios";
-
 export default defineNuxtPlugin(() => {
   const {
-    public: { reCAPTCHA_SECRET_KEY, reCAPTCHA_SITE_KEY },
+    public: { reCAPTCHA_SITE_KEY },
   } = useRuntimeConfig();
 
   return {
     provide: {
       reCAPTCHA: (el: HTMLElement, result: (res: any) => void) => {
         const verifyCallback = async (response: any) => {
-          console.log(response);
-          const body = {
-            secret: reCAPTCHA_SECRET_KEY,
-            response,
-          };
-
+          // cors 정책 걸려서
+          // server/api 폴더 위치가 서버 역할하는 위치 므로
+          // useFetch를 이용해서 호출
           await useFetch("/api/reCAPTCHA_verify", {
             method: "POST",
-            body,
+            response,
           }).then((res) => result(res.data.value));
         };
 
