@@ -1,5 +1,7 @@
 import { ApiServer } from "~~/plugins/api-server";
 import {
+  AddCompanyInputDto,
+  AddCompanyOutPutDto,
   CreateShopUserInputDto,
   CreateShopUserOutPut,
   LoginShopUserOutPut,
@@ -24,4 +26,10 @@ export const userCreate = async (
       auth: auth,
     })
     .then((res) => res.data as CreateShopUserOutPut);
+};
+
+export const userAddCompany = async (body: AddCompanyInputDto) => {
+  return ApiServer.axios
+    .post("shop-user/company", body)
+    .then((res) => res.data as AddCompanyOutPutDto);
 };

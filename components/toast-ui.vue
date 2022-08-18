@@ -50,6 +50,8 @@ export default defineComponent({
     const getHTML = () => {
       console.log(control.getMarkdown().toString().length);
       console.log(control.getHTML());
+
+      return control.getHTML();
     };
 
     const inertImage = async (e: any) => {

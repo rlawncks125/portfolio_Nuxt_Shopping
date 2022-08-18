@@ -758,6 +758,59 @@ export class ShopUserService {
   }
 }
 
+export class ShopitemService {
+  /**
+   * 아이템 추가
+   */
+  static shopItemControllerAddItem(
+    params: {
+      /** requestBody */
+      body?: AddShopItemInputDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<AddShopItemsOutPutDto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/shop-item';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static shopItemControllerGetSellItems(options: IRequestOptions = {}): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/shop-item/sell-items';
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+
+      /** 适配ios13，get请求不允许带body */
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static shopItemControllerGetItemById(options: IRequestOptions = {}): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/shop-item/{id}';
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+
+      /** 适配ios13，get请求不允许带body */
+
+      axios(configs, resolve, reject);
+    });
+  }
+}
+
 export interface UserOutPut {
   /** 유저 이름입니다. */
   username?: string;
@@ -1455,7 +1508,105 @@ export interface CreateShopUserOutPut {
   err?: string;
 }
 
-export interface UserInfo {
+export interface option {
+  /** 옵션 이름 */
+  name: string;
+
+  /** 옵션 가격 */
+  price: number;
+}
+
+export interface review {
+  /** 리뷰 제목 */
+  title: string;
+
+  /** 리뷰 내용 */
+  text: string;
+
+  /** 별점 */
+  star: number;
+
+  /** 닉네임 */
+  nickName: string;
+
+  /** 등록 날짜 */
+  addDay: string;
+}
+
+export interface QA {
+  /** QA 제목 */
+  title: string;
+
+  /** QA 내용 */
+  text: string;
+
+  /** QA 상태 */
+  status: string;
+
+  /** 등록한 닉네임 */
+  nickName: string;
+
+  /** 등록한 날짜 */
+  addDay: string;
+
+  /** 문제 형태 */
+  type: string;
+
+  /** 답변 */
+  answer: string;
+}
+
+export interface ShopItem {
+  /** id */
+  id: number;
+
+  /** 판매유저 정보 */
+  sellUserInfo: CombinedSellUserInfoTypes;
+
+  /** title */
+  title: string;
+
+  /** 가격 */
+  price: number;
+
+  /** 할인가 */
+  sale: number;
+
+  /** 썸네일 */
+  thumbnailSrc: string;
+
+  /** 제품 설명  */
+  detailHtml: string;
+
+  /** 옵션  */
+  options: option[];
+
+  /** 배송비  */
+  parcel: number;
+
+  /** 무료 배송 금액 */
+  freeParcel: number;
+
+  /** 원산지 */
+  origin: string;
+
+  /** 구매후기 */
+  reviews: review[];
+
+  /** 상품 문의 */
+  QA: QA[];
+}
+
+export interface ShopUser {
+  /** id */
+  id: number;
+
+  /** password */
+  password: string;
+
+  /** 유저 아이디 입니다. */
+  userId: string;
+
   /** 닉네임 입니다. */
   nickName: string;
 
@@ -1463,7 +1614,7 @@ export interface UserInfo {
   email: string;
 
   /** 역할 */
-  role: EnumUserInfoRole;
+  role: EnumShopUserRole;
 
   /** 주소 입니다. */
   addr: string;
@@ -1473,6 +1624,83 @@ export interface UserInfo {
 
   /** 우편전자 입니다. */
   postcode: string;
+
+  /** 판매자 정보 */
+  sellerInfo: CombinedSellerInfoTypes;
+
+  /** 영수증 */
+  Ireceipts: ShopIreceipt[];
+}
+
+export interface BaksetItemSelectedOptions {
+  /** 옵션 이름 */
+  name: string;
+
+  /** 옵션 가격 */
+  price: number;
+
+  /** 옵션 선택 개수 */
+  count: number;
+}
+
+export interface BasketItem {
+  /** title */
+  title: string;
+
+  /** 가격 */
+  price: number;
+
+  /** 할인가 */
+  sale: number;
+
+  /** 썸네일 */
+  thumbnailSrc: string;
+
+  /** 배송비  */
+  parcel: number;
+
+  /** 무료 배송 금액 */
+  freeParcel: number;
+
+  /** 아이템 id  */
+  itemId: number;
+
+  /** 옵션 구매 갯수  */
+  selectedOptions: BaksetItemSelectedOptions[];
+
+  /** 옵션포함한 최종 금액  */
+  optionPriceSum: number;
+}
+
+export interface PayMentInfo {
+  /** 결제 방식 */
+  pay_method: string;
+
+  /** 카드사 */
+  card_name: string;
+
+  /** 카드번호 */
+  card_number: string;
+
+  /** 결제 금액 */
+  paymentPrice: number;
+}
+
+export interface ShopIreceipt {
+  /** id */
+  id: number;
+
+  /** 판매 유저 */
+  sellUserInfo: CombinedSellUserInfoTypes;
+
+  /** 구매 유저 */
+  purchasedUser: CombinedPurchasedUserTypes;
+
+  /** 아아템 목록 */
+  Items: BasketItem[];
+
+  /** 결제 정보 */
+  paymentInfo: CombinedPaymentInfoTypes;
 }
 
 export interface ShopUserSeller {
@@ -1493,6 +1721,32 @@ export interface ShopUserSeller {
 
   /** 회사주소 */
   companyAddress: string;
+
+  /** 판매중인 아이템 */
+  sellItems: ShopItem[];
+
+  /** 영수증 */
+  Ireceipt: ShopIreceipt[];
+}
+
+export interface UserInfo {
+  /** 닉네임 입니다. */
+  nickName: string;
+
+  /** 이메일 주소입니다. */
+  email: string;
+
+  /** 역할 */
+  role: EnumUserInfoRole;
+
+  /** 주소 입니다. */
+  addr: string;
+
+  /** 핸드폰 번호입니다. */
+  tel: string;
+
+  /** 우편전자 입니다. */
+  postcode: string;
 }
 
 export interface LoginShopUserOutPut {
@@ -1502,14 +1756,14 @@ export interface LoginShopUserOutPut {
   /** 에러 메세지입니다. */
   err?: string;
 
+  /** 판매자 정보 */
+  sellerInfo?: CombinedSellerInfoTypes;
+
   /** 토큰 */
   token: string;
 
   /** 유저 */
   userInfo: CombinedUserInfoTypes;
-
-  /** 판매자정보 */
-  sellerInfo: CombinedSellerInfoTypes;
 }
 
 export interface CoreOutPut {
@@ -1576,6 +1830,9 @@ export interface AddCompanyOutPutDto {
 
   /** 에러 메세지입니다. */
   err?: string;
+
+  /** 판매자정보 */
+  sellerInfo: CombinedSellerInfoTypes;
 }
 
 export interface UpdateCompanyInutDto {
@@ -1604,6 +1861,52 @@ export interface UpdateCompanyOutPutDto {
 }
 
 export interface SendMailInputDto {}
+
+export interface AddShopItemInputDto {
+  /** title */
+  title: string;
+
+  /** 가격 */
+  price: number;
+
+  /** 할인가 */
+  sale: number;
+
+  /** 썸네일 */
+  thumbnailSrc: string;
+
+  /** 제품 설명  */
+  detailHtml: string;
+
+  /** 옵션  */
+  options: option[];
+
+  /** 배송비  */
+  parcel: number;
+
+  /** 무료 배송 금액 */
+  freeParcel: number;
+
+  /** 원산지 */
+  origin: string;
+
+  /** 구매후기 */
+  reviews: review[];
+
+  /** 상품 문의 */
+  QA: QA[];
+}
+
+export interface AddShopItemsOutPutDto {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
+
+  /** 아이템 */
+  item: CombinedItemTypes;
+}
 export type CombinedResturantSuperUserTypes = SuperUserDto;
 export type CombinedLatingTypes = Lating;
 export type CombinedSuperUserTypes = User;
@@ -1930,8 +2233,16 @@ export enum EnumCreateShopUserInputDtoRole {
   'company' = 'company',
   'customer' = 'customer'
 }
-export enum EnumUserInfoRole {
+export type CombinedSellUserInfoTypes = ShopUserSeller;
+export enum EnumShopUserRole {
   'company' = 'company',
   'customer' = 'customer'
 }
 export type CombinedSellerInfoTypes = ShopUserSeller;
+export type CombinedPurchasedUserTypes = ShopUser;
+export type CombinedPaymentInfoTypes = PayMentInfo;
+export enum EnumUserInfoRole {
+  'company' = 'company',
+  'customer' = 'customer'
+}
+export type CombinedItemTypes = ShopItem;

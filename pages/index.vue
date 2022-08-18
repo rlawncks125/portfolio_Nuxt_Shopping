@@ -85,14 +85,14 @@
     </section>
     <!-- 추천 상품 2-->
     <section id="recommend2" class="width-container">
-      <div class="grid grid-cols-3 gap-3 text-[1.1rem]">
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-[1.1rem]">
         <div
           class="border border-gray-200 cursor-pointer hover:border-gray-400"
           v-for="(item, index) in productItems"
-          @click="() => useRouter().push(`/item/${item.itemId}`)"
+          @click="() => useRouter().push(`/item/${item.id}`)"
           :key="index"
         >
-          <img class="w-full" :src="item.src" alt="" />
+          <img class="w-full" :src="item.thumbnailSrc" alt="" />
           <div class="p-4">
             <p>{{ item.title }}</p>
             <div class="flex gap-2 items-center">
@@ -119,6 +119,8 @@
 import Swiper, { Navigation } from "swiper";
 import { defineComponent } from "vue";
 import { formatToWon } from "@/common/format";
+import { getItemById } from "~~/api/item";
+import { ShopItem } from "~~/api/swagger";
 
 export default defineComponent({
   setup() {
@@ -160,26 +162,8 @@ export default defineComponent({
       },
     ];
 
-    const mockItme = {
-      src:
-        "http://image.iacstatic.co.kr/allkill/item/2022/07/20220720100107421r.jpg",
-      title: "휠라 퐁 쏭 4종 택1",
-      price: "29000",
-      sale: 30,
-      itemId: 4,
-    };
-    const mockItme2 = {
-      src:
-        "http://image.iacstatic.co.kr/allkill/item/2022/07/20220720095501441r.jpg",
-      title: "[10%+12%]패션라인신상원피스/팬츠",
-      price: "43000",
-      sale: 70,
-      itemId: 6,
-    };
-
-    const productItems = [mockItme, mockItme2, mockItme, mockItme2];
-
-    onMounted(() => {
+    const productItems = ref<ShopItem[]>([]);
+    onMounted(async () => {
       swiperControl = $setSwiper(swiper.swiper, {
         loop: true,
         allowTouchMove: false,
@@ -193,6 +177,17 @@ export default defineComponent({
 
       swiperControl.on("slideChange", () => {
         bannerActiveIndex.value = swiperControl.realIndex;
+      });
+
+      const item5 = getItemById(5);
+      const item7 = getItemById(7);
+
+      await Promise.all([item5, item7]).then((values) => {
+        values.forEach((v) => {
+          if (v.ok) {
+            productItems.value.push(v.item);
+          }
+        });
       });
     });
 

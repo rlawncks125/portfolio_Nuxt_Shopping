@@ -39,18 +39,34 @@
               </span>
             </p>
             <!-- 배송료 -->
-            <p>배송료 : {{ item.parcel }}</p>
+            <div class="border-t mb-[1rem] py-[1rem]">
+              <p v-if="item.freeParcel === 0">무료 배송</p>
+              <div v-else>
+                <p>배송료 : {{ formatToWon(item.parcel) }}</p>
+                <span>
+                  {{ formatToWon(item.freeParcel) }}이상 구매시 무료배송
+                </span>
+              </div>
+            </div>
+
             <!-- 원산지 -->
-            <p>원산지 : {{ item.origin }}</p>
+            <div class="border-t mb-[1rem] py-[1rem]">
+              <p>원산지 : {{ item.origin }}</p>
+            </div>
             <!-- 추가 옵션 선택 -->
-            <select v-model="selectOption" class="block border text-gray-500">
-              <option disabled value="" class="hidden">추가옵션</option>
-              <template v-for="(option, index) in item.options">
-                <option :value="option.name"
-                  >{{ option.name }} ( {{ option.price }}원 )</option
-                >
-              </template>
-            </select>
+            <div class="border-t mb-[1rem] py-[1rem]">
+              <select
+                v-model="selectOption"
+                class="block border text-gray-500 "
+              >
+                <option disabled value="" class="hidden">추가옵션</option>
+                <template v-for="(option, index) in item.options">
+                  <option :value="option.name"
+                    >{{ option.name }} ( {{ option.price }}원 )</option
+                  >
+                </template>
+              </select>
+            </div>
             <!-- 추가 옵션 추가 -->
             <div v-if="itemOptions.length > 0">
               <template v-for="(option, index) in itemOptions">
@@ -89,15 +105,17 @@
             </div>
             <!-- 총금액 표기 -->
             <p class="float-right clear-both">
-              총 금액 :{{ formatToWon(optionPriceSum) }}원
+              총 금액 :{{ formatToWon(totalPrice) }}원
             </p>
             <!-- 구매 버튼 & 장바구니 버튼 -->
-            <button
-              class="block clear-both float-right border py-2 px-4"
-              @click="onClickBuyItem"
-            >
-              구매하기
-            </button>
+            <div class="clear-both flex  justify-end gap-2 ">
+              <button class=" border py-2 px-4" @click="onAddBasketItem">
+                장바구니
+              </button>
+              <button class=" border py-2 px-4" @click="onClickBuyItem">
+                구매하기
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -152,7 +170,7 @@
                 {{ avgStar }}
               </p>
               <start-fill
-                class="mx-auto"
+                class="mx-auto "
                 :star-size="2.5"
                 :star-num="5"
                 :fill="avgStar"
@@ -160,7 +178,7 @@
             </div>
             <!-- 별 분포도 -->
             <div class="star-dist mt-4 h-[11rem] md:h-auto md:mt-0">
-              <ul class="flex w-full h-full items-end justify-center gap-4">
+              <ul class="flex w-full h-full items-end justify-center gap-2">
                 <li>
                   <p>{{ starDist.five * 100 }}%</p>
                   <progress max="1" :value="starDist.five"></progress>
@@ -309,26 +327,23 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { formatToWon } from "@/common/format";
-import { getItem, basketItem } from "~~/api/item";
-import { Iitem } from "@/api/item";
+import { getItemById } from "~~/api/item";
+import {
+  BasketItem,
+  ShopItem,
+  BaksetItemSelectedOptions,
+} from "~~/api/swagger";
 
 export default defineComponent({
   setup() {
     const { params } = useRoute();
-    const item = ref<Iitem>();
-
+    const item = ref<ShopItem>();
     const avgStar = ref<number>();
 
     const showTabMenu = useState("showTabMenu", () => 0);
 
     // 옵션  & 계산 & 구매
-    const itemOptions = ref<
-      {
-        name: string;
-        price: number;
-        count: number;
-      }[]
-    >([]);
+    const itemOptions = ref<BaksetItemSelectedOptions[]>([]);
 
     // 총합 액수 계산
     const optionPriceSum = computed(() => {
@@ -339,8 +354,17 @@ export default defineComponent({
         0
       );
 
-      return salePrice + optionSum + item.value.parcel;
+      return salePrice + optionSum;
     });
+    // 배송비 포함 비용
+    const totalPrice = computed(() => {
+      if (optionPriceSum.value < item.value.freeParcel) {
+        return optionPriceSum.value + item.value.parcel;
+      } else {
+        return optionPriceSum.value;
+      }
+    });
+
     // 옵션
     const selectOption = ref("");
     const deleteOption = (index: number) => {
@@ -373,23 +397,25 @@ export default defineComponent({
 
     // 장바구니 담기
     const onAddBasketItem = () => {
-      const basketItem: basketItem = {
+      const basketItem: BasketItem = {
         itemId: item.value.id,
         title: item.value.title,
         thumbnailSrc: item.value.thumbnailSrc,
         parcel: item.value.parcel,
         sale: item.value.sale,
         price: item.value.price,
-        options: itemOptions.value,
-        totalPrice: optionPriceSum.value,
+        freeParcel: item.value.freeParcel,
+        selectedOptions: itemOptions.value,
+        optionPriceSum: optionPriceSum.value,
       };
+      console.log(basketItem);
     };
 
     // 상품 구매하기
     const onClickBuyItem = () => {
       console.log("아이템 정보 :", item.value);
       console.log("선택 옵션 : ", itemOptions.value);
-      console.log("총합 : ", optionPriceSum.value);
+      console.log("총합 : ", totalPrice.value);
 
       const { $impPayment } = useNuxtApp();
 
@@ -470,7 +496,7 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      const { ok, item: resItem } = await getItem(+params.id);
+      const { ok, item: resItem } = await getItemById(+params.id);
       if (ok) {
         item.value = resItem;
       }
@@ -504,7 +530,7 @@ export default defineComponent({
     const ogDesc = useState("ogDesc");
     useLazyAsyncData("ogData", () =>
       // 아이템 정보 가져오기 처리
-      getItem(+params.id).then(({ ok, item }) => {
+      getItemById(+params.id).then(({ ok, item }) => {
         if (ok) {
           ogTitle.value = `타이틀 : ${item.title}`;
           ogSrc.value = item.thumbnailSrc;
@@ -546,6 +572,7 @@ export default defineComponent({
       itemOptions,
       deleteOption,
       optionPriceSum,
+      totalPrice,
       tapMenuRef,
       changeTabMenuByIndex,
       onClickBuyItem,
@@ -553,6 +580,7 @@ export default defineComponent({
       starDist,
       openInquiry,
       openInquiryIndex,
+      onAddBasketItem,
     };
   },
 });
@@ -564,6 +592,7 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: 2.5rem;
     align-items: center;
     height: 100%;
     width: 100%;
@@ -571,7 +600,7 @@ export default defineComponent({
     progress {
       transform: rotate(-90deg);
       height: 1rem;
-      width: 100%;
+      width: 8vh;
       border-radius: 1rem;
       overflow: hidden;
 

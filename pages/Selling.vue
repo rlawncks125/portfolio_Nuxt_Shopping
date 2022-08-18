@@ -6,14 +6,12 @@
     <button @click="$router.push('/')">go Home</button>
     <!-- 판매자 등록 -->
     <section v-if="!sellerInfo">
-      <h1>판매자 등록이 필요합니다.</h1>
+      <SellerRegister />
     </section>
     <!-- 아이템 등록 -->
     <section v-else>
-      <button @click="isRegistered = true">등록하기</button>
-      <div class="px-6 mt-4">
-        <ToastUi ref="toastUiRef" />
-      </div>
+      <button @click="isRegistered = true">변경사항 저장 하기</button>
+      <ItemRegister />
     </section>
   </div>
 </template>
@@ -26,6 +24,8 @@ import { onBeforeRouteLeave } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useUser } from "~~/sotre/user";
 import { EnumUserInfoRole } from "~~/api/swagger";
+import SellerRegister from "~~/components/selling/seller-register.vue";
+import ItemRegister from "~~/components/selling/item-register.vue";
 
 definePageMeta({
   layout: "login-required",
@@ -36,7 +36,6 @@ export default defineComponent({
     const toastUiRef = useState<InstanceType<typeof ToastUi>>("toastUiRef");
     const isRegistered = ref<boolean>(false);
     const { sellerInfo, userInfo } = storeToRefs(useUser());
-
     onMounted(() => {
       // 판매자가 아닐시 홈페이지로 리다렉트
       if (userInfo.value.role !== EnumUserInfoRole.company) {
@@ -45,16 +44,13 @@ export default defineComponent({
         useRouter().push("/");
       }
     });
-
     onBeforeRouteLeave(async (to, form, next) => {
       console.log("라우트 이동 감지");
-
       // 판매 등록을 했을시
       if (isRegistered.value) {
         next();
         return;
       }
-
       const isLeave = confirm(
         "변경사항이 저장되지 않습니다. 정말로 페이지를 나가실건가요?"
       );
@@ -62,7 +58,6 @@ export default defineComponent({
         next(false);
         return;
       }
-
       const deleteImages = toastUiRef.value.uploadImageUrlLists() as string[];
       console.log(deleteImages);
       // 작성중에 포함된 이미지 삭제
@@ -73,12 +68,11 @@ export default defineComponent({
       if (deletePromiseAll.length > 0) {
         await Promise.all(deletePromiseAll);
       }
-
       next();
     });
-
     return { toastUiRef, isRegistered, sellerInfo };
   },
+  components: { SellerRegister, ItemRegister, ItemRegister },
 });
 </script>
 
