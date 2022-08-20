@@ -1889,12 +1889,6 @@ export interface AddShopItemInputDto {
 
   /** 원산지 */
   origin: string;
-
-  /** 구매후기 */
-  reviews: review[];
-
-  /** 상품 문의 */
-  QA: QA[];
 }
 
 export interface AddShopItemsOutPutDto {

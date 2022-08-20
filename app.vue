@@ -46,4 +46,8 @@ useHead({
 html {
   @apply text-[10px] md:text-[14px];
 }
+
+input {
+  @apply border;
+}
 </style>

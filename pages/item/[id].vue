@@ -504,24 +504,24 @@ export default defineComponent({
       // 평균 별점
       avgStar.value =
         resItem.reviews.reduce((a, b) => a + b.star, 0) /
-        resItem.reviews.length;
+          resItem.reviews.length || 0;
 
       // 별점 분포도
       starDist.five =
         resItem.reviews.filter((v) => v.star === 5).length /
-        resItem.reviews.length;
+          resItem.reviews.length || 0;
       starDist.four =
         resItem.reviews.filter((v) => v.star === 4).length /
-        resItem.reviews.length;
+          resItem.reviews.length || 0;
       starDist.three =
         resItem.reviews.filter((v) => v.star === 3).length /
-        resItem.reviews.length;
+          resItem.reviews.length || 0;
       starDist.two =
         resItem.reviews.filter((v) => v.star === 2).length /
-        resItem.reviews.length;
+          resItem.reviews.length || 0;
       starDist.one =
         resItem.reviews.filter((v) => v.star === 1).length /
-        resItem.reviews.length;
+          resItem.reviews.length || 0;
     });
 
     // og데이터

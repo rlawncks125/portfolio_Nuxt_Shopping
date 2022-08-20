@@ -2,7 +2,12 @@
   <div>
     <button @click="getHTML">Get HTML</button> |
     <label class="cursor-pointer" for="insert-image">이미지 삽입 </label>
-    <input class="w-[0px]" type="file" id="insert-image" @change="inertImage" />
+    <input
+      class="w-0 h-0 border-0"
+      type="file"
+      id="insert-image"
+      @change="inertImage"
+    />
     |
     <button @click="renderPreview">미리보기</button> |
     <button @click="isLoading = !isLoading">로딩변경</button>

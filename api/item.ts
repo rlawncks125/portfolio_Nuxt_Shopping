@@ -11,7 +11,7 @@ export const getItemById = async (id: number) => {
     .then((res) => res.data as { ok: boolean; item: ShopItem });
 };
 
-export const addItem = async (input: AddShopItemInputDto) => {
+export const addShopItem = async (input: AddShopItemInputDto) => {
   return ApiServer.axios
     .post("shop-item", input)
     .then((res) => res.data as AddShopItemsOutPutDto);
