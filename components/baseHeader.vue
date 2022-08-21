@@ -17,7 +17,7 @@
           <NuxtLink to="#">주문배송</NuxtLink>
         </li>
         <li>
-          <NuxtLink to="#">내정보</NuxtLink>
+          <NuxtLink to="/mypage">내정보</NuxtLink>
         </li>
         <li>
           <NuxtLink to="#">고객센터</NuxtLink>

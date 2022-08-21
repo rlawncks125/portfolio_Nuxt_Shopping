@@ -661,6 +661,22 @@ export class ShopUserService {
     });
   }
   /**
+   * 내정보 얻기
+   */
+  static shopUserControllerMyInfo(options: IRequestOptions = {}): Promise<LoginShopUserOutPut> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/shop-user/myinfo';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = null;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
    * 패스워드 확인
    */
   static shopUserControllerPasswordConfirm(options: IRequestOptions = {}): Promise<CoreOutPut> {
@@ -782,11 +798,33 @@ export class ShopitemService {
     });
   }
   /**
-   *
+   * 아이템 변경
    */
-  static shopItemControllerGetSellItems(options: IRequestOptions = {}): Promise<any> {
+  static shopItemControllerUpdateItem(
+    params: {
+      /** requestBody */
+      body?: UpdateItemInputDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<UpdateItemOutPut> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/shop-item/sell-items';
+      let url = basePath + '/shop-item/{id}';
+
+      const configs: IRequestConfig = getConfigs('patch', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   * 아이템들 정보 얻기
+   */
+  static shopItemControllerGetItemById(options: IRequestOptions = {}): Promise<GetItemInfoOutPutDto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/shop-item/{id}';
 
       const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
 
@@ -796,11 +834,27 @@ export class ShopitemService {
     });
   }
   /**
-   *
+   * 아이템 삭제
    */
-  static shopItemControllerGetItemById(options: IRequestOptions = {}): Promise<any> {
+  static shopItemControllerDeleteItem(options: IRequestOptions = {}): Promise<CoreOutPut> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/shop-item/{id}';
+
+      const configs: IRequestConfig = getConfigs('delete', 'application/json', url, options);
+
+      let data = null;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   * 등록한 아이템들 얻기
+   */
+  static shopItemControllerGetSellItems(options: IRequestOptions = {}): Promise<SellitemsOutPutDto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/shop-item/sell-items';
 
       const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
 
@@ -1892,6 +1946,77 @@ export interface AddShopItemInputDto {
 }
 
 export interface AddShopItemsOutPutDto {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
+
+  /** 아이템 */
+  item: CombinedItemTypes;
+}
+
+export interface UpdateItemInputDto {
+  /** 판매유저 정보 */
+  sellUserInfo?: CombinedSellUserInfoTypes;
+
+  /** title */
+  title?: string;
+
+  /** 가격 */
+  price?: number;
+
+  /** 할인가 */
+  sale?: number;
+
+  /** 썸네일 */
+  thumbnailSrc?: string;
+
+  /** 제품 설명  */
+  detailHtml?: string;
+
+  /** 옵션  */
+  options?: option[];
+
+  /** 배송비  */
+  parcel?: number;
+
+  /** 무료 배송 금액 */
+  freeParcel?: number;
+
+  /** 원산지 */
+  origin?: string;
+
+  /** 구매후기 */
+  reviews?: review[];
+
+  /** 상품 문의 */
+  QA?: QA[];
+}
+
+export interface UpdateItemOutPut {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
+
+  /** 아이템 */
+  item: CombinedItemTypes;
+}
+
+export interface SellitemsOutPutDto {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
+
+  /** 아이템들 */
+  items: ShopItem[];
+}
+
+export interface GetItemInfoOutPutDto {
   /** 성공 여부입니다. */
   ok: boolean;
 

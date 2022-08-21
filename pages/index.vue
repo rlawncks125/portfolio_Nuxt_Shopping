@@ -181,7 +181,7 @@ export default defineComponent({
 
       const item5 = getItemById(5);
       const item7 = getItemById(7);
-      const itemAdd = getItemById(15);
+      const itemAdd = getItemById(5);
 
       await Promise.all([item5, item7, itemAdd]).then((values) => {
         values.forEach((v) => {

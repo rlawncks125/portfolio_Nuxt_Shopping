@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { ShopUserSeller, UserInfo } from "~~/api/swagger";
+import { userGetMyInfo } from "@/api/user";
 
 export const useUser = defineStore("userState", () => {
   // 유저 토큰
@@ -15,6 +16,7 @@ export const useUser = defineStore("userState", () => {
     userInfo.value = user;
     console.log(userInfo.value);
   };
+
   // 판매자 정보
   const sellerInfo = useCookie<ShopUserSeller>("sellerInfo", {
     default: () => null,
@@ -23,6 +25,15 @@ export const useUser = defineStore("userState", () => {
   const setSeller = (seller: ShopUserSeller) => {
     sellerInfo.value = seller;
     console.log(sellerInfo.value);
+  };
+
+  // 정보 새로고침
+  const reFresh = async () => {
+    const { ok, userInfo, sellerInfo } = await userGetMyInfo();
+    if (ok) {
+      setUser(userInfo);
+      setSeller(sellerInfo);
+    }
   };
 
   // 로그아웃
@@ -40,5 +51,6 @@ export const useUser = defineStore("userState", () => {
     setUser,
     sellerInfo,
     setSeller,
+    reFresh,
   };
 });

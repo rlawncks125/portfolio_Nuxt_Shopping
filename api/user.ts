@@ -2,9 +2,14 @@ import { ApiServer } from "~~/plugins/api-server";
 import {
   AddCompanyInputDto,
   AddCompanyOutPutDto,
+  CoreOutPut,
   CreateShopUserInputDto,
   CreateShopUserOutPut,
   LoginShopUserOutPut,
+  UpdateCompanyInutDto,
+  UpdateCompanyOutPutDto,
+  UpdateShopUserInput,
+  UpdateShopUserOutPut,
 } from "./swagger";
 interface Iauth {
   username: string;
@@ -32,4 +37,33 @@ export const userAddCompany = async (body: AddCompanyInputDto) => {
   return ApiServer.axios
     .post("shop-user/company", body)
     .then((res) => res.data as AddCompanyOutPutDto);
+};
+
+export const userPasswordChekced = async (password: string) => {
+  return ApiServer.axios
+    .get("shop-user/passwordConfirm", {
+      auth: {
+        username: "",
+        password,
+      },
+    })
+    .then((res) => res.data as CoreOutPut);
+};
+
+export const userModify = async (data: UpdateShopUserInput) => {
+  return ApiServer.axios
+    .patch("shop-user", data)
+    .then((res) => res.data as UpdateShopUserOutPut);
+};
+
+export const userGetMyInfo = async () => {
+  return ApiServer.axios
+    .get("shop-user/myinfo")
+    .then((res) => res.data as LoginShopUserOutPut);
+};
+
+export const userSellerModify = async (data: UpdateCompanyInutDto) => {
+  return ApiServer.axios
+    .patch("shop-user/company", data)
+    .then((res) => res.data as UpdateCompanyOutPutDto);
 };
