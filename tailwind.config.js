@@ -14,7 +14,11 @@ module.exports = {
     maxWidth: {
       container: "980px",
     },
-    extend: {},
+    extend: {
+      screens: {
+        mb: "375px",
+      },
+    },
   },
   plugins: [],
 };

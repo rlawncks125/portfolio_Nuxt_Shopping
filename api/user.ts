@@ -62,6 +62,12 @@ export const userGetMyInfo = async () => {
     .then((res) => res.data as LoginShopUserOutPut);
 };
 
+// jsDoc
+/**
+ * 판매자 정보 수정 기능 입니다.
+ * @param data - input data transfer object
+ * @returns
+ */
 export const userSellerModify = async (data: UpdateCompanyInutDto) => {
   return ApiServer.axios
     .patch("shop-user/company", data)

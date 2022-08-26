@@ -1,12 +1,12 @@
 <template>
   <div class="width-container">
     <!-- 홈으로가기  -->
-    <div class="h-[4rem] flex items-center">
+    <div class="h-[4rem] flex items-center gap-[1rem] m-[1rem]">
       <a href="/" class="h-full">
         <img
           class="h-full object-cover"
-          src="http://image.auction.co.kr/hanbando/202110/d337d318-1aeb-4902-abf7-e407d7f0d1a1.png"
-          alt="배너 이미지"
+          src="https://res.cloudinary.com/dhdq4v4ar/image/upload/v1661371113/transparent-bg_-no-shadow-designify_wst7my.png"
+          alt="로고 이미지"
         />
       </a>
       <h1 class="text-[1.8rem] font-bold">회원가입</h1>
@@ -24,7 +24,9 @@
     <!-- 개인 회원 & 판매지 회원 -->
     <section v-show="userStep === 0">
       <h1 class="text-[2rem] text-center">오신것을 환영합니다.</h1>
-      <div class="flex justify-between gap-[3rem] mx-[1rem] mt-[1rem]">
+      <div
+        class="flex flex-col sm:flex-row justify-between gap-[3rem] mx-[1rem] mt-[1rem]"
+      >
         <div
           class="w-full border h-[15rem] cursor-pointer"
           @click="onSelectType(EnumCreateShopUserInputDtoRole.customer)"
@@ -79,7 +81,7 @@
                 <span class="text-gray-400 ml-1">(필수)</span>
               </label>
               <details data-details="Accordion" class="input-details">
-                <summary class="p-[0.2rem]">
+                <summary class="p-[0.2rem] px-[.5rem]">
                   <span>자세히보기</span>
                   <span class="custom-marker">▶</span>
                 </summary>
@@ -104,7 +106,7 @@
                 <span class="text-gray-400 ml-1">(필수)</span>
               </label>
               <details data-details="Accordion" class="input-details">
-                <summary class="p-[0.2rem]">
+                <summary class="p-[0.2rem] px-[.5rem]">
                   <span>자세히보기</span>
                   <span class="custom-marker">▶</span>
                 </summary>
@@ -129,7 +131,7 @@
                 <span class="text-gray-400 ml-1">(필수)</span>
               </label>
               <details data-details="Accordion" class="input-details">
-                <summary class="p-[0.2rem]">
+                <summary class="p-[0.2rem] px-[.5rem]">
                   <span>자세히보기</span>
                   <span class="custom-marker">▶</span>
                 </summary>
@@ -154,7 +156,7 @@
                 <span class="text-gray-400 ml-1">(필수)</span>
               </label>
               <details data-details="Accordion" class="input-details">
-                <summary class="p-[0.2rem]">
+                <summary class="p-[0.2rem] px-[.5rem]">
                   <span>자세히보기</span>
                   <span class="custom-marker">▶</span>
                 </summary>
@@ -181,7 +183,7 @@
                 <span class="text-gray-400 ml-1">(선택)</span>
               </label>
               <details data-details="Accordion" class="input-details">
-                <summary class="p-[0.2rem]">
+                <summary class="p-[0.2rem] px-[.5rem]">
                   <span>자세히보기</span>
                   <span class="custom-marker">▶</span>
                 </summary>
@@ -198,9 +200,9 @@
     <!-- 정보 입력 -->
     <section v-show="userStep === 2">
       <div
-        class="flex gap-5 flex-wrap mt-[2rem] mx-[1rem] font-bold text-[.8rem]"
+        class="flex flex-col sm:flex-row gap-5 flex-wrap mt-[2rem] mx-[1rem] font-bold text-[.8rem]"
       >
-        <p class="text-[1.5rem]">3.정보입력</p>
+        <p class="text-[1.5rem] text-center">3.정보입력</p>
 
         <form
           class="user-form flex-auto flex flex-col gap-[1rem]"
@@ -270,9 +272,12 @@
             {{ useFormErrorLists.tel }}
           </span>
           <!-- 주소 & 우편번호 -->
-          <label for="addr"
-            >주소 <button @click.prevent="findAddr">찾기</button></label
-          >
+          <label for="addr">
+            <span>
+              주소
+            </span>
+            <span class="cursor-pointer" @click.prevent="findAddr">찾기</span>
+          </label>
           <input
             disabled
             type="text"
@@ -429,15 +434,13 @@ const infoForm = reactive({
 
 const findAddr = () => {
   console.log("주소 찾기");
-  // @ts-ignore
-  new daum.Postcode({
-    oncomplete: function(data) {
-      infoForm.addr = data.address;
-      infoForm.postcode = data.zonecode;
 
-      // console.log(data);
-    },
-  }).open();
+  const { $daumAddress } = useNuxtApp();
+
+  $daumAddress((data) => {
+    infoForm.addr = data.address;
+    infoForm.postcode = data.zonecode;
+  });
 };
 
 const onCreateUser = async (e: SubmitEvent) => {

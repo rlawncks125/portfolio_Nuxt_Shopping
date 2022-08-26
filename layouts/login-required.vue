@@ -3,6 +3,7 @@
     <LazyBaseHeader />
     <slot v-if="isToken" />
     <lazy-login-compo v-else />
+    <LazyBaseFooter />
   </div>
 </template>
 

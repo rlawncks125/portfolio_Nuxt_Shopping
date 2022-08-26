@@ -5,14 +5,14 @@
       <!-- 상품정보 헤드 -->
       <section class="width-container mb-[3rem]">
         <div class="block sm:flex px-[1rem]">
-          <div class="w-auto sm:flex-auto">
+          <div class="w-auto sm:w-0 sm:flex-auto">
             <img
-              class="w-full h-full object-contain object-top"
+              class="w-full  object-contain object-top"
               :src="item.thumbnailSrc"
               alt=""
             />
           </div>
-          <div class="p-4 sm:w-[30rem] sm:flex-initial">
+          <div class="p-4 sm:w-[55vw] sm:max-w-[35rem] ">
             <p class="text-[1.5rem]">{{ item.title }}</p>
             <div class="flex items-center gap-1">
               <start-fill :star-size="1" :star-num="5" :fill="avgStar" />
@@ -62,7 +62,8 @@
                 <option disabled value="" class="hidden">추가옵션</option>
                 <template v-for="(option, index) in item.options">
                   <option :value="option.name"
-                    >{{ option.name }} ( {{ option.price }}원 )</option
+                    >{{ option.name }} ( {{ formatToWon(option.price) }}원
+                    )</option
                   >
                 </template>
               </select>
@@ -98,7 +99,7 @@
                         +
                       </button>
                     </div>
-                    <p>{{ option.price * option.count }}</p>
+                    <p>{{ formatToWon(option.price * option.count) }}원</p>
                   </div>
                 </div>
               </template>

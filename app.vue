@@ -1,10 +1,16 @@
 <template>
   <NuxtLayout>
+    <LazyLoadingBar :size="3" :is-show="loadingStatus" class="text-[2rem]" />
     <NuxtPage :key="$route.fullPath" />
   </NuxtLayout>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { storeToRefs } from "pinia";
+import { useLoading } from "./sotre/loading";
+
+const { loadingStatus } = storeToRefs(useLoading());
+
 useHead({
   titleTemplate: (titleChunk) => {
     const baseTitle = "쇼핑몰포트폴리오";
@@ -44,10 +50,6 @@ useHead({
 
 <style>
 html {
-  @apply text-[10px] md:text-[14px];
-}
-
-input {
-  @apply border;
+  @apply text-[12px] md:text-[16px];
 }
 </style>

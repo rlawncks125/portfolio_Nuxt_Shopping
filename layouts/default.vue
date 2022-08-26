@@ -2,6 +2,7 @@
   <div>
     <LazyBaseHeader />
     <slot />
+    <LazyBaseFooter />
   </div>
 </template>
 

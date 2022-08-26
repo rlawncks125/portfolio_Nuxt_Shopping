@@ -3,7 +3,7 @@
     개인 정보 수정
     <div v-if="passowrdCheck">
       <p>개인 정보 수정 폼</p>
-      <div>
+      <div class="form-style" @submit.prevent="onChange">
         <div>
           <label for="nickName">nickName</label>
           <input
@@ -45,7 +45,13 @@
           />
         </div>
         <div>
-          <label for="addr">addr</label>
+          <label for="addr">
+            <span>
+              addr
+            </span>
+
+            <button @click="findAddr">찾기</button>
+          </label>
           <input
             class="input-example-0"
             type="text"
@@ -54,7 +60,7 @@
             v-model="input.addr"
           />
         </div>
-        <button @click="onChange">수정하기</button>
+        <button @click.prevent="onChange">수정하기</button>
       </div>
     </div>
     <div v-else>
@@ -81,9 +87,32 @@ const onChange = async () => {
     alert("수정 되었습니다.");
   }
 };
+
+const findAddr = () => {
+  const { $daumAddress } = useNuxtApp();
+  $daumAddress(({ address, zonecode }) => {
+    input.value.addr = address;
+    console.log(address, zonecode);
+  });
+};
 onMounted(() => {
   passowrdCheck.value = null;
 });
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.form-style {
+  @apply max-w-[25rem] mx-auto border-t border-t-gray-100  bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4;
+}
+
+label {
+  @apply block text-gray-700 text-sm font-bold mb-2;
+}
+input {
+  @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight outline-red-400;
+}
+
+button {
+  @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2;
+}
+</style>

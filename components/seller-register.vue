@@ -1,9 +1,9 @@
 <template>
-  <div class="text-[1.6rem]">
+  <div>
     <p>판매자 등록하기</p>
-    <div class="w-[40rem] p-4 mx-auto border flex flex-col  gap-4">
-      <div class="flex justify-start">
-        <label for="represent">대표자 명의 :</label>
+    <div class="form-style">
+      <div>
+        <label for="represent">대표자 명의 </label>
         <input
           type="text"
           name=""
@@ -11,22 +11,22 @@
           v-model="inputDto.represent"
         />
       </div>
-      <div class="flex justify-start">
-        <label for="phone">연락처 :</label>
+      <div>
+        <label for="phone">연락처 </label>
         <input type="text" name="" id="phone" v-model="inputDto.phone" />
       </div>
       <p class="text-red-500" v-if="validationErrorLists.phone">
         {{ validationErrorLists.phone }}
       </p>
-      <div class="flex justify-start">
-        <label for="email">이메일 주소 :</label>
+      <div>
+        <label for="email">이메일 주소 </label>
         <input type="text" name="" id="email" v-model="inputDto.eMail" />
       </div>
       <p class="text-red-500" v-if="validationErrorLists.eMail">
         {{ validationErrorLists.eMail }}
       </p>
-      <div class="flex justify-start">
-        <label for="companName">회사명 :</label>
+      <div>
+        <label for="companName">회사명 </label>
         <input
           type="text"
           name=""
@@ -34,8 +34,13 @@
           v-model="inputDto.companyName"
         />
       </div>
-      <div class="flex justify-start">
-        <label for="companAddress">회사주소 :</label>
+      <div>
+        <label for="companAddress">
+          <span>
+            회사주소
+          </span>
+          <button @click="findAddr">찾기</button>
+        </label>
         <input
           type="text"
           name=""
@@ -120,6 +125,29 @@ const onAddCompany = async () => {
 
   console.log(inputDto, isBinStringChecked, isErrorChecked);
 };
+
+const findAddr = () => {
+  const { $daumAddress } = useNuxtApp();
+  $daumAddress(({ address, zonecode }) => {
+    inputDto.companyAddress = address;
+    console.log(address, zonecode);
+  });
+};
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.form-style {
+  @apply max-w-[25rem] mx-auto border-t border-t-gray-100  bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4;
+}
+
+label {
+  @apply block text-gray-700 text-sm font-bold mb-2;
+}
+input {
+  @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight outline-red-400;
+}
+
+button {
+  @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2;
+}
+</style>

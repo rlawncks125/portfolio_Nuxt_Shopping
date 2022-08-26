@@ -3,37 +3,39 @@
     <p>
       패스워드 변경
     </p>
-    <div>
-      <label for="password-0">현재 비밀번호</label>
-      <input
-        class="input-example-0"
-        type="password"
-        name=""
-        id="password-0"
-        v-model="input.checkPassword"
-      />
-    </div>
-    <div>
-      <label for="password-1">변경 비밀번호</label>
-      <input
-        class="input-example-0"
-        type="password"
-        name=""
-        id="password-1"
-        v-model="input.password1"
-      />
-    </div>
-    <div>
-      <label for="password-2">변경 비밀번호 재확인</label>
-      <input
-        class="input-example-0"
-        type="password"
-        name=""
-        id="password-2"
-        v-model="input.password2"
-      />
-    </div>
-    <button @click="onChange">변경</button>
+    <form @submit.prevent="onChange">
+      <div>
+        <label for="password-0">현재 비밀번호</label>
+        <input
+          class="input-example-0"
+          type="password"
+          name=""
+          id="password-0"
+          v-model="input.checkPassword"
+        />
+      </div>
+      <div>
+        <label for="password-1">변경 비밀번호</label>
+        <input
+          class="input-example-0"
+          type="password"
+          name=""
+          id="password-1"
+          v-model="input.password1"
+        />
+      </div>
+      <div>
+        <label for="password-2">변경 비밀번호 재확인</label>
+        <input
+          class="input-example-0"
+          type="password"
+          name=""
+          id="password-2"
+          v-model="input.password2"
+        />
+      </div>
+      <button>변경</button>
+    </form>
   </div>
 </template>
 
@@ -72,4 +74,19 @@ const onChange = async () => {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+form {
+  @apply max-w-[25rem] mx-auto border-t border-t-gray-100 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4;
+}
+
+label {
+  @apply block text-gray-700 text-sm font-bold mb-2;
+}
+input {
+  @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight outline-red-400;
+}
+
+button {
+  @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2;
+}
+</style>

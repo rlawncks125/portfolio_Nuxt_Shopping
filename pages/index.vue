@@ -2,37 +2,22 @@
   <div>
     <LoadingBar :size="2" :is-show="false"></LoadingBar>
 
-    <!-- 카테고리 & 배너 -->
+    <!-- 배너 -->
     <section
       id="category"
       class="border-t-2 border-black font-bold text-[0.76rem]"
     >
       <div class="width-container relative flex">
-        <!-- 왼쪽 카테고리 -->
-        <div class="w-[10rem] hidden md:block">
-          <ul class="category-warp flex flex-col gap-2 bg-black text-white">
-            <li>브랜드 패션</li>
-            <li>의류</li>
-            <li>뷰티 잡화</li>
-            <li>식품 마트 유아</li>
-            <li>가구 생활 건강 렌탈</li>
-            <li>디지털 가전 컴퓨터</li>
-            <li>스포츠 레저 자동차</li>
-            <li>도서 티켓 여행 e쿠폰</li>
-            <li class="flex justify-between h-[2.6rem] !p-0">
-              <div class="img-biz-plus w-[50%] cursor-pointer"></div>
-              <div class="img-pet-plus w-[50%] cursor-pointer"></div>
-            </li>
-          </ul>
-        </div>
-
         <!-- 배너( 스와이프 ) -->
         <div ref="swiper" class="swiper flex-auto w-0">
           <!-- Additional required wrapper -->
           <div class="swiper-wrapper">
             <!-- Slides -->
             <div v-for="item in swiperItems" class="swiper-slide">
-              <img class="h-full" :src="item.src" alt="" />
+              <picture>
+                <source media="(min-width : 640px)" :srcset="item.src" />
+                <img class="w-full h-full" :src="item.mbSrc" alt="" />
+              </picture>
             </div>
           </div>
 
@@ -42,6 +27,11 @@
 
           <!-- pagination -->
           <div
+            class="banner-pagination text-center absolute z-[10]  bottom-[1rem] left-[1rem] border p-[.5rem] px-[1.5rem] rounded-full bg-white"
+          >
+            <span>{{ bannerActiveIndex }} / {{ swiperItems.length }}</span>
+          </div>
+          <!-- <div
             class="hidden sm:flex justify-between text-center h-[2.5rem] absolute z-[10] banner-pagination bottom-[1rem] left-0 right-0  border py-2 mx-6 bg-white"
           >
             <div
@@ -54,25 +44,19 @@
               <p class="three-dot">
                 {{ item.promotionName }}
               </p>
-              <div class="absolute bottom-[1.7rem] left-0 border w-full">
-                <p>팝업</p>
-              </div>
             </div>
-
-            <div class="three-dot">제휴 이벤트</div>
-            <div class="three-dot">추천 이벤트</div>
-          </div>
+          </div> -->
         </div>
 
         <!-- 왼쪽 광고 -->
         <div
-          class="hidden md:block absolute top-0 w-[8rem] left-[-8.5rem] border"
+          class="hidden lg:block absolute top-0 w-[8rem] left-[-8.5rem] border"
         >
           <p>왼쪽광고</p>
         </div>
         <!-- 오른쪽 광고 -->
         <div
-          class="hidden md:block absolute top-0 w-[8rem] right-[-8.5rem] border"
+          class="hidden lg:block absolute top-0 w-[8rem] right-[-8.5rem] border"
         >
           <p>오른쪽 광고</p>
         </div>
@@ -92,7 +76,7 @@
           @click="() => useRouter().push(`/item/${item.id}`)"
           :key="index"
         >
-          <img class="w-full" :src="item.thumbnailSrc" alt="" />
+          <img class="w-full h-[60%]" :src="item.thumbnailSrc" alt="" />
           <div class="p-4">
             <p>{{ item.title }}</p>
             <div class="flex gap-2 items-center">
@@ -127,7 +111,7 @@ export default defineComponent({
     // const swiperRef = ref();
     const { $setSwiper } = useNuxtApp();
     let swiperControl: Swiper;
-    const bannerActiveIndex = ref(0);
+    const bannerActiveIndex = ref(1);
 
     const swiper = reactive({
       swiper: null,
@@ -136,29 +120,29 @@ export default defineComponent({
     });
     const swiperItems = [
       {
-        promotionName: "스페셜 이벤트",
         src:
-          "https://ad-img.ebaykorea.com/ADS/Contents_/2022_07_15_11_40_44/d7d179fa6c3c47d3.JPG",
+          "https://www.museum.go.kr/uploadfile/ecms/visual/650242.jpg?_=1661443337446",
+
+        mbSrc:
+          "https://www.museum.go.kr/uploadfile/ecms/visual/650242_m.jpg?_=1661443337446",
       },
       {
-        promotionName: "유튜브 프리미엄",
         src:
-          "https://ad-img.ebaykorea.com/ADS/Contents_/2022_07_15_11_42_00/c8bd0aadd1b74f72.JPG",
+          "https://www.museum.go.kr/uploadfile/ecms/visual/773161.jpg?_=166144333744",
+        mbSrc:
+          "https://www.museum.go.kr/uploadfile/ecms/visual/773161_m.jpg?_=1661443337447",
       },
       {
-        promotionName: "방구석 마트",
         src:
-          "https://ad-img.ebaykorea.com/ADS/Contents_/2022_07_15_11_55_12/6b6b1b2885b149af.JPG",
+          "https://www.museum.go.kr/uploadfile/ecms/visual/650047.jpg?_=1661443337447",
+        mbSrc:
+          "https://www.museum.go.kr/uploadfile/ecms/visual/650047_m.jpg?_=1661443337447",
       },
       {
-        promotionName: "생필품워크",
         src:
-          "https://ad-img.ebaykorea.com/ADS/Contents_/2022_07_15_03_56_07/02e8c0e4d5404977.JPG",
-      },
-      {
-        promotionName: "그랜드 세일",
-        src:
-          "https://ad-img.ebaykorea.com/ADS/Contents_/2022_07_14_11_43_58/1e5c00efa7e446ca.JPG",
+          "https://www.museum.go.kr/uploadfile/ecms/visual/826493.png?_=1661443337447",
+        mbSrc:
+          "https://www.museum.go.kr/uploadfile/ecms/visual/826493_m.png?_=1661443337447",
       },
     ];
 
@@ -176,14 +160,14 @@ export default defineComponent({
       });
 
       swiperControl.on("slideChange", () => {
-        bannerActiveIndex.value = swiperControl.realIndex;
+        bannerActiveIndex.value = swiperControl.realIndex + 1;
       });
 
       const item5 = getItemById(5);
       const item7 = getItemById(7);
-      const itemAdd = getItemById(5);
+      const itemAdd = [getItemById(19), getItemById(20)];
 
-      await Promise.all([item5, item7, itemAdd]).then((values) => {
+      await Promise.all([item5, item7, ...itemAdd]).then((values) => {
         values.forEach((v) => {
           if (v.ok) {
             productItems.value.push(v.item);

@@ -1,7 +1,8 @@
 <template>
   <div class="text-[1.4rem]">
     <div>Login 컴포넌트</div>
-    <div
+    <form
+      @submit.prevent="clickedLogin"
       class="border flex flex-col max-w-[30rem] gap-[1rem] mx-auto mt-[4rem] p-4"
     >
       <div class="flex flex-wrap px-2 gap-2">
@@ -27,7 +28,6 @@
         :class="
           isRobotCheked ? 'bg-blue-400  hover:bg-blue-500' : 'bg-gray-100'
         "
-        @click="clickedLogin"
         :disabled="!isRobotCheked"
       >
         로그인
@@ -35,7 +35,7 @@
       <div class="flex justify-center">
         <ReCAPTCHA @success="(e) => (isRobotCheked = e)" />
       </div>
-    </div>
+    </form>
   </div>
 </template>
 
@@ -82,6 +82,10 @@ const clickedLogin = async () => {
     useRouter().push("/");
   }
 };
+
+onMounted(() => {
+  isRobotCheked.value = false;
+});
 </script>
 
 <style></style>

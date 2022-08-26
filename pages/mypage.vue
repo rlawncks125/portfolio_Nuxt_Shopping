@@ -1,28 +1,44 @@
 <template>
-  <div class="flex gap-2">
-    <div class="w-[15rem]">
-      <ul class="list-warp border text-[1.6rem] ">
-        <li>
-          <NuxtLink to="/mypage">주문 내역</NuxtLink>
-        </li>
-        <li>
-          <NuxtLink to="/mypage/infomationModify">개인 정보 수정</NuxtLink>
-        </li>
-        <li>
-          <NuxtLink to="/mypage/passwordModify">비밀번호 변경</NuxtLink>
-        </li>
-        <li v-if="userInfo && userInfo.role === EnumUserInfoRole.company">
-          <NuxtLink to="/mypage/sellerRegist">판매자 등록</NuxtLink>
-        </li>
-        <li v-if="userInfo && userInfo.role === EnumUserInfoRole.company">
-          <NuxtLink to="/mypage/sellerModify">판매자 정보 수정</NuxtLink>
-        </li>
-        <li>
-          <NuxtLink to="/mypage/withdraw">회원 탈퇴</NuxtLink>
-        </li>
-      </ul>
+  <div class="flex flex-col md:flex-row gap-2">
+    <div class="border-b border-t md:border-none ">
+      <label
+        for="list-checked"
+        class="block md:hidden py-3 px-2 cursor-pointer"
+      >
+        <LazyFaIcon v-show="isChecked" icon="angle-up" size="2x" />
+        <LazyFaIcon v-show="!isChecked" icon="angle-down" size="2x" />
+      </label>
+      <div class="w-full md:w-[15rem]">
+        <input
+          class="hidden"
+          type="checkbox"
+          id="list-checked"
+          v-model="isChecked"
+        />
+        <ul class="list-warp px-2 md:border text-[1.6rem]">
+          <li>
+            <NuxtLink to="/mypage">주문 내역</NuxtLink>
+          </li>
+          <li>
+            <NuxtLink to="/mypage/infomationModify">개인 정보 수정</NuxtLink>
+          </li>
+          <li>
+            <NuxtLink to="/mypage/passwordModify">비밀번호 변경</NuxtLink>
+          </li>
+          <li v-if="userInfo && userInfo.role === EnumUserInfoRole.company">
+            <NuxtLink to="/mypage/sellerRegist">판매자 등록</NuxtLink>
+          </li>
+          <li v-if="userInfo && userInfo.role === EnumUserInfoRole.company">
+            <NuxtLink to="/mypage/sellerModify">판매자 정보 수정</NuxtLink>
+          </li>
+          <li>
+            <NuxtLink to="/mypage/withdraw">회원 탈퇴</NuxtLink>
+          </li>
+        </ul>
+      </div>
     </div>
-    <div class="flex-auto">
+
+    <div class="flex-auto min-h-[50vh]">
       <NuxtPage />
     </div>
   </div>
@@ -35,6 +51,25 @@ import { useUser } from "~~/sotre/user";
 
 const { userInfo } = storeToRefs(useUser());
 
+const isChecked = ref(true);
+
+const resizeObs = () => {
+  if (window.innerWidth >= 768) {
+    isChecked.value = true;
+  }
+};
+
+onMounted(() => {
+  if (window.innerWidth < 768) {
+    isChecked.value = false;
+  }
+
+  window.addEventListener("resize", resizeObs);
+});
+onUnmounted(() => {
+  window.removeEventListener("resize", resizeObs);
+});
+
 definePageMeta({
   layout: "login-required",
 });
@@ -42,8 +77,20 @@ definePageMeta({
 
 <style scoped lang="scss">
 .list-warp {
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 0.3s;
+  li {
+    @apply py-[1rem];
+  }
   li ~ li {
-    border-top: 1px solid black;
+    @apply border-t border-gray-400;
+  }
+}
+
+#list-checked:checked {
+  & ~ .list-warp {
+    max-height: 30rem;
   }
 }
 </style>

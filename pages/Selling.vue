@@ -3,7 +3,7 @@
     <h1>
       아이템 판매하기
     </h1>
-    <button @click="$router.push('/')">go Home</button>
+
     <!-- 판매자 등록 -->
     <section v-if="!sellerInfo">
       <SellerRegister />
@@ -11,10 +11,11 @@
     <!-- 아이템 등록 -->
     <section v-else class="text-[1.6rem]">
       <!-- <button @click="isRegistered = true">변경사항 저장 하기</button> -->
-      <div>
+      <div class="form-stlye">
         <div>
-          <label for="input-title">제목 : </label>
+          <label for="input-title">제목 </label>
           <input
+            class="input-base"
             type="text"
             name=""
             id="input-title"
@@ -22,8 +23,9 @@
           />
         </div>
         <div>
-          <label for="input-price">가격 : </label>
+          <label for="input-price">가격 </label>
           <input
+            class="input-base"
             type="number"
             name=""
             id="input-price"
@@ -31,8 +33,9 @@
           />
         </div>
         <div>
-          <label for="input-parcel">배송비 : </label>
+          <label for="input-parcel">배송비 </label>
           <input
+            class="input-base"
             type="number"
             name=""
             id="input-parcel"
@@ -40,18 +43,21 @@
           />
         </div>
         <div>
-          <label for="input-free-parcel">IF 무료 배송비 조건 : </label>
+          <label for="input-free-parcel"
+            >IF 무료 배송비 조건 <span> (금액 이상)</span>
+          </label>
           <input
+            class="input-base"
             type="number"
             name=""
             id="input-free-parcel"
             v-model="inputData.freeParcel"
           />
-          <span>이상</span>
         </div>
         <div>
-          <label for="input-origin">원산지 : </label>
+          <label for="input-origin">원산지 </label>
           <input
+            class="input-base"
             type="text"
             name=""
             id="input-origin"
@@ -60,76 +66,72 @@
         </div>
 
         <!-- 썸네임 -->
-        <div class="flex gap-2 h-[10rem]">
-          <div>
-            <label for="input-thumbnail">썸네일 추가</label>
-            <input
-              @change.prevent="onChangeThumbnail"
-              class="w-0 h-0 border-0"
-              type="file"
-              name=""
-              id="input-thumbnail"
-            />
-          </div>
-          <!-- 이미지 랜더 -->
-          <div class=" border ml-2">
-            <img
-              v-if="thumbnailFile.data"
-              class="h-full"
-              :src="thumbnailFile.data"
-              alt=""
-            />
-            <div v-else>이미지 중비중입니다 img 주소...</div>
-          </div>
+        <div>
+          <p>썸네일</p>
+          <FileUpload
+            ref="fileUploadRef"
+            class="w-[15rem] h-[12rem] sm:w-[20rem] sm:h-[16rem] mb-[4rem]"
+          />
         </div>
-      </div>
 
-      <p>옵션 추가</p>
-      <div>
-        <div class="flex gap-2 text-center">
-          <div class="flex flex-col">
-            <label for="option-name">옵션 명</label>
-            <input
-              type="text"
-              name=""
-              id="option-name"
-              v-model="inputData.optionName"
-            />
-          </div>
-          <div>
-            <div class="flex flex-col">
-              <label for="option-price">가격</label>
-              <input
-                type="number"
-                name=""
-                id="option-price"
-                v-model="inputData.optionPrice"
-              />
+        <!-- 옵션 추가 -->
+        <p>옵션 추가</p>
+        <div>
+          <form
+            @submit.prevent="onAddOption"
+            class="flex flex-col mb:flex-row gap-2 text-center"
+          >
+            <div class="flex flex-col mb:flex-row gap-2">
+              <div class="flex flex-col">
+                <label for="option-name">옵션 명</label>
+                <input
+                  class="input-base"
+                  type="text"
+                  name=""
+                  id="option-name"
+                  v-model="inputData.optionName"
+                />
+              </div>
+              <div>
+                <div class="flex flex-col">
+                  <label for="option-price">가격</label>
+                  <input
+                    class="input-base"
+                    type="number"
+                    name=""
+                    id="option-price"
+                    v-model="inputData.optionPrice"
+                  />
+                </div>
+              </div>
+            </div>
+            <button class="mb:self-end flex-none !p-[.4rem]">
+              옵션 추가
+            </button>
+          </form>
+          <!-- 추가 옵션 랜더 -->
+          <div v-if="options && options.length > 0">
+            <div v-for="(option, index) in options">
+              <span>{{ option.name }} - {{ formatToWon(option.price) }}</span>
+              <button
+                @click="
+                  () => {
+                    options = options.filter((v, findex) => findex !== index);
+                  }
+                "
+                class="ml-2 bg-slate-500 px-3 rounded-full"
+              >
+                X
+              </button>
             </div>
           </div>
-          <button class="self-end" @click="onAddOption">옵션 추가</button>
-        </div>
-        <div v-if="options && options.length > 0">
-          <div v-for="(option, index) in options">
-            <span>{{ option.name }} - {{ option.price }}</span>
-            <button
-              @click="
-                () => {
-                  options = options.filter((v, findex) => findex !== index);
-                }
-              "
-              class="ml-2 bg-slate-500 px-3 rounded-full"
-            >
-              X
-            </button>
-          </div>
         </div>
       </div>
-
       <div class="px-6 mt-4">
         <ToastUi ref="toastUiRef" />
       </div>
-      <button @click="onAddItem" class="block text-[2rem]">
+
+      <button @click="onAddItem" class="block text-[2rem] mx-6 !bg-green-500">
         판매 등록하기
       </button>
     </section>
@@ -148,7 +150,9 @@ import { EnumUserInfoRole } from "~~/api/swagger";
 import { AddShopItemInputDto } from "~~/api/swagger";
 import { addShopItem } from "@/api/item";
 
-import { getImageURLByFormData } from "@/api/file";
+import { formatToWon } from "@/common/format";
+import FileUpload from "~~/components/file-upload.vue";
+import { useLoading } from "~~/sotre/loading";
 
 definePageMeta({
   layout: "login-required",
@@ -156,9 +160,13 @@ definePageMeta({
 
 export default defineComponent({
   setup() {
-    const toastUiRef = useState<InstanceType<typeof ToastUi>>("toastUiRef");
-    const isRegistered = ref<boolean>(false);
     const { sellerInfo, userInfo } = storeToRefs(useUser());
+    const toastUiRef = useState<InstanceType<typeof ToastUi>>("toastUiRef");
+    const fileUploadRef = useState<InstanceType<typeof FileUpload>>(
+      "fileUploadRef"
+    );
+
+    const isRegistered = ref<boolean>(false);
 
     const inputData = reactive({
       title: "",
@@ -170,75 +178,35 @@ export default defineComponent({
       optionPrice: 0,
     });
 
-    const thumbnailFile = ref<{ file: File; data: any }>({
+    const thumbnailFile = ref<{
+      file: File;
+      data: any;
+    }>({
       file: null,
       data: null,
     });
-
     const options = ref<
       {
         name: string;
         price: number;
       }[]
     >([]);
+    const onAddOption = (e) => {
+      const formEl = e.target as HTMLElement;
+      const optionName = formEl.querySelector("input");
 
-    const onAddOption = () => {
       if (inputData.optionName === "" || inputData.optionPrice === 0) return;
-
       options.value.push({
         name: inputData.optionName,
         price: +inputData.optionPrice,
       });
-
       inputData.optionName = "";
       inputData.optionPrice = 0;
+      optionName.focus();
     };
-
-    const onChangeThumbnail = (e: any) => {
-      const file = (e.target as HTMLInputElement).files[0];
-
-      if (file.type.split("/")[0] !== "image") return;
-
-      thumbnailFile.value.file = file;
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (reader.result) {
-          thumbnailFile.value.data = reader.result;
-        }
-      };
-      reader.readAsDataURL(file);
-    };
-
     const onAddItem = async () => {
-      // const inputDto = {
-      //   title: "[10%+12%]패션라인신상원피스/팬츠",
-      //   price: 43000,
-      //   sale: 70,
-      //   thumbnailSrc:
-      //     "http://image.iacstatic.co.kr/allkill/item/2022/07/20220720100107421r.jpg",
-      //   detailHtml: toastUiRef.value.getHTML(),
-      //   options: [
-      //     {
-      //       name: "옵션1",
-      //       price: 2000,
-      //     },
-      //     {
-      //       name: "옵션2",
-      //       price: 3000,
-      //     },
-      //     {
-      //       name: "옵션3",
-      //       price: 4000,
-      //     },
-      //   ],
-      //   parcel: 2500,
-      //   freeParcel: 40000,
-      //   origin: "상세페이지 참조",
-      // } as AddShopItemInputDto;
-
-      const thumbnailSrc = await getImageURLByFormData(
-        thumbnailFile.value.file
-      );
+      useLoading().on();
+      const thumbnailSrc = await fileUploadRef.value.onUpload();
 
       const inputDto = {
         title: inputData.title,
@@ -251,19 +219,16 @@ export default defineComponent({
         origin: inputData.origin,
         parcel: +inputData.parcel,
       } as AddShopItemInputDto;
-
       const { ok, item, err } = await addShopItem(inputDto);
-
       if (!ok) {
         alert(err);
         return;
       }
-
+      useLoading().off();
       alert("아이템이 등록되었습니다.");
       isRegistered.value = true;
       useRouter().push("/");
     };
-
     onMounted(() => {
       // 판매자가 아닐시 홈페이지로 리다렉트
       if (userInfo.value.role !== EnumUserInfoRole.company) {
@@ -300,17 +265,34 @@ export default defineComponent({
     });
     return {
       toastUiRef,
+      fileUploadRef,
       isRegistered,
       sellerInfo,
       onAddItem,
       inputData,
       options,
-      onChangeThumbnail,
+      // onChangeThumbnail,
       thumbnailFile,
       onAddOption,
+      formatToWon,
     };
   },
 });
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.form-stlye {
+  @apply mx-auto bg-white rounded px-8 pt-6 pb-8 mb-4;
+}
+
+label {
+  @apply block text-gray-700 text-sm font-bold mb-2;
+}
+.input-base {
+  @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight outline-red-400;
+}
+
+button {
+  @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2;
+}
+</style>

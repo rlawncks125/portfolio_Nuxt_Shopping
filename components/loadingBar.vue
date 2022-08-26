@@ -1,7 +1,7 @@
 <template>
-  <div v-show="$props.isShow">
+  <div v-show="$props.isShow" class="z-[1000] ">
     <div
-      class="absolute z-[10001] inset-0 bg-slate-500 bg-opacity-50 flex items-center justify-center"
+      class="fixed z-[10001] inset-0 bg-slate-500 bg-opacity-50 flex items-center justify-center"
     >
       <div class="bg-blue-400 rounded-md text-white p-4">
         <slot />
@@ -39,11 +39,11 @@ const progressLine = useState<HTMLElement>("progressLine");
 onMounted(() => {
   new ProgressBar.Circle(progressBody.value, {
     strokeWidth: 6,
-    color: "rgb(226 237 255 / 50%)",
+    color: "rgb(226 237 255 / 70%)",
   }).set(1);
   new ProgressBar.Circle(progressLine.value, {
     strokeWidth: 6,
-    color: "rgb(255 170 16 / 50%)",
+    color: "rgb(255 170 16 / 70%)",
   }).set(0.25);
 });
 </script>

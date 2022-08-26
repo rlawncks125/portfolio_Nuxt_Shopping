@@ -1,7 +1,8 @@
 <template>
   <div class="w-full ">
     <form
-      class="max-w-[25rem] mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+      @submit.prevent="onChecked"
+      class="max-w-[25rem] border-t border-t-gray-100 mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
     >
       <div class="mb-4">
         <label
@@ -18,12 +19,9 @@
           v-model="password"
         />
       </div>
-
       <div class="flex items-center justify-between">
         <button
           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          type="button"
-          @click.prevent="onChecked"
         >
           확인
         </button>
@@ -35,7 +33,9 @@
 <script setup lang="ts">
 import { userPasswordChekced } from "@/api/user";
 
-const emit = defineEmits(["checked"]);
+const emit = defineEmits<{
+  (e: "checked", isBoolean: boolean): void;
+}>();
 const password = useState("checkedPassword", () => null);
 
 const onChecked = async () => {
