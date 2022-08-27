@@ -3,6 +3,7 @@ import {
   ShopItem,
   AddShopItemInputDto,
   AddShopItemsOutPutDto,
+  SearchItemsOutPutDto,
 } from "./swagger";
 
 export const getItemById = async (id: number) => {
@@ -15,6 +16,23 @@ export const addShopItem = async (input: AddShopItemInputDto) => {
   return ApiServer.axios
     .post("shop-item", input)
     .then((res) => res.data as AddShopItemsOutPutDto);
+};
+
+interface searchQuery {
+  title?: string;
+  take?: number;
+  createTimeOrder?: "ASC" | "DESC";
+}
+export const searchItems = async ({
+  title = "",
+  take = 10,
+  createTimeOrder = "ASC",
+}: searchQuery) => {
+  return ApiServer.axios
+    .get(
+      `shop-item/search?title=${title}&take=${take}&createTimeOrder=${createTimeOrder}`
+    )
+    .then((res) => res.data as SearchItemsOutPutDto);
 };
 
 // interface ShopUser {

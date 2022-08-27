@@ -65,7 +65,7 @@
 
     <!-- 추천 상품 1-->
     <section id="recommend1" class="width-container">
-      <div>ㅁㄴㅇㅁㅇ</div>
+      <h2 class="text-center text-[3rem] my-[1rem]">추천 아이템</h2>
     </section>
     <!-- 추천 상품 2-->
     <section id="recommend2" class="width-container">
@@ -76,23 +76,7 @@
           @click="() => useRouter().push(`/item/${item.id}`)"
           :key="index"
         >
-          <img class="w-full h-[60%]" :src="item.thumbnailSrc" alt="" />
-          <div class="p-4">
-            <p>{{ item.title }}</p>
-            <div class="flex gap-2 items-center">
-              <span class="text-red-500">{{ item.sale }}%</span>
-              <p>
-                <span class="font-bold">
-                  {{
-                    formatToWon(+item.price * ((100 - item.sale) / 100) + "")
-                  }}</span
-                ><span class="text-[0.9rem]">원</span>
-              </p>
-              <p class="text-gray-400 text-[0.8rem]">
-                <del> {{ formatToWon(item.price) }}<span>원</span> </del>
-              </p>
-            </div>
-          </div>
+          <DesignItemDesign :item="item" />
         </div>
       </div>
     </section>
@@ -103,7 +87,7 @@
 import Swiper, { Navigation } from "swiper";
 import { defineComponent } from "vue";
 import { formatToWon } from "@/common/format";
-import { getItemById } from "~~/api/item";
+import { getItemById, searchItems } from "~~/api/item";
 import { ShopItem } from "~~/api/swagger";
 
 export default defineComponent({
@@ -112,7 +96,6 @@ export default defineComponent({
     const { $setSwiper } = useNuxtApp();
     let swiperControl: Swiper;
     const bannerActiveIndex = ref(1);
-
     const swiper = reactive({
       swiper: null,
       nextEl: null,
@@ -122,7 +105,6 @@ export default defineComponent({
       {
         src:
           "https://www.museum.go.kr/uploadfile/ecms/visual/650242.jpg?_=1661443337446",
-
         mbSrc:
           "https://www.museum.go.kr/uploadfile/ecms/visual/650242_m.jpg?_=1661443337446",
       },
@@ -145,41 +127,32 @@ export default defineComponent({
           "https://www.museum.go.kr/uploadfile/ecms/visual/826493_m.png?_=1661443337447",
       },
     ];
-
     const productItems = ref<ShopItem[]>([]);
     onMounted(async () => {
       swiperControl = $setSwiper(swiper.swiper, {
         loop: true,
         allowTouchMove: false,
-
         navigation: {
           nextEl: swiper.nextEl,
           prevEl: swiper.prevEl,
         },
         modules: [Navigation],
       });
-
       swiperControl.on("slideChange", () => {
         bannerActiveIndex.value = swiperControl.realIndex + 1;
       });
 
-      const item5 = getItemById(5);
-      const item7 = getItemById(7);
-      const itemAdd = [getItemById(19), getItemById(20)];
+      // 아이템 불러오기
 
-      await Promise.all([item5, item7, ...itemAdd]).then((values) => {
-        values.forEach((v) => {
-          if (v.ok) {
-            productItems.value.push(v.item);
-          }
-        });
-      });
+      const { ok, items } = await searchItems({});
+
+      if (ok) {
+        productItems.value = items;
+      }
     });
-
     const moveSlideByIndex = (index: number) => {
       swiperControl.slideTo(index + 1, 1000);
     };
-
     return {
       ...toRefs(swiper),
       bannerActiveIndex,

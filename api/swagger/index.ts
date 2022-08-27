@@ -667,11 +667,9 @@ export class ShopUserService {
     return new Promise((resolve, reject) => {
       let url = basePath + '/shop-user/myinfo';
 
-      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
 
-      let data = null;
-
-      configs.data = data;
+      /** 适配ios13，get请求不允许带body */
 
       axios(configs, resolve, reject);
     });
@@ -845,6 +843,31 @@ export class ShopitemService {
       let data = null;
 
       configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   * 아이템 검색
+   */
+  static shopItemControllerSearchItems(
+    params: {
+      /** title */
+      title: string;
+      /** 가져올 객수 */
+      take: number;
+      /** 최신 등록순서 */
+      createTimeOrder: string;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<SearchItemsOutPutDto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/shop-item/search';
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+      configs.params = { title: params['title'], take: params['take'], createTimeOrder: params['createTimeOrder'] };
+
+      /** 适配ios13，get请求不允许带body */
 
       axios(configs, resolve, reject);
     });
@@ -2003,6 +2026,17 @@ export interface UpdateItemOutPut {
 
   /** 아이템 */
   item: CombinedItemTypes;
+}
+
+export interface SearchItemsOutPutDto {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
+
+  /** 검색 아이템 */
+  items: ShopItem[];
 }
 
 export interface SellitemsOutPutDto {

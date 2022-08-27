@@ -163,7 +163,7 @@
         </div>
         <!-- 네비 -->
         <div
-          class="flex gap-[1rem] justify-center text-[1.2rem] py-[1rem] border-b text-center"
+          class="flex gap-[1rem] justify-center text-[1.2rem] py-[1rem] border-b text-center flex-wrap"
         >
           <NuxtLink to="/basket" @click="isToggle = false">
             <LazyFaIcon
