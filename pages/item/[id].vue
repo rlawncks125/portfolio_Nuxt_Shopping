@@ -334,6 +334,7 @@ import {
   ShopItem,
   BaksetItemSelectedOptions,
 } from "~~/api/swagger";
+import { useBasketItems } from "~~/sotre/basket";
 
 export default defineComponent({
   setup() {
@@ -400,16 +401,16 @@ export default defineComponent({
     const onAddBasketItem = () => {
       const basketItem: BasketItem = {
         itemId: item.value.id,
-        title: item.value.title,
-        thumbnailSrc: item.value.thumbnailSrc,
-        parcel: item.value.parcel,
-        sale: item.value.sale,
-        price: item.value.price,
-        freeParcel: item.value.freeParcel,
         selectedOptions: itemOptions.value,
-        optionPriceSum: optionPriceSum.value,
       };
-      console.log(basketItem);
+
+      useBasketItems().pushBasketItem(basketItem);
+      const ok = confirm(
+        "장바구니에 추가하셨습니다. 장바구니 페이지로 이동하시겠습니까?"
+      );
+      if (ok) {
+        useRouter().push("/basket");
+      }
     };
 
     // 상품 구매하기

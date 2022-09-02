@@ -11,6 +11,9 @@ import {
   faCloudArrowDown,
   faCloudArrowUp,
   faExclamation,
+  faMinus,
+  faPlus,
+  faEquals,
 } from "@fortawesome/free-solid-svg-icons";
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -25,7 +28,10 @@ export default defineNuxtPlugin((nuxtApp) => {
     faXmark,
     faCloudArrowDown,
     faCloudArrowUp,
-    faExclamation
+    faExclamation,
+    faMinus,
+    faPlus,
+    faEquals
   );
 
   // @fortawesome/vue-fontawesome 버전을 3.x 으로 올리고
@@ -45,6 +51,9 @@ export enum FaIconName {
   "cloud-arrow-down",
   "cloud-arrow-up",
   "exclamation",
+  "minus",
+  "plus",
+  "equals",
 }
 
 export enum FaIconSize {

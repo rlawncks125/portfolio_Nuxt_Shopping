@@ -1,4 +1,5 @@
 import axios, { Axios } from "axios";
+import { serviceOptions } from "@/api/swagger/index";
 
 export default defineNuxtPlugin(() => {
   ApiServer.instance.init();
@@ -25,13 +26,18 @@ export class ApiServer {
     const config = useRuntimeConfig();
     const url = config.public.apiServer;
 
-    this.#axios = axios.create({
+    const instance = axios.create({
       baseURL: url,
       timeout: 2000,
       headers: {
         "shop-token": useCookie("userToken", { default: () => null }).value,
       },
+
     });
+    
+    this.#axios = instance
+    // swagger axios 사용시
+    serviceOptions.axios =instance
   }
 }
 

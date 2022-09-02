@@ -7,9 +7,25 @@
 
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
+import { ShopitemService } from "./api/swagger";
 import { useLoading } from "./sotre/loading";
 
 const { loadingStatus } = storeToRefs(useLoading());
+
+onMounted(async () => {
+  // swagger사용
+  const item = await ShopitemService.shopItemControllerGetItemsByIds({
+    body: {
+      ids: [1, 5, 6, 7],
+    },
+  });
+  const saerch = await ShopitemService.shopItemControllerSearchItems({
+    take: 10,
+    createTimeOrder: "ASC",
+  });
+
+  console.log(item, saerch);
+});
 
 useHead({
   titleTemplate: (titleChunk) => {

@@ -818,7 +818,7 @@ export class ShopitemService {
     });
   }
   /**
-   * 아이템들 정보 얻기
+   * 아이템 정보 얻기
    */
   static shopItemControllerGetItemById(options: IRequestOptions = {}): Promise<GetItemInfoOutPutDto> {
     return new Promise((resolve, reject) => {
@@ -853,11 +853,11 @@ export class ShopitemService {
   static shopItemControllerSearchItems(
     params: {
       /** title */
-      title: string;
+      title?: string;
       /** 가져올 객수 */
-      take: number;
-      /** 최신 등록순서 */
-      createTimeOrder: string;
+      take?: number;
+      /** ASC - 내림 , DESC - 오름 */
+      createTimeOrder?: string;
     } = {} as any,
     options: IRequestOptions = {}
   ): Promise<SearchItemsOutPutDto> {
@@ -882,6 +882,50 @@ export class ShopitemService {
       const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
 
       /** 适配ios13，get请求不允许带body */
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   * 여러 아이템 정보 얻기
+   */
+  static shopItemControllerGetItemsByIds(
+    params: {
+      /** requestBody */
+      body?: GetItemsInfoInputDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<GetItemsInfoOutPutDto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/shop-item/items';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   * 영수증 발행
+   */
+  static shopItemControllerCreateIreceipt(
+    params: {
+      /** requestBody */
+      body?: CreateIreceiptInputDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<CreateIreceiptOutPutDto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/shop-item/ireceipt';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
 
       axios(configs, resolve, reject);
     });
@@ -1721,32 +1765,11 @@ export interface BaksetItemSelectedOptions {
 }
 
 export interface BasketItem {
-  /** title */
-  title: string;
-
-  /** 가격 */
-  price: number;
-
-  /** 할인가 */
-  sale: number;
-
-  /** 썸네일 */
-  thumbnailSrc: string;
-
-  /** 배송비  */
-  parcel: number;
-
-  /** 무료 배송 금액 */
-  freeParcel: number;
-
   /** 아이템 id  */
   itemId: number;
 
   /** 옵션 구매 갯수  */
   selectedOptions: BaksetItemSelectedOptions[];
-
-  /** 옵션포함한 최종 금액  */
-  optionPriceSum: number;
 }
 
 export interface PayMentInfo {
@@ -2059,6 +2082,44 @@ export interface GetItemInfoOutPutDto {
 
   /** 아이템 */
   item: CombinedItemTypes;
+}
+
+export interface GetItemsInfoInputDto {
+  /** 가져올 아이템 id 들 */
+  ids: number[];
+}
+
+export interface GetItemsInfoOutPutDto {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
+
+  /** 아이템들 정보 */
+  shopItems: ShopItem[];
+}
+
+export interface CreateIreceiptInputDto {
+  /** 판매 유저 */
+  sellUserInfo: CombinedSellUserInfoTypes;
+
+  /** 구매 유저 */
+  purchasedUser: CombinedPurchasedUserTypes;
+
+  /** 아아템 목록 */
+  Items: BasketItem[];
+
+  /** 결제 정보 */
+  paymentInfo: CombinedPaymentInfoTypes;
+}
+
+export interface CreateIreceiptOutPutDto {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
 }
 export type CombinedResturantSuperUserTypes = SuperUserDto;
 export type CombinedLatingTypes = Lating;

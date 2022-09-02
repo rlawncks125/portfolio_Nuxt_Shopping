@@ -3,10 +3,10 @@
     <div
       class="fixed z-[10001] inset-0 bg-slate-500 bg-opacity-50 flex items-center justify-center"
     >
-      <div class="bg-blue-400 rounded-md text-white p-4">
+      <div ref="lottieRef"></div>
+      <!-- <div class="bg-blue-400 rounded-md text-white p-4">
         <slot />
         <div class="flex items-end gap-2  my-[1rem]">
-          <!-- 로딩 원 -->
           <div
             class="relative  animate-spin pointer-events-none "
             :style="
@@ -20,31 +20,39 @@
           </div>
           <span class="loading-conent">Loading</span>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import ProgressBar from "progressbar.js";
+import { AnimationItem } from "lottie-web";
+// import ProgressBar from "progressbar.js";
 
 defineProps({
   size: Number,
   isShow: Boolean,
 });
 
-const progressBody = useState<HTMLElement>("progressBody");
-const progressLine = useState<HTMLElement>("progressLine");
+const lottieRef = useState<HTMLElement>("lottieRef");
+let lottie: AnimationItem;
+
+// const progressBody = useState<HTMLElement>("progressBody");
+// const progressLine = useState<HTMLElement>("progressLine");
 
 onMounted(() => {
-  new ProgressBar.Circle(progressBody.value, {
-    strokeWidth: 6,
-    color: "rgb(226 237 255 / 70%)",
-  }).set(1);
-  new ProgressBar.Circle(progressLine.value, {
-    strokeWidth: 6,
-    color: "rgb(255 170 16 / 70%)",
-  }).set(0.25);
+  const { $lottieLoadAnimation } = useNuxtApp();
+
+  lottie = $lottieLoadAnimation(lottieRef.value, "paper");
+
+  // new ProgressBar.Circle(progressBody.value, {
+  //   strokeWidth: 6,
+  //   color: "rgb(226 237 255 / 70%)",
+  // }).set(1);
+  // new ProgressBar.Circle(progressLine.value, {
+  //   strokeWidth: 6,
+  //   color: "rgb(255 170 16 / 70%)",
+  // }).set(0.25);
 });
 </script>
 
