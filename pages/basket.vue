@@ -3,12 +3,23 @@
     <!-- 장바구니 정보 -->
     <div>
       <!-- 아이템 -->
-      <div v-for="v in items" class="border mx-[1rem] lg:mx-auto my-[2rem]">
+      <div
+        v-for="(v, index) in items"
+        class="border mx-[1rem] lg:mx-auto my-[2rem]"
+      >
         <!-- 정보 표시 -->
-        <div class=" p-2">
-          <p class="my-[.5rem]">
-            {{ v.item.sellUserInfo.companyName }}
-          </p>
+        <div class="p-2 px-[1rem]">
+          <div class="flex justify-between my-[.5rem] font-bold text-[1.5rem]">
+            <p>
+              {{ v.item.sellUserInfo.companyName }}
+            </p>
+            <LazyFaIcon
+              class="cursor-pointer"
+              icon="xmark"
+              size="1x"
+              @click="removeBaskItem(index)"
+            />
+          </div>
           <div class="h-[2px] bg-gray-400"></div>
           <div
             class="flex flex-wrap md:flex-nowrap px-[2rem]  gap-[1rem] py-[2rem]"
@@ -134,26 +145,21 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
 import {
   ShopitemService,
-  ShopItem,
   BaksetItemSelectedOptions,
+  BasketItemInfo,
+  ShopUserService,
+  BasketItem,
 } from "~~/api/swagger";
-import { useBasketItems } from "~~/sotre/basket";
+
 import { formatToWon } from "@/common/format";
 
 definePageMeta({
   layout: "login-required",
 });
 
-interface BaskItemInfo {
-  item: ShopItem;
-  selectedOptions: BaksetItemSelectedOptions[];
-}
-
-const { basketItemList } = storeToRefs(useBasketItems());
-const items = useState<BaskItemInfo[]>("baskItem", () => []);
+const items = useState<BasketItemInfo[]>("baskItem", () => []);
 
 const paymentInfo = reactive({
   price: 0,
@@ -162,32 +168,30 @@ const paymentInfo = reactive({
   total: 0,
 });
 
-const getBaskItemsInfo = async (): Promise<BaskItemInfo[]> => {
-  const optionsMap = new Map<number, BaksetItemSelectedOptions[]>();
-
-  const ids = basketItemList.value.map((v) => {
-    optionsMap.set(v.itemId, v.selectedOptions);
-    return v.itemId;
-  });
+const getBaskItemsInfo = async (): Promise<BasketItemInfo[]> => {
   const {
     ok,
-    shopItems,
-  } = await ShopitemService.shopItemControllerGetItemsByIds({
+    items,
+  } = await ShopitemService.shopItemControllerGetBasketItems();
+  if (!ok) {
+    console.log("불러오지 못했습니다");
+  }
+  return items || [];
+};
+
+const removeBaskItem = async (itemIndex: number) => {
+  const { ok } = await ShopUserService.shopUserControllerRemoveBasketItem({
     body: {
-      ids,
+      itemIndex,
     },
   });
-
-  return shopItems.map((item) => {
-    return {
-      item,
-      selectedOptions: optionsMap.get(item.id) || [],
-    };
-  });
+  if (ok) {
+    items.value = await getBaskItemsInfo();
+  }
 };
 
 // 배송비를 제외한 총 금액
-const itemPriceSum = (bask: BaskItemInfo) => {
+const itemPriceSum = (bask: BasketItemInfo) => {
   const salePrice = +bask.item.price * ((100 - bask.item.sale) / 100);
   // 옵션 총합 계산
   const optionSum = getOptionsTotalPrice(bask.selectedOptions);
@@ -200,7 +204,7 @@ const getOptionsTotalPrice = (options: BaksetItemSelectedOptions[]) => {
   return options.reduce((a, b) => a + toRaw(b.price * b.count), 0);
 };
 
-const getTotalPrice = (bask: BaskItemInfo) => {
+const getTotalPrice = (bask: BasketItemInfo) => {
   // 배송비 포함 최종 비용
 
   if (itemPriceSum(bask) < bask.item.freeParcel) {
@@ -217,6 +221,15 @@ const onPayItem = () => {
 onMounted(async () => {
   items.value = await getBaskItemsInfo();
 
+  console.log(items.value);
+});
+
+watch(items, () => {
+  paymentInfo.price = 0;
+  paymentInfo.sale = 0;
+  paymentInfo.parcel = 0;
+  paymentInfo.total = 0;
+
   items.value.forEach((v) => {
     const sumPrice = itemPriceSum(v);
     paymentInfo.price += sumPrice;
@@ -226,8 +239,6 @@ onMounted(async () => {
     }
     paymentInfo.total += getTotalPrice(v);
   });
-
-  console.log(items.value);
 });
 </script>
 

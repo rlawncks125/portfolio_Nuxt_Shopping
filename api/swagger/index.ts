@@ -770,6 +770,50 @@ export class ShopUserService {
       axios(configs, resolve, reject);
     });
   }
+  /**
+   * 장바구니 추가
+   */
+  static shopUserControllerAddBasketItem(
+    params: {
+      /** requestBody */
+      body?: AddBasketItemInputDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<AddBasketItemOutPutDto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/shop-user/baskItem';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   * 장바구니 아이템 삭제
+   */
+  static shopUserControllerRemoveBasketItem(
+    params: {
+      /** requestBody */
+      body?: RemoveBasketItemInputDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<RemoveBasketItemOutPutdto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/shop-user/baskItem';
+
+      const configs: IRequestConfig = getConfigs('patch', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
 }
 
 export class ShopitemService {
@@ -789,58 +833,6 @@ export class ShopitemService {
       const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
 
       let data = params.body;
-
-      configs.data = data;
-
-      axios(configs, resolve, reject);
-    });
-  }
-  /**
-   * 아이템 변경
-   */
-  static shopItemControllerUpdateItem(
-    params: {
-      /** requestBody */
-      body?: UpdateItemInputDto;
-    } = {} as any,
-    options: IRequestOptions = {}
-  ): Promise<UpdateItemOutPut> {
-    return new Promise((resolve, reject) => {
-      let url = basePath + '/shop-item/{id}';
-
-      const configs: IRequestConfig = getConfigs('patch', 'application/json', url, options);
-
-      let data = params.body;
-
-      configs.data = data;
-
-      axios(configs, resolve, reject);
-    });
-  }
-  /**
-   * 아이템 정보 얻기
-   */
-  static shopItemControllerGetItemById(options: IRequestOptions = {}): Promise<GetItemInfoOutPutDto> {
-    return new Promise((resolve, reject) => {
-      let url = basePath + '/shop-item/{id}';
-
-      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
-
-      /** 适配ios13，get请求不允许带body */
-
-      axios(configs, resolve, reject);
-    });
-  }
-  /**
-   * 아이템 삭제
-   */
-  static shopItemControllerDeleteItem(options: IRequestOptions = {}): Promise<CoreOutPut> {
-    return new Promise((resolve, reject) => {
-      let url = basePath + '/shop-item/{id}';
-
-      const configs: IRequestConfig = getConfigs('delete', 'application/json', url, options);
-
-      let data = null;
 
       configs.data = data;
 
@@ -909,6 +901,20 @@ export class ShopitemService {
     });
   }
   /**
+   * 장바구니 아이템 얻기
+   */
+  static shopItemControllerGetBasketItems(options: IRequestOptions = {}): Promise<GetBasketItemsOutPutDto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/shop-item/basketItems';
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+
+      /** 适配ios13，get请求不允许带body */
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
    * 영수증 발행
    */
   static shopItemControllerCreateIreceipt(
@@ -924,6 +930,58 @@ export class ShopitemService {
       const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
 
       let data = params.body;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   * 아이템 변경
+   */
+  static shopItemControllerUpdateItem(
+    params: {
+      /** requestBody */
+      body?: UpdateItemInputDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<UpdateItemOutPut> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/shop-item/{id}';
+
+      const configs: IRequestConfig = getConfigs('patch', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   * 아이템 정보 얻기
+   */
+  static shopItemControllerGetItemById(options: IRequestOptions = {}): Promise<GetItemInfoOutPutDto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/shop-item/{id}';
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+
+      /** 适配ios13，get请求不允许带body */
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   * 아이템 삭제
+   */
+  static shopItemControllerDeleteItem(options: IRequestOptions = {}): Promise<CoreOutPut> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/shop-item/{id}';
+
+      const configs: IRequestConfig = getConfigs('delete', 'application/json', url, options);
+
+      let data = null;
 
       configs.data = data;
 
@@ -1718,6 +1776,25 @@ export interface ShopItem {
   QA: QA[];
 }
 
+export interface BaksetItemSelectedOptions {
+  /** 옵션 이름 */
+  name: string;
+
+  /** 옵션 가격 */
+  price: number;
+
+  /** 옵션 선택 개수 */
+  count: number;
+}
+
+export interface BasketItem {
+  /** 아이템 id  */
+  itemId: number;
+
+  /** 옵션 구매 갯수  */
+  selectedOptions: BaksetItemSelectedOptions[];
+}
+
 export interface ShopUser {
   /** id */
   id: number;
@@ -1746,30 +1823,14 @@ export interface ShopUser {
   /** 우편전자 입니다. */
   postcode: string;
 
+  /** 장바구니 아이템 정보. */
+  basketItems: BasketItem[];
+
   /** 판매자 정보 */
   sellerInfo: CombinedSellerInfoTypes;
 
   /** 영수증 */
   Ireceipts: ShopIreceipt[];
-}
-
-export interface BaksetItemSelectedOptions {
-  /** 옵션 이름 */
-  name: string;
-
-  /** 옵션 가격 */
-  price: number;
-
-  /** 옵션 선택 개수 */
-  count: number;
-}
-
-export interface BasketItem {
-  /** 아이템 id  */
-  itemId: number;
-
-  /** 옵션 구매 갯수  */
-  selectedOptions: BaksetItemSelectedOptions[];
 }
 
 export interface PayMentInfo {
@@ -1960,6 +2021,32 @@ export interface UpdateCompanyOutPutDto {
   err?: string;
 }
 
+export interface AddBasketItemInputDto {
+  /** 추가할 장바구니 아이템 */
+  basketItem: CombinedBasketItemTypes;
+}
+
+export interface AddBasketItemOutPutDto {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
+}
+
+export interface RemoveBasketItemInputDto {
+  /** 장바구니 아이템 인덱스 */
+  itemIndex: number;
+}
+
+export interface RemoveBasketItemOutPutdto {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
+}
+
 export interface SendMailInputDto {}
 
 export interface AddShopItemInputDto {
@@ -2000,6 +2087,85 @@ export interface AddShopItemsOutPutDto {
 
   /** 아이템 */
   item: CombinedItemTypes;
+}
+
+export interface SearchItemsOutPutDto {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
+
+  /** 검색 아이템 */
+  items: ShopItem[];
+}
+
+export interface SellitemsOutPutDto {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
+
+  /** 아이템들 */
+  items: ShopItem[];
+}
+
+export interface GetItemsInfoInputDto {
+  /** 가져올 아이템 id 들 */
+  ids: number[];
+}
+
+export interface GetItemsInfoOutPutDto {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
+
+  /** 아이템들 정보 */
+  shopItems: ShopItem[];
+}
+
+export interface BasketItemInfo {
+  /** 아이템 id  */
+  item: CombinedItemTypes;
+
+  /** 옵션 구매 갯수  */
+  selectedOptions: BaksetItemSelectedOptions[];
+}
+
+export interface GetBasketItemsOutPutDto {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
+
+  /** 장바구니 아이템들 정보 */
+  items: BasketItemInfo[];
+}
+
+export interface CreateIreceiptInputDto {
+  /** 판매 유저 */
+  sellUserInfo: CombinedSellUserInfoTypes;
+
+  /** 구매 유저 */
+  purchasedUser: CombinedPurchasedUserTypes;
+
+  /** 아아템 목록 */
+  Items: BasketItem[];
+
+  /** 결제 정보 */
+  paymentInfo: CombinedPaymentInfoTypes;
+}
+
+export interface CreateIreceiptOutPutDto {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
 }
 
 export interface UpdateItemInputDto {
@@ -2051,28 +2217,6 @@ export interface UpdateItemOutPut {
   item: CombinedItemTypes;
 }
 
-export interface SearchItemsOutPutDto {
-  /** 성공 여부입니다. */
-  ok: boolean;
-
-  /** 에러 메세지입니다. */
-  err?: string;
-
-  /** 검색 아이템 */
-  items: ShopItem[];
-}
-
-export interface SellitemsOutPutDto {
-  /** 성공 여부입니다. */
-  ok: boolean;
-
-  /** 에러 메세지입니다. */
-  err?: string;
-
-  /** 아이템들 */
-  items: ShopItem[];
-}
-
 export interface GetItemInfoOutPutDto {
   /** 성공 여부입니다. */
   ok: boolean;
@@ -2082,44 +2226,6 @@ export interface GetItemInfoOutPutDto {
 
   /** 아이템 */
   item: CombinedItemTypes;
-}
-
-export interface GetItemsInfoInputDto {
-  /** 가져올 아이템 id 들 */
-  ids: number[];
-}
-
-export interface GetItemsInfoOutPutDto {
-  /** 성공 여부입니다. */
-  ok: boolean;
-
-  /** 에러 메세지입니다. */
-  err?: string;
-
-  /** 아이템들 정보 */
-  shopItems: ShopItem[];
-}
-
-export interface CreateIreceiptInputDto {
-  /** 판매 유저 */
-  sellUserInfo: CombinedSellUserInfoTypes;
-
-  /** 구매 유저 */
-  purchasedUser: CombinedPurchasedUserTypes;
-
-  /** 아아템 목록 */
-  Items: BasketItem[];
-
-  /** 결제 정보 */
-  paymentInfo: CombinedPaymentInfoTypes;
-}
-
-export interface CreateIreceiptOutPutDto {
-  /** 성공 여부입니다. */
-  ok: boolean;
-
-  /** 에러 메세지입니다. */
-  err?: string;
 }
 export type CombinedResturantSuperUserTypes = SuperUserDto;
 export type CombinedLatingTypes = Lating;
@@ -2459,4 +2565,5 @@ export enum EnumUserInfoRole {
   'company' = 'company',
   'customer' = 'customer'
 }
+export type CombinedBasketItemTypes = BasketItem;
 export type CombinedItemTypes = ShopItem;

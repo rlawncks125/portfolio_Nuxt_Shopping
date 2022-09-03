@@ -333,8 +333,8 @@ import {
   BasketItem,
   ShopItem,
   BaksetItemSelectedOptions,
+  ShopUserService,
 } from "~~/api/swagger";
-import { useBasketItems } from "~~/sotre/basket";
 
 export default defineComponent({
   setup() {
@@ -398,13 +398,25 @@ export default defineComponent({
     });
 
     // 장바구니 담기
-    const onAddBasketItem = () => {
+    const onAddBasketItem = async () => {
       const basketItem: BasketItem = {
         itemId: item.value.id,
         selectedOptions: itemOptions.value,
       };
 
-      useBasketItems().pushBasketItem(basketItem);
+      const {
+        ok: baskOk,
+      } = await ShopUserService.shopUserControllerAddBasketItem({
+        body: {
+          basketItem,
+        },
+      });
+
+      if (!baskOk) {
+        alert("장바구니를 추가하지 못하였습니다.");
+        return;
+      }
+
       const ok = confirm(
         "장바구니에 추가하셨습니다. 장바구니 페이지로 이동하시겠습니까?"
       );

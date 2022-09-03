@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { ShopUserSeller, UserInfo } from "~~/api/swagger";
 import { userGetMyInfo } from "@/api/user";
+import { ApiServer } from "~~/plugins/api-server";
 
 export const useUser = defineStore("userState", () => {
   // 유저 토큰
@@ -8,6 +9,7 @@ export const useUser = defineStore("userState", () => {
 
   const setUserToken = (token: string) => {
     userToken.value = token;
+    ApiServer.instance.init();
   };
   // 유저 정보
   const userInfo = useCookie<UserInfo>("userInfo", { default: () => null });

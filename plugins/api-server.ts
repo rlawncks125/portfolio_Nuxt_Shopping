@@ -1,5 +1,7 @@
 import axios, { Axios } from "axios";
 import { serviceOptions } from "@/api/swagger/index";
+import { storeToRefs } from "pinia";
+import { useUser } from "~~/sotre/user";
 
 export default defineNuxtPlugin(() => {
   ApiServer.instance.init();
@@ -26,11 +28,13 @@ export class ApiServer {
     const config = useRuntimeConfig();
     const url = config.public.apiServer;
 
+    const {userToken} = storeToRefs(useUser())
+
     const instance = axios.create({
       baseURL: url,
       timeout: 2000,
       headers: {
-        "shop-token": useCookie("userToken", { default: () => null }).value,
+        "shop-token": userToken.value,
       },
 
     });
