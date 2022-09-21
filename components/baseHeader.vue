@@ -15,23 +15,33 @@
           <button v-if="isToken" @click="userLogOut">로그아웃</button>
           <NuxtLink v-else to="/login">로그인</NuxtLink>
         </li>
-        <li>
+        <li v-if="!isToken">
           <a href="/join"> 회원가입 </a>
         </li>
-        <li>
-          <a href="/basket"> 장바구니 </a>
-        </li>
-        <li>
-          <NuxtLink to="#">주문배송</NuxtLink>
-        </li>
+        <template
+          v-if="userInfo && userInfo.role === EnumUserInfoRole.customer"
+        >
+          <li>
+            <a href="/basket"> 장바구니 </a>
+          </li>
+          <li>
+            <NuxtLink to="/orderDelivery">주문배송</NuxtLink>
+          </li>
+        </template>
+        <template v-if="userInfo && userInfo.role === EnumUserInfoRole.company">
+          <li>
+            <NuxtLink to="/soldItems">판매한 아이템</NuxtLink>
+          </li>
+          <li>
+            <NuxtLink to="/selling">판매하기</NuxtLink>
+          </li>
+        </template>
+
         <li>
           <NuxtLink to="/mypage">내정보</NuxtLink>
         </li>
         <li>
           <NuxtLink to="#">고객센터</NuxtLink>
-        </li>
-        <li v-if="userInfo && userInfo.role === EnumUserInfoRole.company">
-          <NuxtLink to="/selling">판매하기</NuxtLink>
         </li>
       </ul>
     </nav>
@@ -165,24 +175,50 @@
         <div
           class="flex gap-[1rem] justify-center text-[1.2rem] py-[1rem] border-b text-center flex-wrap"
         >
-          <NuxtLink to="/basket" @click="isToggle = false">
-            <LazyFaIcon
-              class="border p-[1rem] rounded-full"
-              icon="ban"
-              size="3x"
-            />
+          <template
+            v-if="userInfo && userInfo.role === EnumUserInfoRole.customer"
+          >
+            <NuxtLink to="/basket" @click="isToggle = false">
+              <LazyFaIcon
+                class="border p-[1rem] rounded-full"
+                icon="ban"
+                size="3x"
+              />
+              <p>장바구니</p>
+            </NuxtLink>
 
-            <p>장바구니</p>
-          </NuxtLink>
-          <NuxtLink to="#" @click="isToggle = false">
-            <LazyFaIcon
-              class="border p-[1rem] rounded-full"
-              icon="ban"
-              size="3x"
-            />
+            <NuxtLink to="/orderDelivery" @click="isToggle = false">
+              <LazyFaIcon
+                class="border p-[1rem] rounded-full"
+                icon="ban"
+                size="3x"
+              />
+              <p>주문배송</p>
+            </NuxtLink>
+          </template>
+          <template
+            v-if="userInfo && userInfo.role === EnumUserInfoRole.company"
+          >
+            <NuxtLink to="/soldItems" @click="isToggle = false">
+              <LazyFaIcon
+                class="border p-[1rem] rounded-full"
+                icon="ban"
+                size="3x"
+              />
 
-            <p>주문배송</p>
-          </NuxtLink>
+              <p>판매한 아이템</p>
+            </NuxtLink>
+            <NuxtLink to="/selling" @click="isToggle = false">
+              <LazyFaIcon
+                class="border p-[1rem] rounded-full"
+                icon="ban"
+                size="3x"
+              />
+
+              <p>판매하기</p>
+            </NuxtLink>
+          </template>
+
           <NuxtLink to="/mypage" @click="isToggle = false">
             <LazyFaIcon
               class="border p-[1rem] rounded-full"
@@ -200,15 +236,6 @@
             />
 
             <p>고객센터</p>
-          </NuxtLink>
-          <NuxtLink v-if="sellerInfo" to="/selling" @click="isToggle = false">
-            <LazyFaIcon
-              class="border p-[1rem] rounded-full"
-              icon="ban"
-              size="3x"
-            />
-
-            <p>판매하기</p>
           </NuxtLink>
         </div>
         <!-- 카테고리 -->

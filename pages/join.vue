@@ -438,8 +438,8 @@ const findAddr = () => {
   const { $daumAddress } = useNuxtApp();
 
   $daumAddress((data) => {
-    infoForm.addr = data.address;
     infoForm.postcode = data.zonecode;
+    infoForm.addr = data.address;
   });
 };
 
@@ -516,13 +516,15 @@ const onCreateUser = async (e: SubmitEvent) => {
       nickName,
       role: userSelect.value,
       email,
-      addr: `${addr} ${addrDetail}`,
+      address: addr,
+      addressDetail: addrDetail,
       postcode,
       tel,
     }
   );
   if (!ok) {
     alert(err);
+    console.log(err);
     return;
   }
 

@@ -9,7 +9,7 @@
       <SellerRegister />
     </section>
     <!-- 아이템 등록 -->
-    <section v-else class="text-[1.6rem]">
+    <section v-else class="text-[1.6rem] max-w-container mx-auto">
       <!-- <button @click="isRegistered = true">변경사항 저장 하기</button> -->
       <div class="form-stlye">
         <div>

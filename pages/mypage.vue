@@ -17,22 +17,30 @@
         />
         <ul class="list-warp px-2 md:border text-[1.6rem]">
           <li>
-            <NuxtLink to="/mypage">주문 내역</NuxtLink>
+            <NuxtLink class="block" to="/mypage">주문 내역</NuxtLink>
           </li>
           <li>
-            <NuxtLink to="/mypage/infomationModify">개인 정보 수정</NuxtLink>
+            <NuxtLink class="block" to="/mypage/infomationModify"
+              >개인 정보 수정</NuxtLink
+            >
           </li>
           <li>
-            <NuxtLink to="/mypage/passwordModify">비밀번호 변경</NuxtLink>
+            <NuxtLink class="block" to="/mypage/passwordModify"
+              >비밀번호 변경</NuxtLink
+            >
           </li>
           <li v-if="userInfo && userInfo.role === EnumUserInfoRole.company">
-            <NuxtLink to="/mypage/sellerRegist">판매자 등록</NuxtLink>
+            <NuxtLink class="block" to="/mypage/sellerRegist"
+              >판매자 등록</NuxtLink
+            >
           </li>
           <li v-if="userInfo && userInfo.role === EnumUserInfoRole.company">
-            <NuxtLink to="/mypage/sellerModify">판매자 정보 수정</NuxtLink>
+            <NuxtLink class="block" to="/mypage/sellerModify"
+              >판매자 정보 수정</NuxtLink
+            >
           </li>
           <li>
-            <NuxtLink to="/mypage/withdraw">회원 탈퇴</NuxtLink>
+            <NuxtLink class="block" to="/mypage/withdraw">회원 탈퇴</NuxtLink>
           </li>
         </ul>
       </div>

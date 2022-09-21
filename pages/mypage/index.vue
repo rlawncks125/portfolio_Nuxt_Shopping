@@ -1,6 +1,6 @@
 <template>
   <div>
-    주문내역
+    내정보
   </div>
 </template>
 

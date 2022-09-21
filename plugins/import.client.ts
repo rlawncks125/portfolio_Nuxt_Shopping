@@ -1,9 +1,11 @@
 import { useUser } from "~~/sotre/user";
 
 interface impParam {
-  itemId: string;
   name: string;
   amount: number;
+  postcode?: string;
+  address?: string;
+  addressDetail?: string;
   // buyer_email: string;
   // buyer_name: string;
   // buyer_tel: string;
@@ -41,13 +43,15 @@ export default defineNuxtPlugin(() => {
             name: param.name,
             amount: param.amount,
             // merchant_uid: param.merchant_uid,
-            merchant_uid: `merchant_F${param.itemId}_${Date.now()}`,
+            merchant_uid: `merchant_Nuxt3_${Date.now()}`,
             // 사용자 정보
+            buyer_addr:
+              param.address + "," + param.addressDetail ||
+              userInfo.address + "," + userInfo.addressDetail,
+            buyer_postcode: param.postcode || userInfo.postcode,
             buyer_email: userInfo.email,
             buyer_name: userInfo.nickName,
             buyer_tel: userInfo.tel,
-            buyer_addr: userInfo.addr,
-            buyer_postcode: userInfo.postcode,
           },
           function(rsp) {
             // callback

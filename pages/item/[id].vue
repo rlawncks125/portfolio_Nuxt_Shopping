@@ -110,10 +110,18 @@
             </p>
             <!-- 구매 버튼 & 장바구니 버튼 -->
             <div class="clear-both flex  justify-end gap-2 ">
-              <button class=" border py-2 px-4" @click="onAddBasketItem">
+              <button
+                class=" border py-2 px-4 disable-type-0"
+                :disabled="sellerInfo ? true : false"
+                @click="onAddBasketItem"
+              >
                 장바구니
               </button>
-              <button class=" border py-2 px-4" @click="onClickBuyItem">
+              <button
+                class=" border py-2 px-4 disable-type-0"
+                :disabled="sellerInfo ? true : false"
+                @click="onClickBuyItem"
+              >
                 구매하기
               </button>
             </div>
@@ -335,9 +343,13 @@ import {
   BaksetItemSelectedOptions,
   ShopUserService,
 } from "~~/api/swagger";
+import { storeToRefs } from "pinia";
+import { useUser } from "~~/sotre/user";
 
 export default defineComponent({
   setup() {
+    const { sellerInfo } = storeToRefs(useUser());
+
     const { params } = useRoute();
     const item = ref<ShopItem>();
     const avgStar = ref<number>();
@@ -397,20 +409,22 @@ export default defineComponent({
       selectOption.value = "";
     });
 
-    // 장바구니 담기
-    const onAddBasketItem = async () => {
+    const addBaskItem = async () => {
       const basketItem: BasketItem = {
         itemId: item.value.id,
         selectedOptions: itemOptions.value,
       };
 
-      const {
-        ok: baskOk,
-      } = await ShopUserService.shopUserControllerAddBasketItem({
+      return await ShopUserService.shopUserControllerAddBasketItem({
         body: {
           basketItem,
         },
       });
+    };
+
+    // 장바구니 담기
+    const onAddBasketItem = async () => {
+      const { ok: baskOk } = await addBaskItem();
 
       if (!baskOk) {
         alert("장바구니를 추가하지 못하였습니다.");
@@ -426,58 +440,19 @@ export default defineComponent({
     };
 
     // 상품 구매하기
-    const onClickBuyItem = () => {
-      console.log("아이템 정보 :", item.value);
-      console.log("선택 옵션 : ", itemOptions.value);
-      console.log("총합 : ", totalPrice.value);
+    const onClickBuyItem = async () => {
+      const ok = confirm("구매 하시겠습니까??");
+      if (!ok) {
+        return;
+      }
 
-      const { $impPayment } = useNuxtApp();
+      const { ok: baskOk, err } = await addBaskItem();
 
-      $impPayment(
-        {
-          amount: 500, // 결제할 금액
-          name: item.value.title,
-          itemId: item.value.id + "",
-        },
-        (rsp) => {
-          alert("결제 성공");
-          // 성공시 api 호출
-          // { 영수증 정보 , 결제정보 }
-
-          // 결제 정보
-          // imp_uid: rsp.imp_uid, // imp결제 고유 번호
-          // merchant_uid: rsp.merchant_uid // 상품 번호
-
-          console.log(rsp);
-          // apply_num: "53795311";
-          // bank_name: null
-          // buyer_addr: "테스트 주소"
-          // buyer_email: "rlawnks125@naver.com"
-          // buyer_name: "사용자"
-          // buyer_postcode: "123-456"
-          // buyer_tel: "010-7115-9176"
-          // card_name: "BC카드"
-          // card_number: "910003*********9"
-          // card_quota: 0
-          // currency: "KRW"
-          // custom_data: null
-          // imp_uid: "imp_653448500730"
-          // merchant_uid: "merchant_F6_1659888448609"
-          // name: "[10%+12%]패션라인신상원피스/팬츠"
-          // paid_amount: 500
-          // paid_at: 1659888494
-          // pay_method: "card"
-          // pg_provider: "html5_inicis"
-          // pg_tid: "StdpayISP_INIpayTest20220808010813776666"
-          // pg_type: "payment"
-          // receipt_url: "https://iniweb.inicis.com/DefaultWebApp/mall/cr/cm/mCmReceipt_head.jsp?noTid=StdpayISP_INIpayTest20220808010813776666&noMethod=1"
-          // status: "paid"
-        },
-        (rsp) => {
-          console.log(rsp);
-          alert(rsp.error_msg);
-        }
-      );
+      if (baskOk) {
+        useRouter().push("/basket");
+      } else {
+        alert(`오류가 발생하여구매하지 못하였습니다.${err}`);
+      }
     };
 
     // 탭메뉴
@@ -595,6 +570,7 @@ export default defineComponent({
       openInquiry,
       openInquiryIndex,
       onAddBasketItem,
+      sellerInfo,
     };
   },
 });

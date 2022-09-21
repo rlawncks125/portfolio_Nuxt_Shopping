@@ -42,6 +42,7 @@ export class ApiServer {
     this.#axios = instance
     // swagger axios 사용시
     serviceOptions.axios =instance
+    
   }
 }
 

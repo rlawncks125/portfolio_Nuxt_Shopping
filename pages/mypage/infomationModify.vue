@@ -57,7 +57,7 @@
             type="text"
             name=""
             id="addr"
-            v-model="input.addr"
+            v-model="input.address"
           />
         </div>
         <button @click.prevent="onChange">수정하기</button>
@@ -91,7 +91,7 @@ const onChange = async () => {
 const findAddr = () => {
   const { $daumAddress } = useNuxtApp();
   $daumAddress(({ address, zonecode }) => {
-    input.value.addr = address;
+    input.value.address = address;
     console.log(address, zonecode);
   });
 };
