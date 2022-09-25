@@ -15,12 +15,12 @@ interface impParam {
 
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();
-  const impCode = config.public.impCodeApi;
+  const iampCode = config.public.iampCodeApi;
 
   // @ts-ignore
   const imp = window.IMP;
 
-  imp.init(impCode);
+  imp.init(iampCode);
 
   return {
     provide: {

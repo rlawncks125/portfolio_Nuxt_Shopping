@@ -348,7 +348,7 @@ import { useUser } from "~~/sotre/user";
 
 export default defineComponent({
   setup() {
-    const { sellerInfo } = storeToRefs(useUser());
+    const { userInfo, sellerInfo } = storeToRefs(useUser());
 
     const { params } = useRoute();
     const item = ref<ShopItem>();
@@ -424,6 +424,11 @@ export default defineComponent({
 
     // 장바구니 담기
     const onAddBasketItem = async () => {
+      if (!userInfo.value) {
+        alert("로그인을 해야 이용할수 있습니다.");
+        return;
+      }
+
       const { ok: baskOk } = await addBaskItem();
 
       if (!baskOk) {
@@ -441,6 +446,11 @@ export default defineComponent({
 
     // 상품 구매하기
     const onClickBuyItem = async () => {
+      if (!userInfo.value) {
+        alert("로그인을 해야 이용할수 있습니다.");
+        return;
+      }
+
       const ok = confirm("구매 하시겠습니까??");
       if (!ok) {
         return;

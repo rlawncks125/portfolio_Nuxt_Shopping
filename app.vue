@@ -14,13 +14,11 @@ const { loadingStatus } = storeToRefs(useLoading());
 
 onMounted(async () => {
   // swagger사용
-
-  const saerch = await ShopitemService.shopItemControllerSearchItems({
-    take: 10,
-    createTimeOrder: "ASC",
-  });
-
-  console.log(saerch);
+  // const saerch = await ShopitemService.shopItemControllerSearchItems({
+  //   take: 10,
+  //   createTimeOrder: "ASC",
+  // });
+  // console.log(saerch);
 });
 
 useHead({
