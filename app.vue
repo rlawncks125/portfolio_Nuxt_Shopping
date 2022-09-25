@@ -54,6 +54,12 @@ useHead({
       property: "og:type",
       content: "website",
     },
+    // 크롬에서 강화된 정책
+    // strict-origin-when-cross-origin
+    {
+      name: "referrer",
+      content: "no-referrer-when-downgrade",
+    },
   ],
 });
 </script>
