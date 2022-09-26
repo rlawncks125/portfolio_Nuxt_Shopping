@@ -3,7 +3,6 @@ import { defineNuxtConfig } from "nuxt";
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
   target: "static",
-  ssr: true,
 
   buildModules: ["@pinia/nuxt"],
   css: [
@@ -20,6 +19,7 @@ export default defineNuxtConfig({
         },
       },
     },
+
     // transpile : ['swiper']
   },
 
@@ -46,7 +46,7 @@ export default defineNuxtConfig({
     //  }
 
     public: {
-      apiServer: process.env.APISERVER || "http://localhost:3030",
+      apiServer: process.env.APISERVER || "https://myapi.kimjuchan97.xyz",
       impCodeApi: "imp85605338",
       reCAPTCHA_SITE_KEY:
         process.env.reCAPTCHA_SITE_KEY ||
