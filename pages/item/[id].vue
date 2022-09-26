@@ -531,7 +531,7 @@ const ogSrc = useState(
 );
 const ogDesc = useState("ogDesc", () => "desc");
 
-const { data } = await useLazyAsyncData("ogData", () =>
+useLazyAsyncData("ogMetaData", () =>
   // 아이템 정보 가져오기 처리
   getItemById(+params.id).then(({ ok, item }) => {
     if (ok) {
@@ -539,8 +539,6 @@ const { data } = await useLazyAsyncData("ogData", () =>
       ogSrc.value = item.thumbnailSrc;
       ogDesc.value = `${item.title}의 가격은 ${item.price}입니다.`;
     }
-
-    return item;
   })
 );
 
@@ -554,20 +552,17 @@ useHead({
     {
       name: "og:title",
       property: "og:title",
-      // content: ogTitle,
-      content: data.value.title,
+      content: ogTitle,
     },
     {
       name: "og:description",
       property: "og:description",
-      // content: ogDesc,
-      content: `${data.value.title}의 가격은 ${data.value.price}입니다.`,
+      content: ogDesc,
     },
     {
       name: "og:image",
       property: "og:image",
-      // content: ogSrc,
-      content: data.value.thumbnailSrc,
+      content: ogSrc,
     },
   ],
 });
