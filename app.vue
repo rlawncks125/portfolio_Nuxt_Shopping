@@ -47,7 +47,7 @@ useHead({
       name: "og:image",
       property: "og:image",
       content:
-        "https://res.cloudinary.com/dhdq4v4ar/image/upload/v1654624758/%ED%8F%AC%ED%94%841_isxw3h.jpg",
+        "https://res.cloudinary.com/dhdq4v4ar/image/upload/v1661371113/transparent-bg_-no-shadow-designify_wst7my.png",
     },
     {
       name: "og:type",
