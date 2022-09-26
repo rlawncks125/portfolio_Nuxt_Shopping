@@ -532,7 +532,8 @@ export default defineComponent({
         "https://www.kogl.or.kr/upload_recommend/2018/DMZ/thumb_B008-C001-0052-09_L.jpg"
     );
     const ogDesc = useState("ogDesc", () => "desc");
-    useAsyncData("ogData", () =>
+
+    useLazyAsyncData("ogData", () =>
       // 아이템 정보 가져오기 처리
       getItemById(+params.id).then(({ ok, item }) => {
         if (ok) {
