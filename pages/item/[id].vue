@@ -525,10 +525,10 @@ export default defineComponent({
     });
 
     // og데이터
-    const ogTitle = useState("ogTitle");
-    const ogSrc = useState("ogSrc");
-    const ogDesc = useState("ogDesc");
-    useLazyAsyncData("ogData", () =>
+    const ogTitle = useState("ogTitle", () => '타이틀');
+    const ogSrc = useState("ogSrc", () => 'https://www.kogl.or.kr/upload_recommend/2018/DMZ/thumb_B008-C001-0052-09_L.jpg');
+    const ogDesc = useState("ogDesc" , () => 'desc');
+    useAsyncData("ogData", () =>
       // 아이템 정보 가져오기 처리
       getItemById(+params.id).then(({ ok, item }) => {
         if (ok) {
