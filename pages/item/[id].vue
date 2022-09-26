@@ -1,6 +1,7 @@
 <template>
   <div>
     <div>아이템 id : {{ params.id }}</div>
+    <p>og title: {{ ogTitle }}</p>
     <div v-if="item" class="text-[1.1rem]">
       <!-- 상품정보 헤드 -->
       <section class="width-container mb-[3rem]">
@@ -498,7 +499,6 @@ export default defineComponent({
       const { ok, item: resItem } = await getItemById(+params.id);
       if (ok) {
         item.value = resItem;
-        console.log("1");
       }
 
       // 평균 별점
@@ -525,9 +525,13 @@ export default defineComponent({
     });
 
     // og데이터
-    const ogTitle = useState("ogTitle", () => '타이틀');
-    const ogSrc = useState("ogSrc", () => 'https://www.kogl.or.kr/upload_recommend/2018/DMZ/thumb_B008-C001-0052-09_L.jpg');
-    const ogDesc = useState("ogDesc" , () => 'desc');
+    const ogTitle = useState("ogTitle", () => "타이틀");
+    const ogSrc = useState(
+      "ogSrc",
+      () =>
+        "https://www.kogl.or.kr/upload_recommend/2018/DMZ/thumb_B008-C001-0052-09_L.jpg"
+    );
+    const ogDesc = useState("ogDesc", () => "desc");
     useAsyncData("ogData", () =>
       // 아이템 정보 가져오기 처리
       getItemById(+params.id).then(({ ok, item }) => {
@@ -582,6 +586,7 @@ export default defineComponent({
       openInquiryIndex,
       onAddBasketItem,
       sellerInfo,
+      ogTitle,
     };
   },
 });
