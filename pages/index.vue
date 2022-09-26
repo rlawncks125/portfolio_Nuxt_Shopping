@@ -88,7 +88,7 @@ import Swiper, { Navigation } from "swiper";
 import { defineComponent } from "vue";
 import { formatToWon } from "@/common/format";
 import { getItemById, searchItems } from "~~/api/item";
-import { ShopItem } from "~~/api/swagger";
+import { ShopItem, ShopitemService } from "~~/api/swagger";
 
 export default defineComponent({
   setup() {
@@ -144,7 +144,14 @@ export default defineComponent({
 
       // 아이템 불러오기
 
-      const { ok, items } = await searchItems({});
+      // const { ok, items } = await searchItems({});
+      const { ok, items } = await ShopitemService.shopItemControllerSearchItems(
+        {
+          title: "",
+          take: 10,
+          createTimeOrder: "ASC",
+        }
+      );
 
       if (ok) {
         productItems.value = items;
@@ -216,7 +223,7 @@ export default defineComponent({
 }
 
 .img-sprite {
-  background: url(http://pics.auction.co.kr/pc/common/header/header.png)
+  background: url(https://pics.auction.co.kr/pc/common/header/header.png)
     no-repeat 0 0;
 }
 
@@ -242,10 +249,10 @@ export default defineComponent({
   display: none;
 }
 .swiper-prev {
-  background: url(http://pics.auction.co.kr/pc/hp/new_homepage.png) no-repeat -797px -256px;
+  background: url(https://pics.auction.co.kr/pc/hp/new_homepage.png) no-repeat -797px -256px;
 }
 .swiper-next {
-  background: url(http://pics.auction.co.kr/pc/hp/new_homepage.png) no-repeat -835px -258px;
+  background: url(https://pics.auction.co.kr/pc/hp/new_homepage.png) no-repeat -835px -258px;
 }
 
 .banner-pagination {

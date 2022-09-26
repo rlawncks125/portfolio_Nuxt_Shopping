@@ -35,8 +35,8 @@ export class ApiServer {
       timeout: 2000,
       headers: {
         "shop-token": userToken.value,
-      },
-
+        "content-type" : "application/json"
+      },      
     });
     
     this.#axios = instance

@@ -498,6 +498,7 @@ export default defineComponent({
       const { ok, item: resItem } = await getItemById(+params.id);
       if (ok) {
         item.value = resItem;
+        console.log("1");
       }
 
       // 평균 별점
