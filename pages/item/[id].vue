@@ -334,7 +334,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { defineComponent } from "vue";
 import { formatToWon } from "@/common/format";
 import { getItemById } from "~~/api/item";
@@ -347,274 +347,229 @@ import {
 import { storeToRefs } from "pinia";
 import { useUser } from "~~/sotre/user";
 
-export default defineComponent({
-  setup() {
-    const { userInfo, sellerInfo } = storeToRefs(useUser());
+const { userInfo, sellerInfo } = storeToRefs(useUser());
 
-    const { params } = useRoute();
-    const item = ref<ShopItem>();
-    const avgStar = ref<number>();
+const { params } = useRoute();
+const item = ref<ShopItem>();
+const avgStar = ref<number>();
 
-    const showTabMenu = useState("showTabMenu", () => 0);
+const showTabMenu = useState("showTabMenu", () => 0);
 
-    // 옵션  & 계산 & 구매
-    const itemOptions = ref<BaksetItemSelectedOptions[]>([]);
+// 옵션  & 계산 & 구매
+const itemOptions = ref<BaksetItemSelectedOptions[]>([]);
 
-    // 총합 액수 계산
-    const optionPriceSum = computed(() => {
-      const salePrice = +item.value.price * ((100 - item.value.sale) / 100);
-      // 옵션 총합 계산
-      const optionSum = itemOptions.value.reduce(
-        (a, b) => a + toRaw(b.price * b.count),
-        0
-      );
+// 총합 액수 계산
+const optionPriceSum = computed(() => {
+  const salePrice = +item.value.price * ((100 - item.value.sale) / 100);
+  // 옵션 총합 계산
+  const optionSum = itemOptions.value.reduce(
+    (a, b) => a + toRaw(b.price * b.count),
+    0
+  );
 
-      return salePrice + optionSum;
-    });
-    // 배송비 포함 비용
-    const totalPrice = computed(() => {
-      if (optionPriceSum.value < item.value.freeParcel) {
-        return optionPriceSum.value + item.value.parcel;
-      } else {
-        return optionPriceSum.value;
-      }
-    });
+  return salePrice + optionSum;
+});
+// 배송비 포함 비용
+const totalPrice = computed(() => {
+  if (optionPriceSum.value < item.value.freeParcel) {
+    return optionPriceSum.value + item.value.parcel;
+  } else {
+    return optionPriceSum.value;
+  }
+});
 
-    // 옵션
-    const selectOption = ref("");
-    const deleteOption = (index: number) => {
-      itemOptions.value = itemOptions.value.filter((v, i) => i !== index);
-    };
-    // 옵션 선택
-    watch(selectOption, () => {
-      if (selectOption.value === "") return;
+// 옵션
+const selectOption = ref("");
+const deleteOption = (index: number) => {
+  itemOptions.value = itemOptions.value.filter((v, i) => i !== index);
+};
+// 옵션 선택
+watch(selectOption, () => {
+  if (selectOption.value === "") return;
 
-      if (
-        itemOptions.value.findIndex((v) => v.name === selectOption.value) !== -1
-      ) {
-        alert("이미 선택된 옵션 입니다.");
-        selectOption.value = "";
-        return;
-      }
+  if (
+    itemOptions.value.findIndex((v) => v.name === selectOption.value) !== -1
+  ) {
+    alert("이미 선택된 옵션 입니다.");
+    selectOption.value = "";
+    return;
+  }
 
-      // 아이템 추가
-      const findItem = item.value.options.find(
-        (v) => v.name === selectOption.value
-      );
-      // itemOptions.value = [
-      //   ...itemOptions.value,
-      //   { ...toRaw(findItem), count: 1 },
-      // ];
-      itemOptions.value.push({ ...toRaw(findItem), count: 1 });
+  // 아이템 추가
+  const findItem = item.value.options.find(
+    (v) => v.name === selectOption.value
+  );
+  // itemOptions.value = [
+  //   ...itemOptions.value,
+  //   { ...toRaw(findItem), count: 1 },
+  // ];
+  itemOptions.value.push({ ...toRaw(findItem), count: 1 });
 
-      selectOption.value = "";
-    });
+  selectOption.value = "";
+});
 
-    const addBaskItem = async () => {
-      const basketItem: BasketItem = {
-        itemId: item.value.id,
-        selectedOptions: itemOptions.value,
-      };
+const addBaskItem = async () => {
+  const basketItem: BasketItem = {
+    itemId: item.value.id,
+    selectedOptions: itemOptions.value,
+  };
 
-      return await ShopUserService.shopUserControllerAddBasketItem({
-        body: {
-          basketItem,
-        },
-      });
-    };
+  return await ShopUserService.shopUserControllerAddBasketItem({
+    body: {
+      basketItem,
+    },
+  });
+};
 
-    // 장바구니 담기
-    const onAddBasketItem = async () => {
-      if (!userInfo.value) {
-        alert("로그인을 해야 이용할수 있습니다.");
-        return;
-      }
+// 장바구니 담기
+const onAddBasketItem = async () => {
+  if (!userInfo.value) {
+    alert("로그인을 해야 이용할수 있습니다.");
+    return;
+  }
 
-      const { ok: baskOk } = await addBaskItem();
+  const { ok: baskOk } = await addBaskItem();
 
-      if (!baskOk) {
-        alert("장바구니를 추가하지 못하였습니다.");
-        return;
-      }
+  if (!baskOk) {
+    alert("장바구니를 추가하지 못하였습니다.");
+    return;
+  }
 
-      const ok = confirm(
-        "장바구니에 추가하셨습니다. 장바구니 페이지로 이동하시겠습니까?"
-      );
-      if (ok) {
-        useRouter().push("/basket");
-      }
-    };
+  const ok = confirm(
+    "장바구니에 추가하셨습니다. 장바구니 페이지로 이동하시겠습니까?"
+  );
+  if (ok) {
+    useRouter().push("/basket");
+  }
+};
 
-    // 상품 구매하기
-    const onClickBuyItem = async () => {
-      if (!userInfo.value) {
-        alert("로그인을 해야 이용할수 있습니다.");
-        return;
-      }
+// 상품 구매하기
+const onClickBuyItem = async () => {
+  if (!userInfo.value) {
+    alert("로그인을 해야 이용할수 있습니다.");
+    return;
+  }
 
-      const ok = confirm("구매 하시겠습니까??");
-      if (!ok) {
-        return;
-      }
+  const ok = confirm("구매 하시겠습니까??");
+  if (!ok) {
+    return;
+  }
 
-      const { ok: baskOk, err } = await addBaskItem();
+  const { ok: baskOk, err } = await addBaskItem();
 
-      if (baskOk) {
-        useRouter().push("/basket");
-      } else {
-        alert(`오류가 발생하여구매하지 못하였습니다.${err}`);
-      }
-    };
+  if (baskOk) {
+    useRouter().push("/basket");
+  } else {
+    alert(`오류가 발생하여구매하지 못하였습니다.${err}`);
+  }
+};
 
-    // 탭메뉴
-    const tapMenuRef = ref<HTMLElement>();
+// 탭메뉴
+const tapMenuRef = ref<HTMLElement>();
 
-    const changeTabMenuByIndex = (index: number) => {
-      tapMenuRef.value.scrollIntoView({ behavior: "auto", block: "start" });
+const changeTabMenuByIndex = (index: number) => {
+  tapMenuRef.value.scrollIntoView({ behavior: "auto", block: "start" });
 
-      showTabMenu.value = index;
-    };
+  showTabMenu.value = index;
+};
 
-    // 구매후기
-    const starDist = reactive({
-      five: 0,
-      four: 0,
-      three: 0,
-      two: 0,
-      one: 0,
-    });
+// 구매후기
+const starDist = reactive({
+  five: 0,
+  four: 0,
+  three: 0,
+  two: 0,
+  one: 0,
+});
 
-    // 상품문의
-    const openInquiryIndex = ref();
-    const openInquiry = (index: number) => {
-      if (openInquiryIndex.value === index) {
-        openInquiryIndex.value = null;
-        return;
-      }
+// 상품문의
+const openInquiryIndex = ref();
+const openInquiry = (index: number) => {
+  if (openInquiryIndex.value === index) {
+    openInquiryIndex.value = null;
+    return;
+  }
 
-      openInquiryIndex.value = index;
-    };
+  openInquiryIndex.value = index;
+};
 
-    onMounted(async () => {
-      const { ok, item: resItem } = await getItemById(+params.id);
-      if (ok) {
-        item.value = resItem;
+onMounted(async () => {
+  const { ok, item: resItem } = await getItemById(+params.id);
+  if (ok) {
+    item.value = resItem;
+  }
 
-        useHead({
-          title: `아이템 :  ${params.id}`,
-          meta: [
-            {
-              name: "description",
-              content: `쇼핑 데이터 ${params.id}`,
-            },
-            {
-              name: "og:title",
-              property: "og:title",
-              content: `타이틀 ${resItem.title}`,
-            },
-            {
-              name: "og:description",
-              property: "og:description",
-              content: `${resItem.title}의 가격은 ${resItem.price}입니다`,
-            },
-            {
-              name: "og:image",
-              property: "og:image",
-              content: resItem.thumbnailSrc,
-            },
-          ],
-        });
-      }
+  // 평균 별점
+  avgStar.value =
+    resItem.reviews.reduce((a, b) => a + b.star, 0) / resItem.reviews.length ||
+    0;
 
-      // 평균 별점
-      avgStar.value =
-        resItem.reviews.reduce((a, b) => a + b.star, 0) /
-          resItem.reviews.length || 0;
+  // 별점 분포도
+  starDist.five =
+    resItem.reviews.filter((v) => v.star === 5).length /
+      resItem.reviews.length || 0;
+  starDist.four =
+    resItem.reviews.filter((v) => v.star === 4).length /
+      resItem.reviews.length || 0;
+  starDist.three =
+    resItem.reviews.filter((v) => v.star === 3).length /
+      resItem.reviews.length || 0;
+  starDist.two =
+    resItem.reviews.filter((v) => v.star === 2).length /
+      resItem.reviews.length || 0;
+  starDist.one =
+    resItem.reviews.filter((v) => v.star === 1).length /
+      resItem.reviews.length || 0;
+});
 
-      // 별점 분포도
-      starDist.five =
-        resItem.reviews.filter((v) => v.star === 5).length /
-          resItem.reviews.length || 0;
-      starDist.four =
-        resItem.reviews.filter((v) => v.star === 4).length /
-          resItem.reviews.length || 0;
-      starDist.three =
-        resItem.reviews.filter((v) => v.star === 3).length /
-          resItem.reviews.length || 0;
-      starDist.two =
-        resItem.reviews.filter((v) => v.star === 2).length /
-          resItem.reviews.length || 0;
-      starDist.one =
-        resItem.reviews.filter((v) => v.star === 1).length /
-          resItem.reviews.length || 0;
-    });
+// og데이터
+const ogTitle = useState("ogTitle", () => "타이틀");
+const ogSrc = useState(
+  "ogSrc",
+  () =>
+    "https://www.kogl.or.kr/upload_recommend/2018/DMZ/thumb_B008-C001-0052-09_L.jpg"
+);
+const ogDesc = useState("ogDesc", () => "desc");
 
-    // og데이터
-    const ogTitle = useState("ogTitle", () => "타이틀");
-    const ogSrc = useState(
-      "ogSrc",
-      () =>
-        "https://www.kogl.or.kr/upload_recommend/2018/DMZ/thumb_B008-C001-0052-09_L.jpg"
-    );
-    const ogDesc = useState("ogDesc", () => "desc");
+const { data } = await useLazyAsyncData("ogData", () =>
+  // 아이템 정보 가져오기 처리
+  getItemById(+params.id).then(({ ok, item }) => {
+    if (ok) {
+      ogTitle.value = `타이틀 : ${item.title}`;
+      ogSrc.value = item.thumbnailSrc;
+      ogDesc.value = `${item.title}의 가격은 ${item.price}입니다.`;
+    }
 
-    useLazyAsyncData("ogData", () =>
-      // 아이템 정보 가져오기 처리
-      getItemById(+params.id).then(({ ok, item }) => {
-        if (ok) {
-          ogTitle.value = `타이틀 : ${item.title}`;
-          ogSrc.value = item.thumbnailSrc;
-          ogDesc.value = `${item.title}의 가격은 ${item.price}입니다.`;
-        }
-      })
-    );
+    return item;
+  })
+);
 
-    useHead({
-      title: `아이템 :  ${params.id}`,
-      meta: [
-        {
-          name: "description",
-          content: `쇼핑 데이터 ${params.id}`,
-        },
-        {
-          name: "og:title",
-          property: "og:title",
-          content: ogTitle,
-        },
-        {
-          name: "og:description",
-          property: "og:description",
-          content: ogDesc,
-        },
-        {
-          name: "og:image",
-          property: "og:image",
-          content: ogSrc,
-        },
-      ],
-    });
-    return {
-      params,
-      item,
-      formatToWon,
-      showTabMenu,
-      selectOption,
-      itemOptions,
-      deleteOption,
-      optionPriceSum,
-      totalPrice,
-      tapMenuRef,
-      changeTabMenuByIndex,
-      onClickBuyItem,
-      avgStar,
-      starDist,
-      openInquiry,
-      openInquiryIndex,
-      onAddBasketItem,
-      sellerInfo,
-      ogTitle,
-    };
-  },
+useHead({
+  title: `아이템 :  ${params.id}`,
+  meta: [
+    {
+      name: "description",
+      content: `쇼핑 데이터 ${params.id}`,
+    },
+    {
+      name: "og:title",
+      property: "og:title",
+      // content: ogTitle,
+      content: data.value.title,
+    },
+    {
+      name: "og:description",
+      property: "og:description",
+      // content: ogDesc,
+      content: `${data.value.title}의 가격은 ${data.value.price}입니다.`,
+    },
+    {
+      name: "og:image",
+      property: "og:image",
+      // content: ogSrc,
+      content: data.value.thumbnailSrc,
+    },
+  ],
 });
 </script>
 
