@@ -2,6 +2,9 @@ import { defineNuxtConfig } from "nuxt";
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
+  target: "static",
+  ssr: true,
+
   buildModules: ["@pinia/nuxt"],
   css: [
     "@/assets/css/tailwind.css",
@@ -17,6 +20,7 @@ export default defineNuxtConfig({
         },
       },
     },
+    // transpile : ['swiper']
   },
 
   // vite: {
