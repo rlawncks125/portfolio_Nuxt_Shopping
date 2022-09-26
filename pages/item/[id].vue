@@ -499,6 +499,31 @@ export default defineComponent({
       const { ok, item: resItem } = await getItemById(+params.id);
       if (ok) {
         item.value = resItem;
+
+        useHead({
+          title: `아이템 :  ${params.id}`,
+          meta: [
+            {
+              name: "description",
+              content: `쇼핑 데이터 ${params.id}`,
+            },
+            {
+              name: "og:title",
+              property: "og:title",
+              content: `타이틀 ${resItem.title}`,
+            },
+            {
+              name: "og:description",
+              property: "og:description",
+              content: `${resItem.title}의 가격은 ${resItem.price}입니다`,
+            },
+            {
+              name: "og:image",
+              property: "og:image",
+              content: resItem.thumbnailSrc,
+            },
+          ],
+        });
       }
 
       // 평균 별점
