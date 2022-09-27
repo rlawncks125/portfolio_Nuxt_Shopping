@@ -555,7 +555,7 @@ const { data: ogData } = await useLazyAsyncData(
           ogSrc.value = item.thumbnailSrc;
           ogDesc.value = `${item.title}의 가격은 ${item.price}입니다.`;
         }
-        console.log("async data ", item.title);
+        console.log("data ", item.title);
         return { ok, item };
       })
       .catch(function(error) {
