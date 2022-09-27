@@ -532,7 +532,7 @@ const ogSrc = useState(
 );
 const ogDesc = useState("ogDesc", () => "desc");
 
-const { data: ogData } = await useAsyncData(
+const { data: ogData } = useLazyAsyncData(
   "ogMetaData",
   () =>
     // useFetch("/api/asyncGetItem", {
@@ -548,41 +548,46 @@ const { data: ogData } = await useAsyncData(
     //   })
 
     // 아이템 정보 가져오기 처리
-    // getItemById(+params.id).then(({ ok, item }) => {
-    //   if (ok) {
-    //     ogTitle.value = `타이틀 : ${item.title}`;
-    //     ogSrc.value = item.thumbnailSrc;
-    //     ogDesc.value = `${item.title}의 가격은 ${item.price}입니다.`;
-    //   }
-    //   return { ok, item };
-    // })
+    getItemById(+params.id)
+      .then(({ ok, item }) => {
+        if (ok) {
+          ogTitle.value = `타이틀 : ${item.title}`;
+          ogSrc.value = item.thumbnailSrc;
+          ogDesc.value = `${item.title}의 가격은 ${item.price}입니다.`;
+        }
+        return { ok, item };
+      })
+      .catch(function(error) {
+        console.log(error.toJSON());
+      }),
 
-    // fetch(`https://myapi.kimjuchan97.xyz/shop-item/${+params.id}`)
-    //   .then((res) => res.json())
-    //   .then((data) => data as { ok: boolean; item: ShopItem })
-    //   .then(({ ok, item }) => {
-    //     if (ok) {
-    //       ogTitle.value = `타이틀 : ${item.title}`;
-    //       ogSrc.value = item.thumbnailSrc;
-    //       ogDesc.value = `${item.title}의 가격은 ${item.price}입니다.`;
-    //     }
-    //     return { ok, item };
-    //   })
+  // fetch(`https://myapi.kimjuchan97.xyz/shop-item/${+params.id}`)
+  //   .then((res) => res.json())
+  //   .then((data) => data as { ok: boolean; item: ShopItem })
+  //   .then(({ ok, item }) => {
+  //     if (ok) {
+  //       ogTitle.value = `타이틀 : ${item.title}`;
+  //       ogSrc.value = item.thumbnailSrc;
+  //       ogDesc.value = `${item.title}의 가격은 ${item.price}입니다.`;
+  //     }
+  //     return { ok, item };
+  //   })
 
-    // axios
-    //   .get(`https://myapi.kimjuchan97.xyz/shop-item/${+params.id}`)
-    //   .then((res) => res.data as { ok: boolean; item: ShopItem })
-    //   .then(({ ok, item }) => {
-    //     if (ok) {
-    //       ogTitle.value = `타이틀 : ${item?.title}`;
-    //       ogSrc.value = item?.thumbnailSrc;
-    //       ogDesc.value = `${item.title}의 가격은 ${item?.price}입니다.`;
-    //     }
-    //     return { ok, item };
-    //   })
-    axios
-      .get(`https://myapi.kimjuchan97.xyz/shop-item/11`)
-      .then((res) => res.data),
+  // axios
+  //   .get(`https://myapi.kimjuchan97.xyz/shop-item/${+params.id}`)
+  //   .then((res) => res.data as { ok: boolean; item: ShopItem })
+  //   .then(({ ok, item }) => {
+  //     if (ok) {
+  //       ogTitle.value = `타이틀 : ${item?.title}`;
+  //       ogSrc.value = item?.thumbnailSrc;
+  //       ogDesc.value = `${item.title}의 가격은 ${item?.price}입니다.`;
+  //     }
+  //     return { ok, item };
+  //   })
+  // axios
+  //   .get(`https://myapi.kimjuchan97.xyz/shop-item/11`)
+  //   .get(`https://bb089b86-13c5-4398-b2d9-b9ec5a6f7763.mock.pstmn.io`)
+  //   .then((res) => res.data)
 
   // testItem().then((item) => {
   //   ogTitle.value = `타이틀 : ${item?.title}`;
@@ -590,9 +595,8 @@ const { data: ogData } = await useAsyncData(
   //   ogDesc.value = `${item.title}의 가격은 ${item?.price}입니다.`;
   //   return item;
   // }),
-
   {
-    initialCache: false,
+    server: false,
   }
 );
 
