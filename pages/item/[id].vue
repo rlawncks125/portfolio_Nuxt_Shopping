@@ -532,7 +532,7 @@ const ogSrc = useState(
 );
 const ogDesc = useState("ogDesc", () => "desc");
 
-const { data: ogData } = useLazyAsyncData(
+const { data: ogData } = await useLazyAsyncData(
   "ogMetaData",
   () =>
     // useFetch("/api/asyncGetItem", {
@@ -555,6 +555,7 @@ const { data: ogData } = useLazyAsyncData(
           ogSrc.value = item.thumbnailSrc;
           ogDesc.value = `${item.title}의 가격은 ${item.price}입니다.`;
         }
+        console.log("async data ", item.title);
         return { ok, item };
       })
       .catch(function(error) {
@@ -585,9 +586,15 @@ const { data: ogData } = useLazyAsyncData(
   //     return { ok, item };
   //   })
   // axios
-  //   .get(`https://myapi.kimjuchan97.xyz/shop-item/11`)
-  //   .get(`https://bb089b86-13c5-4398-b2d9-b9ec5a6f7763.mock.pstmn.io`)
-  //   .then((res) => res.data)
+  //   .get(`https://myapi.kimjuchan97.xyz`)
+  //   // .get(`https://bb089b86-13c5-4398-b2d9-b9ec5a6f7763.mock.pstmn.io`)
+  //   .then((res) => {
+  //     console.log(res.data);
+  //     return res.data;
+  //   })
+  //   .catch(function(error) {
+  //     console.log(error.toJSON());
+  //   }),
 
   // testItem().then((item) => {
   //   ogTitle.value = `타이틀 : ${item?.title}`;
@@ -596,7 +603,7 @@ const { data: ogData } = useLazyAsyncData(
   //   return item;
   // }),
   {
-    server: false,
+    // server: false,
   }
 );
 
@@ -623,7 +630,7 @@ useHead({
     {
       name: "og:title",
       property: "og:title",
-      content: ogTitle,
+      content: ogData.value || ogTitle,
     },
     {
       name: "og:description",

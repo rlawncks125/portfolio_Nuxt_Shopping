@@ -2,7 +2,7 @@ import { defineNuxtConfig } from "nuxt";
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-  target: "static",
+  // target: "static",
 
   buildModules: ["@pinia/nuxt"],
   css: [
@@ -46,7 +46,8 @@ export default defineNuxtConfig({
     //  }
 
     public: {
-      apiServer: process.env.APISERVER || "https://myapi.kimjuchan97.xyz",
+      apiServer:
+        process.env.APISERVER || "https://juchan-back-server.herokuapp.com",
       impCodeApi: "imp85605338",
       reCAPTCHA_SITE_KEY:
         process.env.reCAPTCHA_SITE_KEY ||
