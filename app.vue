@@ -59,7 +59,13 @@ useHead({
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap");
+
 html {
   @apply text-[12px] md:text-[16px];
+}
+
+body {
+  font-family: "IBM Plex Sans KR", sans-serif;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-col md:flex-row gap-2">
-    <div class="border-b border-t md:border-none ">
+  <div class="max-w-container mx-auto flex flex-col md:flex-row gap-2">
+    <div class="border-b border-t md:border ">
       <label
         for="list-checked"
         class="block md:hidden py-3 px-2 cursor-pointer"
@@ -15,7 +15,7 @@
           id="list-checked"
           v-model="isChecked"
         />
-        <ul class="list-warp px-2 md:border text-[1.6rem]">
+        <ul class="list-warp px-2 text-[1.6rem]">
           <li>
             <NuxtLink class="block" to="/mypage">주문 내역</NuxtLink>
           </li>
@@ -39,7 +39,7 @@
               >판매자 정보 수정</NuxtLink
             >
           </li>
-          <li>
+          <li class="md:border-b">
             <NuxtLink class="block" to="/mypage/withdraw">회원 탈퇴</NuxtLink>
           </li>
         </ul>

@@ -19,6 +19,7 @@ export default defineNuxtPlugin(() => {
 
   // @ts-ignore
   const imp = window.IMP;
+  console.log("판매코드", iampCode);
 
   imp.init(iampCode);
 

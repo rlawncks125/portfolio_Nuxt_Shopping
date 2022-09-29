@@ -1,7 +1,6 @@
 <template>
   <div>
     <div>아이템 id : {{ params.id }}</div>
-    <p class="border">{{ ogData }}</p>
     <div v-if="item" class="text-[1.1rem]">
       <!-- 상품정보 헤드 -->
       <section class="width-container mb-[3rem]">
@@ -532,93 +531,22 @@ const ogSrc = useState(
 );
 const ogDesc = useState("ogDesc", () => "desc");
 
-const { data: ogData } = await useLazyAsyncData(
-  "ogMetaData",
-  () =>
-    // useFetch("/api/asyncGetItem", {
-    //   body: params.id,
-    // })
-    //   .then((res) => res.data.value as { ok: boolean; item: ShopItem })
-    //   .then(({ ok, item }) => {
-    //     if (ok) {
-    //       ogTitle.value = `타이틀 : ${item.title}`;
-    //       ogSrc.value = item.thumbnailSrc;
-    //       ogDesc.value = `${item.title}의 가격은 ${item.price}입니다.`;
-    //     }
-    //   })
-
-    // 아이템 정보 가져오기 처리
-    getItemById(+params.id)
-      .then(({ ok, item }) => {
-        if (ok) {
-          ogTitle.value = `타이틀 : ${item.title}`;
-          ogSrc.value = item.thumbnailSrc;
-          ogDesc.value = `${item.title}의 가격은 ${item.price}입니다.`;
-        }
-        console.log("data ", item.title);
-        return { ok, item };
-      })
-      .catch(function(error) {
-        console.log(error.toJSON());
-      }),
-
-  // fetch(`https://myapi.kimjuchan97.xyz/shop-item/${+params.id}`)
-  //   .then((res) => res.json())
-  //   .then((data) => data as { ok: boolean; item: ShopItem })
-  //   .then(({ ok, item }) => {
-  //     if (ok) {
-  //       ogTitle.value = `타이틀 : ${item.title}`;
-  //       ogSrc.value = item.thumbnailSrc;
-  //       ogDesc.value = `${item.title}의 가격은 ${item.price}입니다.`;
-  //     }
-  //     return { ok, item };
-  //   })
-
-  // axios
-  //   .get(`https://myapi.kimjuchan97.xyz/shop-item/${+params.id}`)
-  //   .then((res) => res.data as { ok: boolean; item: ShopItem })
-  //   .then(({ ok, item }) => {
-  //     if (ok) {
-  //       ogTitle.value = `타이틀 : ${item?.title}`;
-  //       ogSrc.value = item?.thumbnailSrc;
-  //       ogDesc.value = `${item.title}의 가격은 ${item?.price}입니다.`;
-  //     }
-  //     return { ok, item };
-  //   })
-  // axios
-  //   .get(`https://myapi.kimjuchan97.xyz`)
-  //   // .get(`https://bb089b86-13c5-4398-b2d9-b9ec5a6f7763.mock.pstmn.io`)
-  //   .then((res) => {
-  //     console.log(res.data);
-  //     return res.data;
-  //   })
-  //   .catch(function(error) {
-  //     console.log(error.toJSON());
-  //   }),
-
-  // testItem().then((item) => {
-  //   ogTitle.value = `타이틀 : ${item?.title}`;
-  //   ogSrc.value = item?.thumbnailSrc;
-  //   ogDesc.value = `${item.title}의 가격은 ${item?.price}입니다.`;
-  //   return item;
-  // }),
-  {
-    // server: false,
-  }
+const { data: ogData } = await useLazyAsyncData("ogMetaData", () =>
+  // 아이템 정보 가져오기 처리
+  getItemById(+params.id)
+    .then(({ ok, item }) => {
+      if (ok) {
+        ogTitle.value = `타이틀 : ${item.title}`;
+        ogSrc.value = item.thumbnailSrc;
+        ogDesc.value = `${item.title}의 가격은 ${item.price}입니다.`;
+      }
+      console.log("data ", item.title);
+      return { ok, item };
+    })
+    .catch(function(error) {
+      console.log(error.toJSON());
+    })
 );
-
-function testItem(): Promise<any> {
-  return new Promise((res, rej) => {
-    setTimeout(() => {
-      res({
-        title: "dadw",
-        thumbnailSrc:
-          "https://gdimg.gmarket.co.kr/2400087825/still/600?ver=1660903968",
-        price: 2000,
-      });
-    }, 2000);
-  });
-}
 
 useHead({
   title: `아이템 :  ${params.id}`,

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="max-w-container mx-auto">
     <p class="mb-[5rem]">
       주문 배송
     </p>

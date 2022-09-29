@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="max-w-container mx-auto px-4">
     <h1>
       아이템 판매하기
     </h1>
@@ -9,7 +9,7 @@
       <SellerRegister />
     </section>
     <!-- 아이템 등록 -->
-    <section v-else class="text-[1.6rem] max-w-container mx-auto">
+    <section v-else class="text-[1.6rem] ">
       <!-- <button @click="isRegistered = true">변경사항 저장 하기</button> -->
       <div class="form-stlye">
         <div>
@@ -67,7 +67,7 @@
 
         <!-- 썸네임 -->
         <div>
-          <p>썸네일</p>
+          <p>상품 이미지</p>
           <FileUpload
             ref="fileUploadRef"
             class="w-[15rem] h-[12rem] sm:w-[20rem] sm:h-[16rem] mb-[4rem]"
@@ -131,9 +131,13 @@
         <ToastUi ref="toastUiRef" />
       </div>
 
-      <button @click="onAddItem" class="block text-[2rem] mx-6 !bg-green-500">
+      <button
+        @click="onAddItem"
+        class="block text-[2rem] mx-6 !bg-green-500 float-right "
+      >
         판매 등록하기
       </button>
+      <div class="clear-both mb-4"></div>
     </section>
   </div>
 </template>
@@ -142,7 +146,7 @@
 import { defineComponent } from "vue";
 import { ToastUi } from "~~/.nuxt/components";
 import { deleteImageUrl } from "@/api/file";
-import { onBeforeRouteLeave } from "vue-router";
+import { onBeforeRouteLeave, onBeforeRouteUpdate } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useUser } from "~~/sotre/user";
 import { EnumUserInfoRole } from "~~/api/swagger";
@@ -208,6 +212,12 @@ export default defineComponent({
       useLoading().on();
       const thumbnailSrc = await fileUploadRef.value.onUpload();
 
+      if (!thumbnailSrc) {
+        useLoading().off();
+        alert("상품 이미지를 등록하세요");
+        return;
+      }
+
       const inputDto = {
         title: inputData.title,
         price: +inputData.price,
@@ -229,6 +239,19 @@ export default defineComponent({
       isRegistered.value = true;
       useRouter().push("/");
     };
+
+    const reFreshGuard = async (event) => {
+      // F5 새로고침을 RouteLeave가 감지를 못해서
+      // 키입력 반응을 이벤트를설정
+
+      // F5
+      if (event.keyCode == 116) {
+        event.preventDefault();
+
+        useRouter().push("/");
+      }
+    };
+
     onMounted(() => {
       // 판매자가 아닐시 홈페이지로 리다렉트
       if (userInfo.value.role !== EnumUserInfoRole.company) {
@@ -236,7 +259,14 @@ export default defineComponent({
         isRegistered.value = true;
         useRouter().push("/");
       }
+
+      window.addEventListener("keydown", reFreshGuard);
     });
+
+    onUnmounted(() => {
+      window.removeEventListener("keydown", reFreshGuard);
+    });
+
     onBeforeRouteLeave(async (to, form, next) => {
       console.log("라우트 이동 감지");
       // 판매 등록을 했을시
@@ -259,7 +289,9 @@ export default defineComponent({
         deletePromiseAll.push(deleteImageUrl(v));
       });
       if (deletePromiseAll.length > 0) {
+        useLoading().on();
         await Promise.all(deletePromiseAll);
+        useLoading().off();
       }
       next();
     });

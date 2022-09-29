@@ -98,14 +98,15 @@ const fileRender = (file: any) => {
 };
 
 const onUpload = async (): Promise<string> => {
+  if (!fileData.value) {
+    return null;
+  }
+  console.log("여긴왜옴?");
+
   // const url = fileData.value?.file.name || "urlStrig";
   const url = await getImageURLByFormData(fileData.value.file);
 
-  return new Promise((res, rej) => {
-    setTimeout(() => {
-      res(url);
-    }, 1000);
-  });
+  return url;
 };
 
 const preventDefaultDrag = (e: any) => {

@@ -49,13 +49,14 @@
     <!-- 검색 -->
     <section id="serch" class="relative my-2 px-2">
       <div class="width-container h-[5rem] flex items-center gap-[.5rem]">
-        <a href="/" class="flex-none h-full">
+        <NuxtLink to="/" class="flex-none h-full">
           <img
             class="h-full object-cover "
             src="https://res.cloudinary.com/dhdq4v4ar/image/upload/v1661371113/transparent-bg_-no-shadow-designify_wst7my.png"
             alt="로고 이미지"
           />
-        </a>
+        </NuxtLink>
+
         <!-- 서치바 -->
         <form
           class="flex-auto max-w-[30rem] border  rounded-full p-[0.7rem] px-5  flex justify-between text-sm"

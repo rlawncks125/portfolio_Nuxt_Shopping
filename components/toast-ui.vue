@@ -1,17 +1,20 @@
 <template>
   <div>
-    <button @click="getHTML">Get HTML</button> |
-    <label class="cursor-pointer" for="insert-image">이미지 삽입 </label>
+    <!-- <button @click="getHTML">Get HTML</button>  -->
+    <label class="cursor-pointer border p-2 mb-2" for="insert-image"
+      >이미지 삽입
+    </label>
     <input
       class="w-0 h-0 border-0"
       type="file"
+      accept="image/*"
       id="insert-image"
       @change="inertImage"
     />
-    |
-    <button @click="renderPreview">미리보기</button> |
-    <button @click="isLoading = !isLoading">로딩변경</button>
-    <div class="relative">
+
+    <!-- <button @click="renderPreview">미리보기</button> | -->
+    <!-- <button @click="isLoading = !isLoading">로딩변경</button> -->
+    <div class="relative mt-3">
       <div ref="tostRef"></div>
       <div
         v-show="isLoading"
@@ -21,6 +24,7 @@
       </div>
     </div>
     <!-- 미리보기  -->
+
     <div class="preview" v-if="preview">
       <div class="content">
         <!-- 헤더 -->
