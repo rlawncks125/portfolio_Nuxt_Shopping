@@ -32,7 +32,7 @@ export class ApiServer {
 
     const instance = axios.create({
       baseURL: url,
-      timeout: 5000,
+      timeout: 20000,
       headers: {
         "shop-token": userToken.value,
         "content-type" : "application/json"
