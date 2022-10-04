@@ -261,11 +261,13 @@ const removeBaskItem = async (itemIndex: number) => {
     removeIndex,
   } = await ShopUserService.shopUserControllerRemoveBasketItem({
     body: {
-      itemIndex,
+      itemIndex: [itemIndex],
     },
   });
   if (ok) {
-    items.value = items.value.filter((v, index) => index !== removeIndex);
+    items.value = items.value.filter(
+      (v, index) => !removeIndex.includes(index)
+    );
   }
 };
 

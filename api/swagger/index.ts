@@ -2212,7 +2212,7 @@ export interface AddBasketItemOutPutDto {
 
 export interface RemoveBasketItemInputDto {
   /** 장바구니 아이템 인덱스 */
-  itemIndex: number;
+  itemIndex: number[];
 }
 
 export interface RemoveBasketItemOutPutdto {
@@ -2223,7 +2223,7 @@ export interface RemoveBasketItemOutPutdto {
   err?: string;
 
   /** 제거된 아이템 인덱스 */
-  removeIndex: number;
+  removeIndex: number[];
 }
 
 export interface SendMailInputDto {}

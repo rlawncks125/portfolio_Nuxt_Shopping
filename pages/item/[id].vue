@@ -112,14 +112,18 @@
             <div class="clear-both flex  justify-end gap-2 ">
               <button
                 class=" border py-2 px-4 disable-type-0"
-                :disabled="userInfo.role === EnumUserInfoRole.company ? true : false"
+                :disabled="
+                  userInfo?.role === EnumUserInfoRole.company ? true : false
+                "
                 @click="onAddBasketItem"
               >
                 장바구니
               </button>
               <button
                 class=" border py-2 px-4 disable-type-0"
-                :disabled="userInfo.role === EnumUserInfoRole.company ? true : false"
+                :disabled="
+                  userInfo?.role === EnumUserInfoRole.company ? true : false
+                "
                 @click="onClickBuyItem"
               >
                 구매하기
@@ -342,13 +346,11 @@ import {
   ShopItem,
   BaksetItemSelectedOptions,
   ShopUserService,
-EnumUserInfoRole,
+  EnumUserInfoRole,
 } from "~~/api/swagger";
 import { storeToRefs } from "pinia";
 import { useUser } from "~~/sotre/user";
 import axios from "axios";
-
-
 
 const { userInfo, sellerInfo } = storeToRefs(useUser());
 
