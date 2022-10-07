@@ -39,6 +39,18 @@
             {{ shipStatus[+item.status] }}
           </p>
           <p v-if="+item.status > 1">운송장 : {{ item.transportNumber }}</p>
+          <div class="my-[.5rem]" v-if="+item.status === shipStatus.length - 1">
+            <span
+              v-if="!item.isReview"
+              @click="openReivewPopup(item)"
+              class="bg-blue-400 p-[.5rem] cursor-pointer"
+            >
+              리뷰달기
+            </span>
+            <span v-else class="text-green-700 p-[.5rem] border">
+              리뷰을 작성 하셨습니다.
+            </span>
+          </div>
         </div>
         <!-- 판매처 -->
         <div>
@@ -58,11 +70,15 @@
 
 <script setup lang="ts">
 import {
+  AddReviewInputDto,
   EnumShopSoldItemStatus,
   ShopIreceipt,
   ShopitemService,
+  ShopSoldItem,
 } from "~~/api/swagger";
 import { formatTelNumber } from "@/common/format";
+import { windowFeatures } from "@/common/popup";
+import { useLoading } from "~~/sotre/loading";
 
 definePageMeta({
   layout: "login-required",
@@ -71,7 +87,44 @@ definePageMeta({
 const items = useState<ShopIreceipt[]>("OrderItems", () => []);
 const shipStatus = Object.keys(EnumShopSoldItemStatus);
 
+let openitem: ShopSoldItem;
+let reviewCallback;
+
 console.log(shipStatus);
+
+const openReivewPopup = async (soldItem: ShopSoldItem) => {
+  openitem = soldItem;
+
+  // 팝업 열기
+  window.open(
+    `${document.location.origin}/popup/review`,
+    "review_window",
+    windowFeatures()
+  );
+};
+
+const HandleAddReview = async (d: any) => {
+  if (!d.data || d.data.type !== "addReview") return;
+
+  useLoading().on();
+  console.log(openitem, d.data);
+
+  const { star, text, title } = d.data.data as AddReviewInputDto;
+
+  const { ok, err } = await ShopitemService.shopItemControllerAddReview({
+    body: {
+      soldId: +openitem.id,
+      star,
+      text,
+      title,
+      selectedOptions: openitem.soldItemsInfo.selectedOptions
+        .map((v) => v.name)
+        .join(" + "),
+    },
+  });
+
+  useLoading().off();
+};
 
 onMounted(async () => {
   const {
@@ -79,9 +132,23 @@ onMounted(async () => {
     ireceipts,
   } = await ShopitemService.shopItemControllerGetIreceipt();
   if (ok) {
+    ireceipts.sort((a, b) => {
+      const aT = new Date(a.createAt).valueOf();
+      const bT = new Date(b.createAt).valueOf();
+
+      return bT - aT;
+    });
+
     items.value = ireceipts;
     console.log(ireceipts);
   }
+
+  reviewCallback = HandleAddReview;
+  window.addEventListener("message", reviewCallback);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("message", reviewCallback);
 });
 </script>
 

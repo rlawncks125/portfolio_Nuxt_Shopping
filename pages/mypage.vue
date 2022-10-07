@@ -17,7 +17,7 @@
         />
         <ul class="list-warp px-2 text-[1.6rem]">
           <li>
-            <NuxtLink class="block" to="/mypage">주문 내역</NuxtLink>
+            <NuxtLink class="block" to="/mypage">내정보</NuxtLink>
           </li>
           <li>
             <NuxtLink class="block" to="/mypage/infomationModify"

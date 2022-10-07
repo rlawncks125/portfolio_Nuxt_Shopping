@@ -987,6 +987,28 @@ export class ShopitemService {
     });
   }
   /**
+   * 리뷰 달기
+   */
+  static shopItemControllerAddReview(
+    params: {
+      /** requestBody */
+      body?: AddReviewInputDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<AddReivewOutPutDto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/shop-item/soldItem';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
    * 아이템 변경
    */
   static shopItemControllerUpdateItem(
@@ -1787,6 +1809,9 @@ export interface review {
 
   /** 등록 날짜 */
   addDay: string;
+
+  /** 추가 옵션 */
+  selectedOptions: string;
 }
 
 export interface QA {
@@ -2017,6 +2042,9 @@ export interface ShopSoldItem {
 
   /** 운송자 번호 */
   transportNumber: string;
+
+  /** 리뷰 달았는지 체크 */
+  isReview: boolean;
 }
 
 export interface ShopUserSeller {
@@ -2397,6 +2425,31 @@ export interface PatchSoldItemOutputDto {
 
   /** 갱신된 판매 아이템 */
   soldItem?: CombinedSoldItemTypes;
+}
+
+export interface AddReviewInputDto {
+  /** 판매 아이템 id */
+  soldId: number;
+
+  /** 별점 */
+  star: number;
+
+  /** 리뷰 제목 */
+  title: string;
+
+  /** 리뷰 내용 */
+  text: string;
+
+  /** 추가 옵션 */
+  selectedOptions: string;
+}
+
+export interface AddReivewOutPutDto {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
 }
 
 export interface UpdateItemInputDto {

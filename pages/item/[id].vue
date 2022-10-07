@@ -240,9 +240,23 @@
               <div class="flex gap-2 text-gray-400">
                 <start-fill :star-size="1" :star-num="5" :fill="review.star" />
                 <p>{{ review.nickName }}</p>
-                <p>{{ review.addDay }}</p>
+                <p>
+                  {{
+                    new Date(review.addDay).toLocaleDateString().slice(0, -1)
+                  }}
+                </p>
               </div>
-              <p class="text-gray-400">선택 : {{ review.title }}</p>
+              <h2 class="bold text-[1.2rem]">
+                {{ review.title }}
+              </h2>
+              <p
+                v-if="
+                  review.selectedOptions && review.selectedOptions.length > 0
+                "
+                class="text-gray-400 text-[.8rem]"
+              >
+                추가 옵션 : {{ review.selectedOptions }}
+              </p>
               <p>
                 {{ review.text }}
               </p>
@@ -253,7 +267,15 @@
         <div v-show="showTabMenu === 2">
           <h1 class="text-[2rem] text-center">{{ item.title }}</h1>
           <br />
-          <p class="font-bold border-b-2">상품문의 ({{ item.QA.length }})</p>
+          <div class="flex  justify-between border-b-2 font-bold">
+            <p>상품문의 ({{ item.QA.length }})</p>
+            <div
+              @click="openQA"
+              class="border border-b-0 p-1 cursor-pointer hover:text-green-500"
+            >
+              문의하기
+            </div>
+          </div>
           <br />
           <div>
             <div class="inquire ">
@@ -351,6 +373,7 @@ import {
 import { storeToRefs } from "pinia";
 import { useUser } from "~~/sotre/user";
 import axios from "axios";
+import { windowFeatures } from "~~/common/popup";
 
 const { userInfo, sellerInfo } = storeToRefs(useUser());
 
@@ -498,11 +521,32 @@ const openInquiry = (index: number) => {
   openInquiryIndex.value = index;
 };
 
+// QA
+
+let QAcallBack;
+const openQA = () => {
+  window.open(
+    `${document.location.origin}/popup/QA-${item.value.id}`,
+    "add_QA",
+    windowFeatures()
+  );
+};
+
+const onHandleAddQA = (d: any) => {
+  if (!d.data || d.data.type !== "add-QA") return;
+
+  if (d.data.data.ok) {
+    alert("문의가 등록되었습니다.");
+  }
+};
+
 onMounted(async () => {
   const { ok, item: resItem } = await getItemById(+params.id);
   if (ok) {
     item.value = resItem;
   }
+
+  console.log(item.value);
 
   // 평균 별점
   avgStar.value =
@@ -511,20 +555,27 @@ onMounted(async () => {
 
   // 별점 분포도
   starDist.five =
-    resItem.reviews.filter((v) => v.star === 5).length /
+    resItem.reviews.filter((v) => v.star > 4 && v.star <= 5).length /
       resItem.reviews.length || 0;
   starDist.four =
-    resItem.reviews.filter((v) => v.star === 4).length /
+    resItem.reviews.filter((v) => v.star > 3 && v.star <= 4).length /
       resItem.reviews.length || 0;
   starDist.three =
-    resItem.reviews.filter((v) => v.star === 3).length /
+    resItem.reviews.filter((v) => v.star > 2 && v.star <= 3).length /
       resItem.reviews.length || 0;
   starDist.two =
-    resItem.reviews.filter((v) => v.star === 2).length /
+    resItem.reviews.filter((v) => v.star > 1 && v.star <= 2).length /
       resItem.reviews.length || 0;
   starDist.one =
-    resItem.reviews.filter((v) => v.star === 1).length /
+    resItem.reviews.filter((v) => v.star <= 1).length /
       resItem.reviews.length || 0;
+
+  QAcallBack = onHandleAddQA;
+  window.addEventListener("message", QAcallBack);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("message", QAcallBack);
 });
 
 // og데이터
