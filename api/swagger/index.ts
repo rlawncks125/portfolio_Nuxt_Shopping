@@ -1009,6 +1009,50 @@ export class ShopitemService {
     });
   }
   /**
+   * 문의 하기
+   */
+  static shopItemControllerAddQa(
+    params: {
+      /** requestBody */
+      body?: AddQAInputDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<AddQAOutPutDto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/shop-item/QA';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   * 문의 답변
+   */
+  static shopItemControllerAnswerQa(
+    params: {
+      /** requestBody */
+      body?: AnswerQAInputDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<AnswerQAOutPutDtop> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/shop-item/answerQA';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
    * 아이템 변경
    */
   static shopItemControllerUpdateItem(
@@ -2445,6 +2489,47 @@ export interface AddReviewInputDto {
 }
 
 export interface AddReivewOutPutDto {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
+}
+
+export interface AddQAInputDto {
+  /** QA 제목 */
+  title: string;
+
+  /** QA 내용 */
+  text: string;
+
+  /** 문제 형태 */
+  type: string;
+
+  /** 아이템 아이디 */
+  itemId: number;
+}
+
+export interface AddQAOutPutDto {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
+}
+
+export interface AnswerQAInputDto {
+  /** 아이템 아이디 */
+  itemId: number;
+
+  /** 추가 날짜 */
+  addDay: string;
+
+  /** 답변 */
+  answer: string;
+}
+
+export interface AnswerQAOutPutDtop {
   /** 성공 여부입니다. */
   ok: boolean;
 

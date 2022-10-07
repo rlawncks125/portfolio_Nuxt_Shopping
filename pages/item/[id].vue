@@ -286,12 +286,18 @@
               <p class="w-[15%]">작성일자</p>
             </div>
             <!-- 문의 랜더 -->
+
             <div v-for="(qa, index) in item.QA">
-              <div class="flex justify-between text-center border-b">
-                <p class="w-[15%] text-green-600">{{ qa.status }}</p>
+              <div class="flex justify-between text-center border-b mt-[1rem] ">
+                <p
+                  class="w-[15%] "
+                  :class="qa.answer ? 'text-gray-500' : 'text-green-600'"
+                >
+                  {{ qa.status }}
+                </p>
                 <p class="w-[15%]">{{ qa.type }}</p>
                 <button
-                  class="w-[40%] hover:underline"
+                  class="w-[40%] hover:underline "
                   @click="openInquiry(index)"
                 >
                   {{ qa.title }}
@@ -299,24 +305,38 @@
                 <p class="w-[15%]">
                   {{ qa.nickName.slice(0, qa.nickName.length / 2) }}**
                 </p>
-                <p class="w-[15%]">{{ qa.addDay }}</p>
+                <p class="w-[15%]">
+                  {{ new Date(qa.addDay).toLocaleDateString().slice(0, -1) }}
+                </p>
               </div>
               <!-- 문의 내용 -->
               <div v-show="openInquiryIndex === index">
                 <div class="flex flex-col px-4 gap-6 bg-gray-200 py-4 ">
                   <!-- 질문 -->
-                  <div class="flex items-center gap-2">
+                  <div class="flex items-start justify-between gap-2">
                     <div
-                      class="w-[1.5rem] h-[1.5rem]  text-center text-white bg-gray-500"
+                      class="w-[1.5rem] h-[1.5rem]  text-center text-white bg-gray-500 mt-[.2rem]"
                       :style="{ borderRadius: '100%', lineHeight: '1.5rem' }"
                     >
                       <p>
                         Q
                       </p>
                     </div>
-                    <p>
-                      {{ qa.text }}
-                    </p>
+                    <div class="flex-1">
+                      <p v-for="txt in qa.text.split('\n')">
+                        {{ txt }}
+                      </p>
+                    </div>
+
+                    <div
+                      v-if="
+                        sellerInfo && item.sellUserInfo.id === sellerInfo.id
+                      "
+                      class="border bg-blue-400 p-2 rounded-md text-white cursor-pointer"
+                      @click="answerQA(qa.addDay)"
+                    >
+                      답변하기
+                    </div>
                   </div>
 
                   <!-- 답변 -->
@@ -369,11 +389,13 @@ import {
   BaksetItemSelectedOptions,
   ShopUserService,
   EnumUserInfoRole,
+  ShopitemService,
 } from "~~/api/swagger";
 import { storeToRefs } from "pinia";
 import { useUser } from "~~/sotre/user";
 import axios from "axios";
 import { windowFeatures } from "~~/common/popup";
+import { useLoading } from "~~/sotre/loading";
 
 const { userInfo, sellerInfo } = storeToRefs(useUser());
 
@@ -522,7 +544,6 @@ const openInquiry = (index: number) => {
 };
 
 // QA
-
 let QAcallBack;
 const openQA = () => {
   window.open(
@@ -532,12 +553,60 @@ const openQA = () => {
   );
 };
 
-const onHandleAddQA = (d: any) => {
+const onHandleAddQA = async (d: any) => {
   if (!d.data || d.data.type !== "add-QA") return;
 
   if (d.data.data.ok) {
-    alert("문의가 등록되었습니다.");
+    useLoading().on();
+    const { ok, item: resItem } = await getItemById(+params.id);
+    if (ok) {
+      item.value = resItem;
+      changeTabMenuByIndex(2);
+    }
+
+    useLoading().off();
   }
+};
+
+// QA 답변
+let answerQAcallBack;
+let answerQAaddDay;
+const answerQA = (addDay: string) => {
+  answerQAaddDay = addDay;
+  console.log(answerQAaddDay);
+
+  window.open(
+    `${document.location.origin}/popup/answerQA`,
+    "answer_QA",
+    windowFeatures()
+  );
+};
+
+const onHandleAnswerQa = async (d: any) => {
+  if (!d.data || d.data.type !== "answer-QA") return;
+
+  const { answer } = d.data.data;
+
+  // 답변 데이터 처리
+  useLoading().on();
+  const { ok, err } = await ShopitemService.shopItemControllerAnswerQa({
+    body: {
+      addDay: answerQAaddDay,
+      answer,
+      itemId: item.value.id,
+    },
+  });
+  if (ok) {
+    const { ok: gok, item: resItem } = await getItemById(+params.id);
+    if (gok) {
+      item.value = resItem;
+      changeTabMenuByIndex(2);
+    }
+  }
+
+  useLoading().off();
+
+  console.log(d.data.data.answer);
 };
 
 onMounted(async () => {
@@ -546,7 +615,9 @@ onMounted(async () => {
     item.value = resItem;
   }
 
-  console.log(item.value);
+  // console.log(item.value);
+  // console.log(sellerInfo);
+  showTabMenu.value = 0;
 
   // 평균 별점
   avgStar.value =
@@ -572,10 +643,14 @@ onMounted(async () => {
 
   QAcallBack = onHandleAddQA;
   window.addEventListener("message", QAcallBack);
+
+  answerQAcallBack = onHandleAnswerQa;
+  window.addEventListener("message", answerQAcallBack);
 });
 
 onUnmounted(() => {
   window.removeEventListener("message", QAcallBack);
+  window.removeEventListener("message", answerQAcallBack);
 });
 
 // og데이터

@@ -1,8 +1,8 @@
 <template>
   <div class="p-4">
-    <p>
-      리뷰
-    </p>
+    <h2 class="text-[2rem] font-bold">
+      리뷰 작성하기
+    </h2>
     <star-dynamic
       :star-num="5"
       :star-size="3"

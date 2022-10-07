@@ -1,6 +1,8 @@
 <template>
   <div>
-    판매아이템 상태 변경
+    <h2 class="text-[2rem] font-bold">
+      판매아이템 상태 변경
+    </h2>
     <select class="block border" v-model="status">
       <option value="" disabled>상태 선택</option>
       <option v-for="(status, index) in itemStatus" :value="index">{{
