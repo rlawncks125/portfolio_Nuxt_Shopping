@@ -689,7 +689,7 @@ useHead({
     {
       name: "og:title",
       property: "og:title",
-      content: ogData.value || ogTitle,
+      content: ogTitle,
     },
     {
       name: "og:description",
