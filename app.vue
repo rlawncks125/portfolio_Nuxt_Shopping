@@ -54,6 +54,11 @@ useHead({
       property: "og:type",
       content: "website",
     },
+    {
+      name: "naver-site-verification",
+      property: "naver-site-verification",
+      content: "51613a340a3645bde340073b44cf092001efc192",
+    },
   ],
 });
 </script>
