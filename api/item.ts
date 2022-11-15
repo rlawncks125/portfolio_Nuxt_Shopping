@@ -1,4 +1,7 @@
+import axios from "axios";
+
 import { ApiServer } from "~~/plugins/api-server";
+
 import {
   ShopItem,
   AddShopItemInputDto,

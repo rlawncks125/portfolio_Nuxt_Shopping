@@ -19,6 +19,11 @@ onMounted(async () => {
   //   createTimeOrder: "ASC",
   // });
   // console.log(saerch);
+
+  const config = useRuntimeConfig();
+  const url = config.public.apiServer;
+
+  console.log(config, url);
 });
 
 useHead({

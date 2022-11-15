@@ -27,7 +27,7 @@ export default defineNuxtConfig({
   //   server: {
   //     proxy: {
   //       "^/api": {
-  //         target: "https://myapi.kimjuchan97.site",
+  //         target: "http://localhost:3030",
   //         changeOrigin: true,
   //         rewrite: (path) => path.replace(/^\/api/, ""),
   //       },
@@ -46,7 +46,7 @@ export default defineNuxtConfig({
     //  }
 
     public: {
-      apiServer: process.env.APISERVER || "https://myapi.kimjuchan97.xyz",
+      apiServer: process.env.APISERVER || "http://localhost:3030",
       iampCodeApi: "imp85605338",
       reCAPTCHA_SITE_KEY:
         process.env.reCAPTCHA_SITE_KEY ||
@@ -56,6 +56,8 @@ export default defineNuxtConfig({
       process.env.reCAPTCHA_SECRET_KEY ||
       "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe",
   },
+
+  // <meta name="naver-site-verification" content="51613a340a3645bde340073b44cf092001efc192" />
 
   meta: {
     script: [
