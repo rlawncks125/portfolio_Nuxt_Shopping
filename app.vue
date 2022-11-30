@@ -72,6 +72,10 @@ useHead({
       property: "naver-site-verification",
       content: "51613a340a3645bde340073b44cf092001efc192",
     },
+    {
+      name: "google-site-verification",
+      content: "vtqZyN4fnhpMU9K94e86xOtSp3kwew7-nWkHhsW0m_U",
+    },
   ],
 });
 </script>
