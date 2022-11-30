@@ -35,18 +35,26 @@ useHead({
   charset: "utf-8",
   meta: [
     {
+      name: "title",
+      content: "Nuxt3 shopping test.",
+    },
+    {
       name: "description",
-      content: "Nuxt3 shopping.",
+      content: "Nuxt3 shopping test.",
+    },
+    {
+      name: "keywords",
+      content: "kimjuchanTest, 포트폴리오테스트, nuxtShoppingTest",
     },
     {
       name: "og:title",
       property: "og:title",
-      content: `Nuxt3 shopping.`,
+      content: `Nuxt3 shopping test.`,
     },
     {
       name: "og:description",
       property: "og:description",
-      content: "Nuxt3 shopping.",
+      content: "Nuxt3 shopping test.",
     },
     {
       name: "og:image",
