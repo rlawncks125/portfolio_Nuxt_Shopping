@@ -28,7 +28,7 @@ onMounted(async () => {
 
 useHead({
   titleTemplate: (titleChunk) => {
-    const baseTitle = "쇼핑몰포트폴리오";
+    const baseTitle = "김주찬쇼핑몰포트폴리오";
     return titleChunk ? `${baseTitle} - ${titleChunk}` : baseTitle;
   },
   viewport: "width=device-width, initial-scale=1, maximum-scale=1",
@@ -36,25 +36,22 @@ useHead({
   meta: [
     {
       name: "title",
-      content: "Nuxt3 shopping test.",
+      content: "김주찬쇼핑몰포트폴리오",
     },
     {
       name: "description",
-      content: "Nuxt3 shopping test.",
+      content: "김주찬 쇼핑몰 포트폴리오 사이트 입니다.",
     },
-    {
-      name: "keywords",
-      content: "kimjuchanTest, 포트폴리오테스트, nuxtShoppingTest",
-    },
+
     {
       name: "og:title",
       property: "og:title",
-      content: `Nuxt3 shopping test.`,
+      content: `김주찬 쇼핑몰 포트폴리오 사이트 입니다.`,
     },
     {
       name: "og:description",
       property: "og:description",
-      content: "Nuxt3 shopping test.",
+      content: "김주찬 쇼핑몰 포트폴리오 사이트 입니다.",
     },
     {
       name: "og:image",
