@@ -18,7 +18,7 @@
           id="list-checked"
           v-model="isChecked"
         />
-        <ul class="list-warp px-2 text-[1.6rem]">
+        <ul class="list-warp px-2 text-[1.6rem] ">
           <li>
             <NuxtLink class="block" to="/mypage">내정보</NuxtLink>
           </li>
@@ -49,7 +49,7 @@
       </div>
     </div>
 
-    <div class="flex-auto min-h-[50vh]">
+    <div class="flex-auto py-[2rem] min-h-[70vh]">
       <NuxtPage />
     </div>
   </div>

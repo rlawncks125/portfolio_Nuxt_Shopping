@@ -1,8 +1,8 @@
 <template>
   <div>
-    <p>
+    <h2 class="text-center text-[2rem] my-4">
       패스워드 변경
-    </p>
+    </h2>
     <form @submit.prevent="onChange">
       <div>
         <label for="password-0">현재 비밀번호</label>

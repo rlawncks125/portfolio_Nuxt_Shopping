@@ -80,10 +80,11 @@
           </button>
         </form>
       </div>
+      <!-- 광고 블럭 -->
       <div
-        class="hidden md:block absolute top-0 right-0 border w-[5rem] h-[5rem]"
+        class=" w-[10rem] h-[5rem] hidden lg:block absolute top-0 right-0 border"
       >
-        ad
+        <Adsense :width="10" :height="5" />
       </div>
     </section>
 

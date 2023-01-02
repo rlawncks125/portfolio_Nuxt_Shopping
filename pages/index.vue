@@ -50,15 +50,15 @@
 
         <!-- 왼쪽 광고 -->
         <div
-          class="hidden lg:block absolute top-0 w-[8rem] left-[-8.5rem] border"
+          class="hidden xl:block absolute top-0 w-[12rem] left-[-12.5rem] border"
         >
-          <p>왼쪽광고</p>
+          <Adsense :width="12" :height="30" />
         </div>
         <!-- 오른쪽 광고 -->
         <div
-          class="hidden lg:block absolute top-0 w-[8rem] right-[-8.5rem] border"
+          class="hidden xl:block absolute top-0 w-[12rem] right-[-12.5rem] border"
         >
-          <p>오른쪽 광고</p>
+          <Adsense :width="12" :height="30" />
         </div>
       </div>
     </section>
