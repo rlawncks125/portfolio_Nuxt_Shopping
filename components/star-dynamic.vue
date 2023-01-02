@@ -1,18 +1,48 @@
 <template>
   <div class="over-star-wrap" :style="overStarWrap">
     <div :style="overBinStarWrap">
+      <p v-for="index in starNum * 2" :key="index" :style="overBinStar">
+        <span
+          :style="{ fontSize: `${props.starSize}rem` }"
+          class="star material-symbols-outlined"
+          >star</span
+        >
+      </p>
+    </div>
+
+    <div :style="overFillStarWrap" ref="overFillRef">
+      <p
+        class="pointer-events-none"
+        v-for="index in starNum * 2"
+        :key="index"
+        :style="overFillStar"
+      >
+        <span
+          :style="{ fontSize: `${props.starSize}rem` }"
+          class="star-fll material-symbols-outlined"
+          >star</span
+        >
+      </p>
+    </div>
+
+    <!-- 이벤트 트리거 처리할 요소 -->
+    <div :style="overBinStarWrap">
       <p
         class="cursor-pointer"
         v-for="index in starNum * 2"
         :key="index"
         :style="overBinStar"
-        @mouseover="starEvent(index)"
+        @click.prevent="onClickStartEvent(index)"
       >
-        ☆
+        <span
+          :style="{ fontSize: `${props.starSize}rem` }"
+          class="star-fll material-symbols-outlined text-transparent"
+          >star</span
+        >
       </p>
     </div>
 
-    <div :style="overFillStarWrap" ref="overFillRef">
+    <!-- <div :style="overFillStarWrap" ref="overFillRef">
       <p
         class="cursor-pointer"
         v-for="index in starNum * 2"
@@ -21,15 +51,18 @@
         @mouseover="starEvent(index)"
         @click.prevent="onClickStartEvent(index)"
       >
-        ★
+        <span
+          :style="{ fontSize: `${props.starSize}rem` }"
+          class="star-fll material-symbols-outlined"
+          >star</span
+        >
       </p>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import { HTMLAttributes, StyleValue, CSSProperties } from "vue";
-
+import { CSSProperties, toRefs, ref } from "vue";
 const props = defineProps({
   starSize: {
     type: Number,
@@ -44,17 +77,13 @@ const props = defineProps({
     default: 0,
   },
 });
-
-const emits = defineEmits(["clickStar"]);
-
+const emits = defineEmits(["changeStar"]);
 const { fill, starSize, starNum } = toRefs(props);
 const starWidth = starSize.value * starNum.value;
-const isSelected = ref(false);
 const commonStarWrapStyle = {
   position: "absolute",
   display: "flex",
 };
-
 const commonStarFillStyle = {
   flex: `0 0 ${starSize.value * 0.5}rem`,
   margin: 0,
@@ -63,7 +92,6 @@ const commonStarFillStyle = {
   top: `2px`,
   lineHeight: `normal`,
 };
-
 const overStarWrap = {
   width: `${starWidth * 1}rem`,
   position: "relative",
@@ -75,38 +103,24 @@ const overBinStarWrap = {
   width: `100%`,
   ...commonStarWrapStyle,
 } as CSSProperties;
-
 const overBinStar = {
   ...commonStarFillStyle,
 };
-
 const overFillStarWrap = {
   width: `${starWidth * (fill.value / starNum.value)}rem`,
   color: "gold",
   overflow: "hidden",
   ...commonStarWrapStyle,
 } as CSSProperties;
-
 const overFillStar = {
   ...commonStarFillStyle,
 };
-
-const overFillRef = useState<HTMLElement>("overFillRef");
-const starEvent = (index: number) => {
-  if (isSelected.value === true) return;
-  const fillStartWidth = starWidth * (index / (starNum.value * 2));
-  // overFillStarWrap.width = `${fillStartWidth}rem`;
-
-  overFillRef.value.style.width = `${fillStartWidth}rem`;
-};
+const overFillRef = ref<HTMLElement>();
 const onClickStartEvent = (index: number) => {
-  isSelected.value = !isSelected.value;
   const fillStartWidth = starWidth * (index / (starNum.value * 2));
   // overFillStarWrap.width = `${fillStartWidth}rem`;
-  overFillRef.value.style.width = `${fillStartWidth}rem`;
-  if (isSelected.value === true) {
-    emits("clickStar", index / 2);
-  }
+  overFillRef.value!.style.width = `${fillStartWidth}rem`;
+  emits("changeStar", index / 2);
 };
 </script>
 
@@ -117,5 +131,12 @@ const onClickStartEvent = (index: number) => {
       transform: scaleX(-1);
     }
   }
+}
+@import "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200";
+.star {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
+}
+.star-fll {
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 48;
 }
 </style>

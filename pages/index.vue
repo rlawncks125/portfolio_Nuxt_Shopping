@@ -127,7 +127,21 @@ export default defineComponent({
           "https://www.museum.go.kr/uploadfile/ecms/visual/826493_m.png?_=1661443337447",
       },
     ];
-    const productItems = ref<ShopItem[]>([]);
+
+    const fakeItems = {
+      thumbnailSrc:
+        "https://res.cloudinary.com/dhdq4v4ar/image/upload/v1664593520/back-Portfolio/hihuwcqoqqjafvshekmq.jpg",
+      title: "title",
+      sale: 0,
+      price: 0,
+    } as ShopItem;
+
+    const productItems = ref<ShopItem[]>([
+      fakeItems,
+      fakeItems,
+      fakeItems,
+      fakeItems,
+    ]);
     onMounted(async () => {
       swiperControl = $setSwiper(swiper.swiper, {
         loop: true,
@@ -143,7 +157,6 @@ export default defineComponent({
       });
 
       // 아이템 불러오기
-
       // const { ok, items } = await searchItems({});
       const { ok, items } = await ShopitemService.shopItemControllerSearchItems(
         {

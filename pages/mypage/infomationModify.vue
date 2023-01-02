@@ -1,8 +1,10 @@
 <template>
   <div>
-    개인 정보 수정
+    <h2 class="text-center text-[2rem] my-4">
+      개인 정보 수정
+    </h2>
     <div v-if="passowrdCheck">
-      <p>개인 정보 수정 폼</p>
+      <!-- 개인 정보 수정 폼-->
       <div class="form-style" @submit.prevent="onChange">
         <div>
           <label for="nickName">nickName</label>

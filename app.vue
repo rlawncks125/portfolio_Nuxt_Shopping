@@ -31,8 +31,6 @@ useHead({
     const baseTitle = "김주찬쇼핑몰포트폴리오";
     return titleChunk ? `${baseTitle} - ${titleChunk}` : baseTitle;
   },
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1",
-  charset: "utf-8",
   meta: [
     {
       name: "title",

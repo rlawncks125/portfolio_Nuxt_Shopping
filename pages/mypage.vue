@@ -3,10 +3,13 @@
     <div class="border-b border-t md:border ">
       <label
         for="list-checked"
-        class="block md:hidden py-3 px-2 cursor-pointer"
+        class="flex md:hidden py-3 px-2 cursor-pointer items-center justify-start"
       >
         <LazyFaIcon v-show="isChecked" icon="angle-up" size="2x" />
         <LazyFaIcon v-show="!isChecked" icon="angle-down" size="2x" />
+        <span class="ml-4" :style="{ lineHeight: '.5rem', order: 2 }"
+          >더보기</span
+        >
       </label>
       <div class="w-full md:w-[15rem]">
         <input

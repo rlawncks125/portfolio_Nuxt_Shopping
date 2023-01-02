@@ -60,6 +60,11 @@ export default defineNuxtConfig({
   // <meta name="naver-site-verification" content="51613a340a3645bde340073b44cf092001efc192" />
 
   meta: {
+    htmlAttrs: {
+      lang: "ko",
+    },
+    viewport: "width=device-width, initial-scale=1, maximum-scale=1",
+    charset: "utf-8",
     script: [
       // jquery
       {
