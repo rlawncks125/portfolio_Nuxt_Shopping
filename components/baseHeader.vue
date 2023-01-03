@@ -84,7 +84,7 @@
       <div
         class=" w-[10rem] h-[5rem] hidden lg:block absolute top-0 right-0 border"
       >
-        <Adsense :width="10" :height="5" :slot="9305972397" />
+        <Adsense :width="10" :height="5" :ad-slot="9305972397" />
       </div>
     </section>
 

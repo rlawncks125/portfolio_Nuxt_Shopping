@@ -7,6 +7,7 @@
 
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
+import { PropType } from "vue";
 import { ShopitemService } from "./api/swagger";
 import { useLoading } from "./sotre/loading";
 

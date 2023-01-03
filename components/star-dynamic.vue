@@ -41,23 +41,6 @@
         >
       </p>
     </div>
-
-    <!-- <div :style="overFillStarWrap" ref="overFillRef">
-      <p
-        class="cursor-pointer"
-        v-for="index in starNum * 2"
-        :key="index"
-        :style="overFillStar"
-        @mouseover="starEvent(index)"
-        @click.prevent="onClickStartEvent(index)"
-      >
-        <span
-          :style="{ fontSize: `${props.starSize}rem` }"
-          class="star-fll material-symbols-outlined"
-          >star</span
-        >
-      </p>
-    </div> -->
   </div>
 </template>
 
@@ -77,8 +60,10 @@ const props = defineProps({
     default: 0,
   },
 });
+
 const emits = defineEmits(["changeStar"]);
 const { fill, starSize, starNum } = toRefs(props);
+
 const starWidth = starSize.value * starNum.value;
 const commonStarWrapStyle = {
   position: "absolute",
