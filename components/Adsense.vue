@@ -1,22 +1,21 @@
 <template>
-  <div>
-    <ins
-      class="adsbygoogle"
-      :style="{
-        display: 'inline-block',
-        width: `${props.width}rem`,
-        height: `${props.height}rem`,
-      }"
-      data-ad-client="ca-pub-1234567890123456"
-      data-ad-slot="1234567890"
-    ></ins>
-  </div>
+  <ins
+    class="adsbygoogle"
+    :style="{
+      display: 'inline-block',
+      width: `${props.width}rem`,
+      height: `${props.height}rem`,
+    }"
+    data-ad-client="ca-pub-9084840519993362"
+    :data-ad-slot="$props.slot"
+  ></ins>
 </template>
 
 <script setup>
 const props = defineProps({
   width: Number,
   height: Number,
+  slot: Number,
 });
 
 onMounted(() => {
@@ -24,4 +23,4 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss"></style>
