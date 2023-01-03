@@ -52,13 +52,13 @@
         <div
           class="hidden xl:block absolute top-0 w-[12rem] left-[-12.5rem] border"
         >
-          <Adsense :width="12" :height="30" :ad-slot="5147197541" />
+          <Adsense :width="12" :height="30" :slot="5147197541" />
         </div>
         <!-- 오른쪽 광고 -->
         <div
           class="hidden xl:block absolute top-0 w-[12rem] right-[-12.5rem] border"
         >
-          <Adsense :width="12" :height="30" :ad-slot="5147197541" />
+          <Adsense :width="12" :height="30" :slot="5147197541" />
         </div>
       </div>
     </section>

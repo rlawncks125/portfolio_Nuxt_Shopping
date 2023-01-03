@@ -3,11 +3,11 @@
     class="adsbygoogle"
     :style="{
       display: 'inline-block',
-      width: `${props.width}rem`,
-      height: `${props.height}rem`,
+      width: `${width}rem`,
+      height: `${height}rem`,
     }"
     data-ad-client="ca-pub-9084840519993362"
-    :data-ad-slot="$props.slot"
+    :data-ad-slot="slot"
   ></ins>
 </template>
 
@@ -17,6 +17,8 @@ const props = defineProps({
   height: Number,
   slot: Number,
 });
+
+const { width, height, slot } = toRefs(props);
 
 onMounted(() => {
   (adsbygoogle = window.adsbygoogle || []).push({});
