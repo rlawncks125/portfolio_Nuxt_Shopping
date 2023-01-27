@@ -39,27 +39,39 @@
         <div>
           <label for="postcode">postcode</label>
           <input
-            class="input-example-0"
+            class="input-example-0 cursor-not-allowed"
             type="text"
             name=""
             id="postcode"
             v-model="input.postcode"
+            disabled
           />
         </div>
         <div>
           <label for="addr">
             <span>
-              addr
+              주소
             </span>
 
             <button @click="findAddr">찾기</button>
           </label>
           <input
-            class="input-example-0"
+            class="input-example-0 cursor-not-allowed"
             type="text"
             name=""
             id="addr"
             v-model="input.address"
+            disabled
+          />
+        </div>
+        <div>
+          <label for="postcode">상세 주소</label>
+          <input
+            class="input-example-0"
+            type="text"
+            name=""
+            id="addressDetail"
+            v-model="input.addressDetail"
           />
         </div>
         <button @click.prevent="onChange">수정하기</button>
@@ -94,6 +106,7 @@ const findAddr = () => {
   const { $daumAddress } = useNuxtApp();
   $daumAddress(({ address, zonecode }) => {
     input.value.address = address;
+    input.value.postcode = zonecode;
     console.log(address, zonecode);
   });
 };

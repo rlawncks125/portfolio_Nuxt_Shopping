@@ -21,14 +21,38 @@
         <span>{{ userInfo.postcode }}</span>
       </div>
       <div>
-        <span>상세주소</span>
-        <span>{{ userInfo.addressDetail }}</span>
+        <span>주소</span>
+        <span>{{ userInfo.address }} , {{ userInfo.addressDetail }}</span>
       </div>
     </div>
 
-    <p v-if="sellerInfo">
+    <h2 class="text-center text-[2rem] my-2">
+
       회사 정보
-      {{ sellerInfo }}
+    </h2>
+    <p v-if="sellerInfo" class="info-list">
+      <div>
+        <span>판매자</span>
+        <span>{{ sellerInfo.represent }}</span>
+      </div>
+      <div>
+        <span>회사 이름</span>
+        <span>{{ sellerInfo.companyName }}</span>
+      </div>
+
+      <div>
+        <span>회사 메일</span>
+        <span>{{ sellerInfo.eMail }}</span>
+      </div>
+      <div>
+        <span>전화 번호</span>
+        <span>{{ sellerInfo.phone }}</span>
+      </div>
+      <div>
+        <span>주소</span>
+        <span>{{ sellerInfo.companyAddress }}</span>
+      </div>
+      
     </p>
   </div>
 </template>

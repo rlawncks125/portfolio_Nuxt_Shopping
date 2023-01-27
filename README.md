@@ -31,3 +31,15 @@ https://www.google.com/ping?sitemap=FULL_URL_OF_SITEMAP
 ex ) https://www.google.com/ping?sitemap=https://nuxt-shop.kimjuchan97.xyz/sitemap.xml
 
 ```
+
+# cypress 작업
+
+- 회원가입 개인 , 판매자
+- 물품등록
+- 장바구니 , 결제
+- 문의 , 구매후기
+- 구매내역 , 배송 상태 변경
+
+# 추가 작업
+
+- 배송 상태 변경시 알람

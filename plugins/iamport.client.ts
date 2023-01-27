@@ -39,7 +39,7 @@ export default defineNuxtPlugin(() => {
         imp.request_pay(
           {
             // param
-            pg: "html5_inicis",
+            pg: "html5_inicis.INIpayTest",
             pay_method: "card",
             name: param.name,
             amount: param.amount,

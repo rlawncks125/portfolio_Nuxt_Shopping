@@ -1,69 +1,74 @@
 <template>
   <div>
     <p>판매한 아이템</p>
-    <div
-      class="border p-[1rem]"
-      v-if="soldItems"
-      v-for="item in soldItems"
-      :key="item.id"
-    >
+    <!-- warp -->
+    <div class="flex  flex-col gap-2 px-4">
       <!-- 물품정보 -->
-
       <div
-        class="flex flex-wrap md:flex-nowrap px-[2rem]  gap-[1rem] py-[2rem]"
+        class="border-4 p-[1rem] rounded-3xl "
+        v-if="soldItems"
+        v-for="item in soldItems"
+        :key="item.id"
       >
-        <div class="w-[10rem] order-0">
-          <img :src="item.soldItemsInfo.item.thumbnailSrc" alt="" />
-        </div>
-        <div class="flex-1 order-1">
-          <p>
-            판매번호 <span>{{ item.id }}</span>
-          </p>
-          <p class="font-bold text-[1.5rem]">
-            {{ item.soldItemsInfo.item.title }}
-          </p>
-          <div
-            v-for="option in item.soldItemsInfo.selectedOptions"
-            class="text-gray-400"
-          >
-            <span
-              >{{ option.name }}( {{ formatToWon(option.price) }}원 ) -
-            </span>
-            <span>{{ option.count }}개 구매</span>
+        <div
+          class="flex flex-wrap md:flex-nowrap px-[2rem]  gap-[1rem] py-[2rem]"
+        >
+          <div class="w-[10rem] order-0">
+            <img :src="item.soldItemsInfo.item.thumbnailSrc" alt="" />
+          </div>
+          <div class="flex-1 order-1">
+            <p>
+              판매번호 <span>{{ item.id }}</span>
+            </p>
+            <p class="font-bold text-[1.5rem]">
+              {{ item.soldItemsInfo.item.title }}
+            </p>
+            <div
+              v-for="option in item.soldItemsInfo.selectedOptions"
+              class="text-gray-400"
+            >
+              <span
+                >{{ option.name }}( {{ formatToWon(option.price) }}원 ) -
+              </span>
+              <span>{{ option.count }}개 구매</span>
+            </div>
           </div>
         </div>
-      </div>
-      <!-- 결제 금액 -->
-      <p>
-        결제금액 : <span>{{ formatToWon(item.payment) }}원</span>
-      </p>
-      <!-- 주문자 정보 -->
-      <div class="border p-[1rem]">
-        <h1>주문자 정보</h1>
-        <p>닉네임 : {{ item.purchasedUser.nickName }}</p>
-        <p>이메일 : {{ item.purchasedUser.email }}</p>
-        <p>전화번호 : {{ formatTelNumber(item.purchasedUser.tel) }}</p>
-      </div>
-      <!-- 배송정보 -->
-      <div class="border p-[1rem]">
-        <h1>배송정보</h1>
-        <p>{{ item.shipInfo.postcode }}</p>
+        <!-- 결제 금액 -->
         <p>
-          {{ item.shipInfo.address }}
-          <span> ,{{ item.shipInfo.addressDetail }} </span>
+          결제금액 : <span>{{ formatToWon(item.payment) }}원</span>
         </p>
-      </div>
-      <!-- 배송 상태 -->
-      <div>
-        <p>상태 : {{ itemStatus[+item.status] }}</p>
-        <div v-if="+item.status > 1">
-          운송장 번호 : {{ item.transportNumber }}
+        <!-- 주문자 정보 -->
+        <div class="border p-[1rem]">
+          <h1>주문자 정보</h1>
+          <p>닉네임 : {{ item.purchasedUser.nickName }}</p>
+          <p>이메일 : {{ item.purchasedUser.email }}</p>
+          <p>전화번호 : {{ formatTelNumber(item.purchasedUser.tel) }}</p>
         </div>
+        <!-- 배송정보 -->
+        <div class="border p-[1rem]">
+          <h1>배송정보</h1>
+          <p>{{ item.shipInfo.postcode }}</p>
+          <p>
+            {{ item.shipInfo.address }}
+            <span> ,{{ item.shipInfo.addressDetail }} </span>
+          </p>
+        </div>
+        <!-- 배송 상태 -->
+        <div>
+          <p>상태 : {{ itemStatus[+item.status] }}</p>
+          <div v-if="+item.status > 1">
+            운송장 번호 : {{ item.transportNumber }}
+          </div>
+        </div>
+        <!-- 상태 변경 -->
+        <button
+          @click="openPopup(+item.id)"
+          class="border p-[1rem] bg-green-400"
+        >
+          변경
+        </button>
       </div>
-      <!-- 상태 변경 -->
-      <button @click="openPopup(+item.id)" class="border p-[1rem] bg-green-400">
-        변경
-      </button>
     </div>
   </div>
 </template>
