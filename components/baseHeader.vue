@@ -43,6 +43,9 @@
         <li>
           <NuxtLink to="#">고객센터</NuxtLink>
         </li>
+        <li>
+          <SbuscriptionNotification />
+        </li>
       </ul>
     </nav>
 

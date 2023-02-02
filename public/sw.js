@@ -40,5 +40,5 @@ self.addEventListener("push", (event) => {
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
   console.log(event.data);
-  event.waitUntil(clients.openWindow("https://nuxt3-shopping.herokuapp.com/"));
+  event.waitUntil(clients.openWindow("http://nuxt-shop.kimjuchan97.xyz"));
 });

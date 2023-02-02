@@ -352,7 +352,51 @@ export class RoomService {
     options: IRequestOptions = {}
   ): Promise<AcceptUserOutPutDto> {
     return new Promise((resolve, reject) => {
-      let url = basePath + '/room/accept';
+      let url = basePath + '/room/joinAccept';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   * 유저 거절 ( rejectUser )
+   */
+  static roomControllerRejectUser(
+    params: {
+      /** requestBody */
+      body?: AcceptUserInPutDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<AcceptUserOutPutDto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/room/joinReject';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   * 유저 강퇴 ( kickUser )
+   */
+  static roomControllerKickUser(
+    params: {
+      /** requestBody */
+      body?: AcceptUserInPutDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<AcceptUserOutPutDto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/room/kickUser';
 
       const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
 
@@ -387,13 +431,274 @@ export class RoomService {
   }
 }
 
+export class NotificationService {
+  /**
+   *
+   */
+  static notificationControllerPushNotification(options: IRequestOptions = {}): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/notification/push';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = null;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static notificationControllerPushNotificationByUserId(options: IRequestOptions = {}): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/notification/push/user';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = null;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static notificationControllerGetPublickey(options: IRequestOptions = {}): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/notification/publicKey';
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+
+      /** 适配ios13，get请求不允许带body */
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static notificationControllerGetIsPush(options: IRequestOptions = {}): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/notification/ispush/{auth}';
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+
+      /** 适配ios13，get请求不允许带body */
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static notificationControllerGetShopIsPush(options: IRequestOptions = {}): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/notification/shopispush/{auth}';
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+
+      /** 适配ios13，get请求不允许带body */
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static notificationControllerRegisterSubscription(
+    params: {
+      /** requestBody */
+      body?: RegistersubscriptionInputDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<RegistersubscriptionOutPutDto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/notification/register';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static notificationControllerRegisterSubscriptionUser(
+    params: {
+      /** requestBody */
+      body?: RegistersubscriptionUserInputDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<RegistersubscriptionUserOutPutDto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/notification/register-user';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static notificationControllerRegisterSubscriptionShopUser(
+    params: {
+      /** requestBody */
+      body?: RegistersubscriptionUserInputDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<RegistersubscriptionUserOutPutDto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/notification/register-shop-user';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static notificationControllerRemoveRegisterSubscriptionUser(
+    params: {
+      /** requestBody */
+      body?: ClearRegisterUserInputDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<ClearRegisterUserOutPutDto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/notification/register-user-remove';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static notificationControllerRemoveRegisterSubscriptionShopUser(
+    params: {
+      /** requestBody */
+      body?: ClearRegisterUserInputDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<ClearRegisterUserOutPutDto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/notification/register-shop-user-remove';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static notificationControllerPatchListerNotification(
+    params: {
+      /** requestBody */
+      body?: PatchListerNotificationInputDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<PatchListerNotificationOutPutDto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/notification';
+
+      const configs: IRequestConfig = getConfigs('patch', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static notificationControllerPatchListerShopNotification(
+    params: {
+      /** requestBody */
+      body?: PatchListerNotificationInputDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<PatchListerNotificationOutPutDto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/notification/shop';
+
+      const configs: IRequestConfig = getConfigs('patch', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static notificationControllerDeletesubscription(
+    params: {
+      /** subscription 의 auth값 입니다. */
+      auth: string;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<ClearRegisterOutPutDto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/notification/{auth}';
+      url = url.replace('{auth}', params['auth'] + '');
+
+      const configs: IRequestConfig = getConfigs('delete', 'application/json', url, options);
+
+      let data = null;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+}
+
 export class RestaurantService {
   /**
    * 레스토랑 정보 조회 ( getRestaurantById )
    */
-  static restaurantControllerGetRestaurantById(options: IRequestOptions = {}): Promise<GetRestaurantByIdOutPutDto> {
+  static restaurantControllerGetRestaurantById(
+    params: {
+      /** id */
+      id: number;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<GetRestaurantByIdOutPutDto> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/restaurant/{id}';
+      url = url.replace('{id}', params['id'] + '');
 
       const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
 
@@ -405,9 +710,16 @@ export class RestaurantService {
   /**
    * 레스토랑 삭제 ( removeRestaurant )
    */
-  static restaurantControllerRemoveRestaurant(options: IRequestOptions = {}): Promise<any> {
+  static restaurantControllerRemoveRestaurant(
+    params: {
+      /** id */
+      id: number;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<any> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/restaurant/{id}';
+      url = url.replace('{id}', params['id'] + '');
 
       const configs: IRequestConfig = getConfigs('delete', 'application/json', url, options);
 
@@ -529,11 +841,40 @@ export class RestaurantService {
     });
   }
   /**
+   * 레스토랑 댓글에 추가댓글 삭제 ( removeCommentChildMessage )
+   */
+  static restaurantControllerRemoveCommentChildMessage(
+    params: {
+      /** requestBody */
+      body?: RemoveChildMessageInputDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<RemoveChildMessageOutPutDto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/restaurant/comment/removeMessage';
+
+      const configs: IRequestConfig = getConfigs('patch', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
    * 댓글 정보 얻기 ( addMessageById 없어도 될듯? )
    */
-  static restaurantControllerAddMessageById(options: IRequestOptions = {}): Promise<any> {
+  static restaurantControllerAddMessageById(
+    params: {
+      /** id */
+      id: number;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<any> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/restaurant/comment/{id}';
+      url = url.replace('{id}', params['id'] + '');
 
       const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
 
@@ -545,9 +886,16 @@ export class RestaurantService {
   /**
    * 댓글 삭제 ( removeMessageById )
    */
-  static restaurantControllerRemoveMessageById(options: IRequestOptions = {}): Promise<RemoveMessageByIdOutPutDto> {
+  static restaurantControllerRemoveMessageById(
+    params: {
+      /** id */
+      id: number;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<RemoveMessageByIdOutPutDto> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/restaurant/comment/{id}';
+      url = url.replace('{id}', params['id'] + '');
 
       const configs: IRequestConfig = getConfigs('delete', 'application/json', url, options);
 
@@ -1106,52 +1454,6 @@ export class ShopitemService {
   }
 }
 
-export interface UserOutPut {
-  /** 유저 이름입니다. */
-  username?: string;
-
-  /** 내용물 */
-  dsc?: string;
-}
-
-export interface LoginOutPutDto {
-  /** 성공 여부입니다. */
-  ok: boolean;
-
-  /** 에러 메세지입니다. */
-  err?: string;
-
-  /** 토큰 입니다. */
-  token?: string;
-
-  /**  */
-  user: UserOutPut;
-}
-
-export interface userCreateOutPutDto {
-  /** 성공 여부입니다. */
-  ok: boolean;
-
-  /** 에러 메세지입니다. */
-  err?: string;
-}
-
-export interface UserUpdateInputDto {
-  /** password */
-  password?: string;
-
-  /** 내용물 */
-  dsc?: string;
-}
-
-export interface Lating {
-  /** Lating_X */
-  x: number;
-
-  /** Lating_Y */
-  y: number;
-}
-
 export interface User {
   /** id */
   id: number;
@@ -1171,8 +1473,58 @@ export interface User {
   /** 내용물 */
   dsc: string;
 
+  /** 아바타 */
+  avatar: string;
+
+  /** 테마 */
+  theme: string;
+
   /** 권한 있는 방들 */
   superRooms: string[];
+}
+
+export interface LoginOutPutDto {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
+
+  /** 토큰 입니다. */
+  token?: string;
+
+  /**  */
+  user: User;
+}
+
+export interface userCreateOutPutDto {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
+}
+
+export interface UserUpdateInputDto {
+  /** password */
+  password?: string;
+
+  /** 내용물 */
+  dsc?: string;
+
+  /** 아바타 */
+  avatar?: string;
+
+  /** 테마 */
+  theme?: string;
+}
+
+export interface Lating {
+  /** Lating_X */
+  x: number;
+
+  /** Lating_Y */
+  y: number;
 }
 
 export interface SuperUserDto {
@@ -1228,9 +1580,6 @@ export interface MyRoomsinfoDto {
 
   /** 방 이름입니다.. */
   roomName: string;
-
-  /** 방마크 입니다. */
-  markeImageUrl: string;
 
   /** 방 시작 좌표입니다. */
   lating: CombinedLatingTypes;
@@ -1289,6 +1638,9 @@ export interface RoomListInputDto {
 export interface superUserInfoDto {
   /** 유저 이름입니다. */
   username: string;
+
+  /** 아바타 */
+  avatar: string;
 }
 
 export interface roomInfoDto {
@@ -1300,9 +1652,6 @@ export interface roomInfoDto {
 
   /** 방 이름입니다.. */
   roomName: string;
-
-  /** 방마크 입니다. */
-  markeImageUrl: string;
 
   /** 방장 유저 정보 */
   superUserinfo: CombinedSuperUserinfoTypes;
@@ -1323,9 +1672,6 @@ export interface CreateRoomInputDto {
   /** 방 이름입니다.. */
   roomName: string;
 
-  /** 방마크 입니다. */
-  markeImageUrl: string;
-
   /** 방 시작 좌표입니다. */
   lating: CombinedLatingTypes;
 }
@@ -1339,9 +1685,6 @@ export interface RoomOutPutDto {
 
   /** 방 이름입니다.. */
   roomName: string;
-
-  /** 방마크 입니다. */
-  markeImageUrl: string;
 
   /** 방 시작 좌표입니다. */
   lating: CombinedLatingTypes;
@@ -1377,37 +1720,29 @@ export interface RoomInfoInputDto {
   uuid: string;
 }
 
-export interface RoomUsersDto {
-  /** id */
-  id: number;
+export interface UserCommentInfo {
+  /** 닉네임 */
+  nickName: string;
 
-  /** 유저 이름입니다. */
-  username: string;
+  /** 유저 or 익명 확인 */
+  role: EnumUserCommentInfoRole;
+
+  /** 닉네임 */
+  avata: string;
 }
 
-export interface RoominfoDto {
-  /** 방 이름입니다.. */
-  roomName: string;
+export interface messageType {
+  /** 댓글 작성 시간 */
+  CreateTime: Date;
 
-  /** 방마크 입니다. */
-  markeImageUrl: string;
+  /** user정보 */
+  userInfo: CombinedUserInfoTypes;
 
-  /** 방 시작 좌표입니다. */
-  lating: CombinedLatingTypes;
-
-  /** 방장 정보 */
-  superUserInfo: CombinedSuperUserInfoTypes;
+  /** 댓글 내용 */
+  message: string;
 }
 
-export interface ApprovalWaitUsersDto {
-  /** id */
-  id: number;
-
-  /** 유저 이름입니다. */
-  username: string;
-}
-
-export interface Room {
+export interface Comment {
   /** id */
   id: number;
 
@@ -1417,29 +1752,17 @@ export interface Room {
   /** 갱신한 날짜 */
   updateAt: Date;
 
-  /** 방고유아이디입니다. */
-  uuid: string;
+  /** 부모 테이블 */
+  parentRestaurant: CombinedParentRestaurantTypes;
 
-  /** 방 이름입니다.. */
-  roomName: string;
+  /** 별점입니다. */
+  star: number;
 
-  /** 방마크 입니다. */
-  markeImageUrl: string;
+  /** 메세지 */
+  message: CombinedMessageTypes;
 
-  /** 방 시작 좌표입니다. */
-  lating: CombinedLatingTypes;
-
-  /** 방장 입니다. */
-  superUser: CombinedSuperUserTypes;
-
-  /** 참가한 유저들입니다. */
-  joinUsers: User[];
-
-  /** 레스토랑 정보들 */
-  restaurants: Restaurant[];
-
-  /** 승인대기 유저들 */
-  approvalWaitUsers: User[];
+  /** 추가 댓글들 */
+  childMessages: messageType[];
 }
 
 export interface Restaurant {
@@ -1483,26 +1806,7 @@ export interface Restaurant {
   specialization: string[];
 }
 
-export interface UserCommentInfo {
-  /** 닉네임 */
-  nickName: string;
-
-  /** 유저 or 익명 확인 */
-  role: EnumUserCommentInfoRole;
-}
-
-export interface messageType {
-  /** 댓글 작성 시간 */
-  CreateTime: Date;
-
-  /** user정보 */
-  userInfo: CombinedUserInfoTypes;
-
-  /** 댓글 내용 */
-  message: string;
-}
-
-export interface Comment {
+export interface Room {
   /** id */
   id: number;
 
@@ -1512,49 +1816,26 @@ export interface Comment {
   /** 갱신한 날짜 */
   updateAt: Date;
 
-  /** 부모 테이블 */
-  parentRestaurant: CombinedParentRestaurantTypes;
+  /** 방고유아이디입니다. */
+  uuid: string;
 
-  /** 별점입니다. */
-  star: number;
+  /** 방 이름입니다.. */
+  roomName: string;
 
-  /** 메세지 */
-  message: CombinedMessageTypes;
-
-  /** 추가 댓글들 */
-  childMessages: messageType[];
-}
-
-export interface RestaurantInfoDto {
-  /** id */
-  id: number;
-
-  /** 소유자 */
-  resturantSuperUser: CombinedResturantSuperUserTypes;
-
-  /** 음식점 이름입니다. */
-  restaurantName: string;
-
-  /** 음식점 이미지 url 입니다 */
-  restaurantImageUrl: string;
-
-  /** 위치한 지역입니다. */
-  location: string;
-
-  /** 댓글들 입니다. */
-  comments: Comment[];
-
-  /** 평균 별점 */
-  avgStar: number;
-
-  /** 좌표입니다. */
+  /** 방 시작 좌표입니다. */
   lating: CombinedLatingTypes;
 
-  /** 해시태그들 */
-  hashTags: string[];
+  /** 방장 입니다. */
+  superUser: CombinedSuperUserTypes;
 
-  /** 전문분야 */
-  specialization: string[];
+  /** 참가한 유저들입니다. */
+  joinUsers: User[];
+
+  /** 레스토랑 정보들 */
+  restaurants: Restaurant[];
+
+  /** 승인대기 유저들 */
+  approvalWaitUsers: User[];
 }
 
 export interface RoomInfoOutPutDto {
@@ -1565,16 +1846,7 @@ export interface RoomInfoOutPutDto {
   err?: string;
 
   /** 방 정보 */
-  roomInfo: CombinedRoomInfoTypes;
-
-  /** 방안에 유저들 */
-  users: RoomUsersDto[];
-
-  /** 승인 대기 중인 유저들 */
-  ApprovalWaitUsers: ApprovalWaitUsersDto[];
-
-  /** 레스토랑 정보들 */
-  RestaurantInfo: RestaurantInfoDto[];
+  room: CombinedRoomTypes;
 }
 
 export interface EditRoomInPutDto {
@@ -1583,9 +1855,6 @@ export interface EditRoomInPutDto {
 
   /** 방 이름입니다.. */
   roomName?: string;
-
-  /** 방마크 입니다. */
-  markeImageUrl?: string;
 
   /** 방 시작 좌표입니다. */
   lating?: CombinedLatingTypes;
@@ -1642,6 +1911,110 @@ export interface LeaveRoomOutPutDto {
 
   /** 에러 메세지입니다. */
   err?: string;
+}
+
+export interface RegistersubscriptionInputDto {
+  /** Subscription */
+  subscription: object;
+}
+
+export interface RegistersubscriptionOutPutDto {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
+}
+
+export interface RegistersubscriptionUserInputDto {
+  /** userId */
+  userId: number;
+
+  /** auth */
+  auth: string;
+}
+
+export interface RegistersubscriptionUserOutPutDto {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
+}
+
+export interface ClearRegisterUserInputDto {
+  /** subscription 의 auth값 입니다. */
+  auth: string;
+}
+
+export interface ClearRegisterUserOutPutDto {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
+}
+
+export interface PatchListerNotificationInputDto {
+  /** subscription 의 auth값 입니다. */
+  auth: string;
+}
+
+export interface PatchListerNotificationOutPutDto {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
+
+  /** 알림 설정 여부 */
+  isPusb?: boolean;
+}
+
+export interface ClearRegisterOutPutDto {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
+}
+
+export interface RestaurantInfoDto {
+  /** id */
+  id: number;
+
+  /** 생성한 날짜 */
+  createAt: Date;
+
+  /** 갱신한 날짜 */
+  updateAt: Date;
+
+  /** 소유자 */
+  resturantSuperUser: CombinedResturantSuperUserTypes;
+
+  /** 음식점 이름입니다. */
+  restaurantName: string;
+
+  /** 음식점 이미지 url 입니다 */
+  restaurantImageUrl: string;
+
+  /** 위치한 지역입니다. */
+  location: string;
+
+  /** 댓글들 입니다. */
+  comments: Comment[];
+
+  /** 평균 별점 */
+  avgStar: number;
+
+  /** 좌표입니다. */
+  lating: CombinedLatingTypes;
+
+  /** 해시태그들 */
+  hashTags: string[];
+
+  /** 전문분야 */
+  specialization: string[];
 }
 
 export interface GetRestaurantByIdOutPutDto {
@@ -1739,6 +2112,22 @@ export interface AddMessageByCommentIdInPutDto {
 }
 
 export interface AddMessageByCommentIdOutPutDto {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
+}
+
+export interface RemoveChildMessageInputDto {
+  /** 댓글 작성 시간 */
+  CreateTime: Date;
+
+  /** id */
+  id: number;
+}
+
+export interface RemoveChildMessageOutPutDto {
   /** 성공 여부입니다. */
   ok: boolean;
 
@@ -2124,6 +2513,9 @@ export interface ShopUserSeller {
 }
 
 export interface UserInfo {
+  /** id */
+  id: number;
+
   /** 닉네임 입니다. */
   nickName: string;
 
@@ -2605,9 +2997,7 @@ export enum EnumRoomListInputDtoSearchType {
   'SuperUser' = 'SuperUser'
 }
 export type CombinedSuperUserinfoTypes = superUserInfoDto;
-export type CombinedRoomTypes = RoomOutPutDto;
-export type CombinedSuperUserInfoTypes = RoomUsersDto;
-export type CombinedParentRoomTypes = Room;
+export type CombinedRoomTypes = Room;
 export enum EnumUserCommentInfoRole {
   'User' = 'User',
   'Anonymous' = 'Anonymous'
@@ -2615,7 +3005,7 @@ export enum EnumUserCommentInfoRole {
 export type CombinedUserInfoTypes = UserInfo;
 export type CombinedParentRestaurantTypes = Restaurant;
 export type CombinedMessageTypes = messageType;
-export type CombinedRoomInfoTypes = RoominfoDto;
+export type CombinedParentRoomTypes = Room;
 export type CombinedRestaurantTypes = Restaurant;
 export enum EnumAddRestaurantCommentByIdIdInputDtoRole {
   'User' = 'User',

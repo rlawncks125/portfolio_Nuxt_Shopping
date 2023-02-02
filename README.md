@@ -34,6 +34,10 @@ ex ) https://www.google.com/ping?sitemap=https://nuxt-shop.kimjuchan97.xyz/sitem
 
 # cypress 작업
 
+- [x]로그인
+
+# 직접 시연
+
 - 회원가입 개인 , 판매자
 - 물품등록
 - 장바구니 , 결제

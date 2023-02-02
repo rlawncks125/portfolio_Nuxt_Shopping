@@ -1,6 +1,7 @@
 <template>
   <div>
     <LazyBaseHeader />
+
     <slot />
     <LazyBaseFooter />
   </div>

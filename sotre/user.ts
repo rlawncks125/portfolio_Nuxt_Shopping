@@ -2,6 +2,8 @@ import { defineStore } from "pinia";
 import { ShopUserSeller, UserInfo } from "~~/api/swagger";
 import { userGetMyInfo } from "@/api/user";
 import { ApiServer } from "~~/plugins/api-server";
+import { registerUser, delteRegisterUser } from "@/api/notification";
+import { Worker } from "~~/plugins/sw.client";
 
 export const useUser = defineStore("userState", () => {
   // 유저 토큰
@@ -14,9 +16,10 @@ export const useUser = defineStore("userState", () => {
   // 유저 정보
   const userInfo = useCookie<UserInfo>("userInfo", { default: () => null });
 
-  const setUser = (user: UserInfo) => {
+  const setUser = async (user: UserInfo) => {
     userInfo.value = user;
-    console.log(userInfo.value);
+
+    await Worker.instance.registerByUser(user.id);
   };
 
   // 판매자 정보
@@ -39,10 +42,12 @@ export const useUser = defineStore("userState", () => {
   };
 
   // 로그아웃
-  const userLogOut = () => {
+  const userLogOut = async () => {
     userToken.value = null;
     userInfo.value = null;
     sellerInfo.value = null;
+
+    await Worker.instance.removeRegisterByUser();
   };
 
   return {

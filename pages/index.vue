@@ -190,7 +190,7 @@ export default defineComponent({
   * {
     padding: 0 0.4rem;
   }
-  * ~ * {
+  li ~ li {
     position: relative;
     &::after {
       display: block;
