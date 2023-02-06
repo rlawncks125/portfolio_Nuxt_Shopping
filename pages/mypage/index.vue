@@ -26,11 +26,11 @@
       </div>
     </div>
 
-    <h2 class="text-center text-[2rem] my-2">
-
-      회사 정보
-    </h2>
-    <p v-if="sellerInfo" class="info-list">
+    <p v-if="sellerInfo" class="info-list my-2">
+      <h2 class="text-center text-[2rem]">
+  
+        회사 정보
+      </h2>
       <div>
         <span>판매자</span>
         <span>{{ sellerInfo.represent }}</span>
@@ -66,10 +66,15 @@ const { userInfo, sellerInfo } = useUser();
 <style lang="scss" scoped>
 .info-list {
   @apply w-[25rem] mx-auto p-4 border rounded-lg;
-  & div {
-    @apply flex gap-2 justify-start my-1 border-b pb-2 my-2;
 
-    & span {
+  div{
+    @apply pb-2 pt-4 my-2 
+  }
+
+  div ~ div {
+    @apply flex gap-2 justify-start border-t ;
+
+    span {
       @apply text-left;
 
       &:nth-child(1) {

@@ -1,6 +1,6 @@
 <template>
   <div class="text-[1.4rem]">
-    <div>Login 컴포넌트</div>
+    <!-- <div>Login 컴포넌트</div> -->
     <form
       @submit.prevent="clickedLogin"
       class="border flex flex-col max-w-[30rem] gap-[1rem] mx-auto mt-[4rem] p-4"
@@ -32,6 +32,11 @@
       >
         로그인
       </button>
+      <div class="flex justify-end">
+        <NuxtLink to="/findpassword" class="text-[0.8rem] border p-1"
+          >비밀번호 찾기</NuxtLink
+        >
+      </div>
       <div class="flex justify-center">
         <ReCAPTCHA @success="(e) => (isRobotCheked = e)" />
       </div>

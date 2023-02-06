@@ -5,6 +5,7 @@ import {
   CoreOutPut,
   CreateShopUserInputDto,
   CreateShopUserOutPut,
+  FindPasswordInputDto,
   LoginShopUserOutPut,
   UpdateCompanyInutDto,
   UpdateCompanyOutPutDto,
@@ -72,4 +73,10 @@ export const userSellerModify = async (data: UpdateCompanyInutDto) => {
   return ApiServer.axios
     .patch("shop-user/company", data)
     .then((res) => res.data as UpdateCompanyOutPutDto);
+};
+
+export const findUserPassword = async (data: FindPasswordInputDto) => {
+  return ApiServer.axios
+    .post("shop-user/findPassword", data)
+    .then((res) => res.data as { ok: boolean; err: string });
 };

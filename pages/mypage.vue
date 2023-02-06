@@ -7,7 +7,9 @@
       >
         <LazyFaIcon v-show="isChecked" icon="angle-up" size="2x" />
         <LazyFaIcon v-show="!isChecked" icon="angle-down" size="2x" />
-        <span class="ml-4" :style="{ lineHeight: '.5rem', order: 2 }"
+        <span
+          class="ml-4 font-bold text-[1.5rem]"
+          :style="{ lineHeight: '.5rem', order: 2 }"
           >더보기</span
         >
       </label>

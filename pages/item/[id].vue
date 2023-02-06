@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>아이템 id : {{ params.id }}</div>
+    <!-- <div>아이템 id : {{ params.id }}</div> -->
     <div v-if="item" class="text-[1.1rem]">
       <!-- 상품정보 헤드 -->
       <section class="width-container mb-[3rem]">
@@ -372,9 +372,19 @@
           </div>
         </div>
       </section>
-      <div>
-        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-      </div>
+    </div>
+    <!-- 아이템이 존재하지않음 -->
+    <div
+      v-else
+      class="min-h-[60vh] text-center flex flex-col justify-center gap-[1rem] mt-[3rem] text-gray-400"
+    >
+      <fa-icon
+        class="border mx-auto w-[3rem] h-[3rem] p-[2rem] rounded-full "
+        icon="exclamation"
+        size="3x"
+      />
+
+      <p class="text-[1.5rem]">아이템을 찾을수 없습니다.</p>
     </div>
   </div>
 </template>
@@ -396,6 +406,11 @@ import { useUser } from "~~/sotre/user";
 import axios from "axios";
 import { windowFeatures } from "~~/common/popup";
 import { useLoading } from "~~/sotre/loading";
+import { onBeforeRouteLeave } from "vue-router";
+
+definePageMeta({
+  middleware: "validator-item-id",
+});
 
 const { userInfo, sellerInfo } = storeToRefs(useUser());
 
@@ -610,10 +625,11 @@ const onHandleAnswerQa = async (d: any) => {
 };
 
 onMounted(async () => {
-  const { ok, item: resItem } = await getItemById(+params.id);
-  if (ok) {
-    item.value = resItem;
-  }
+  const { item: resItem } = await getItemById(+params.id);
+
+  if (!resItem) return;
+
+  item.value = resItem;
 
   // console.log(item.value);
   // console.log(sellerInfo);

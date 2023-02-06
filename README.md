@@ -46,4 +46,5 @@ ex ) https://www.google.com/ping?sitemap=https://nuxt-shop.kimjuchan97.xyz/sitem
 
 # 추가 작업
 
-- 배송 상태 변경시 알람
+- 아이템 삭제
+- [x]배송 상태 변경시 알람

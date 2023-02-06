@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>아이템</p>
+    <!-- <p>아이템</p> -->
     <NuxtPage />
   </div>
 </template>

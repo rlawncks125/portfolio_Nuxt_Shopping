@@ -29,7 +29,7 @@ export const useUser = defineStore("userState", () => {
 
   const setSeller = (seller: ShopUserSeller) => {
     sellerInfo.value = seller;
-    console.log(sellerInfo.value);
+    // console.log(sellerInfo.value);
   };
 
   // 정보 새로고침

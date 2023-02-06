@@ -1,7 +1,7 @@
 <template>
   <NuxtLayout>
     <LazyLoadingBar :size="3" :is-show="loadingStatus" class="text-[2rem]" />
-    <NuxtPage :key="$route.fullPath" />
+    <NuxtPage class="min-h-[75vh]" :key="$route.fullPath" />
   </NuxtLayout>
 </template>
 
