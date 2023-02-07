@@ -993,9 +993,9 @@ export class ShopUserService {
     });
   }
   /**
-   * 유저삭제
+   * 유저 삭제
    */
-  static shopUserControllerUserDlete(options: IRequestOptions = {}): Promise<CoreOutPut> {
+  static shopUserControllerUseDelete(options: IRequestOptions = {}): Promise<any> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/shop-user';
 
@@ -1352,6 +1352,20 @@ export class ShopitemService {
       let data = params.body;
 
       configs.data = data;
+
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   * 판매중인 아이템 목록
+   */
+  static shopItemControllerGetSalesItems(options: IRequestOptions = {}): Promise<GetSalseItemsOutPutDto> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/shop-item/salesItems';
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+
+      /** 适配ios13，get请求不允许带body */
 
       axios(configs, resolve, reject);
     });
@@ -2839,6 +2853,17 @@ export interface GetSoldItemsOutPutDto {
 
   /** 판매한아이템 */
   items: ShopSoldItem[];
+}
+
+export interface GetSalseItemsOutPutDto {
+  /** 성공 여부입니다. */
+  ok: boolean;
+
+  /** 에러 메세지입니다. */
+  err?: string;
+
+  /** 아이템들 정보 */
+  items: ShopItem[];
 }
 
 export interface PatchSoldItemInputDto {

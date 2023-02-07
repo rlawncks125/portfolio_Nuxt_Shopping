@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import { ApiServer } from "~~/plugins/api-server";
+import { useUser } from "~~/sotre/user";
 
 import {
   ShopItem,

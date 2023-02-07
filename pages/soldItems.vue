@@ -1,8 +1,8 @@
 <template>
   <div>
-    <p>판매한 아이템</p>
+    <h2 class="my-2 text-center text-[3rem]">판매한 아이템</h2>
     <!-- warp -->
-    <div class="flex  flex-col gap-2 px-4">
+    <div class="max-w-container mx-auto flex flex-col gap-2 px-4">
       <!-- 물품정보 -->
       <div
         class="border-4 p-[1rem] rounded-3xl "
@@ -11,7 +11,8 @@
         :key="item.id"
       >
         <div
-          class="flex flex-wrap md:flex-nowrap px-[2rem]  gap-[1rem] py-[2rem]"
+          class="flex flex-wrap md:flex-nowrap px-[2rem]  gap-[1rem] py-[2rem] cursor-pointer"
+          @click="router.push(`/item/${item.soldItemsInfo.item.id}`)"
         >
           <div class="w-[10rem] order-0">
             <img :src="item.soldItemsInfo.item.thumbnailSrc" alt="" />
@@ -23,12 +24,13 @@
             <p class="font-bold text-[1.5rem]">
               {{ item.soldItemsInfo.item.title }}
             </p>
+            <p v-if="item.soldItemsInfo.selectedOptions.length > 0">추가옵션</p>
             <div
               v-for="option in item.soldItemsInfo.selectedOptions"
               class="text-gray-400"
             >
               <span
-                >{{ option.name }}( {{ formatToWon(option.price) }}원 ) -
+                >- {{ option.name }}( {{ formatToWon(option.price) }}원 ) -
               </span>
               <span>{{ option.count }}개 구매</span>
             </div>
@@ -84,7 +86,10 @@ import { useLoading } from "~~/sotre/loading";
 
 definePageMeta({
   layout: "login-required",
+  middleware: "validator-seller",
 });
+
+const router = useRouter();
 
 const soldItems = useState<ShopSoldItem[]>("soldItems");
 const itemStatus = Object.keys(EnumShopSoldItemStatus);

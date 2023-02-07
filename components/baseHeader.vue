@@ -33,15 +33,15 @@
             <NuxtLink to="/soldItems">판매한 아이템</NuxtLink>
           </li>
           <li>
+            <NuxtLink to="/registeredItem">등록한 아이템</NuxtLink>
+          </li>
+          <li>
             <NuxtLink to="/selling">판매하기</NuxtLink>
           </li>
         </template>
 
         <li>
           <NuxtLink to="/mypage">내정보</NuxtLink>
-        </li>
-        <li>
-          <NuxtLink to="#">고객센터</NuxtLink>
         </li>
         <li>
           <SbuscriptionNotification />
@@ -212,6 +212,15 @@
               />
 
               <p>판매한 아이템</p>
+            </NuxtLink>
+            <NuxtLink to="/registeredItem" @click="isToggle = false">
+              <LazyFaIcon
+                class="border p-[1rem] rounded-full"
+                icon="ban"
+                size="3x"
+              />
+
+              <p>등록한 아이템</p>
             </NuxtLink>
             <NuxtLink to="/selling" @click="isToggle = false">
               <LazyFaIcon

@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-container mx-auto px-4">
-    <h1>
-      아이템 판매하기
+    <h1 class="text-[2rem] font-bold text-center mt-4">
+      아이템 판매
     </h1>
 
     <!-- 판매자 등록 -->
