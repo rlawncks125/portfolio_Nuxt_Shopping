@@ -318,9 +318,38 @@ const onPayItem = () => {
       addressDetail: address.detail,
       postcode: address.postcode,
     },
-    (sucess) => {
+    async (sucess) => {
+      await ShopitemService.shopItemControllerCreateIreceipt({
+        body: {
+          paymentInfo: {
+            card_name: sucess.rsp.card_name,
+            card_number: sucess.rsp.card_number,
+            pay_method: sucess.rsp.pay_method,
+            paymentPrice: paymentInfo.total,
+          },
+          soldItems: items.value.map((v) => {
+            return {
+              soldItemsInfo: {
+                item: v.item,
+                selectedOptions: v.selectedOptions,
+              },
+              payment: getTotalPrice(v),
+              shipInfo: {
+                address: address.address,
+                addressDetail: address.detail,
+                postcode: address.postcode,
+              },
+            };
+          }),
+          totalPrice: paymentInfo.total,
+        },
+      });
+
+      items.value=[]
       alert("구매에 성공하였습니다.");
-      console.log(sucess);
+
+      useRouter().push("/orderDelivery");
+
       // 성공시 api 호출
       // { 영수증 정보 , 결제정보 }
 
