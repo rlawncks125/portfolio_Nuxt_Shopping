@@ -409,7 +409,7 @@ import { useLoading } from "~~/sotre/loading";
 import { onBeforeRouteLeave } from "vue-router";
 
 definePageMeta({
-  middleware: "validator-item-id",
+  middleware: ["validator-item-id", "scroll-top"],
 });
 
 const { userInfo, sellerInfo } = storeToRefs(useUser());

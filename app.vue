@@ -11,7 +11,7 @@ import { useLoading } from "./sotre/loading";
 
 const { loadingStatus } = storeToRefs(useLoading());
 
-onMounted(async () => {
+onMounted(() => {
   // swagger사용
   // const saerch = await ShopitemService.shopItemControllerSearchItems({
   //   take: 10,

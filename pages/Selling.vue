@@ -13,7 +13,7 @@
       <!-- <button @click="isRegistered = true">변경사항 저장 하기</button> -->
       <div class="form-stlye">
         <div>
-          <label for="input-title">제목 </label>
+          <label for="input-title">제목</label>
           <input
             class="input-base"
             type="text"
@@ -160,6 +160,7 @@ import { useLoading } from "~~/sotre/loading";
 
 definePageMeta({
   layout: "login-required",
+  middleware: ["scroll-top"],
 });
 
 export default defineComponent({
@@ -169,6 +170,7 @@ export default defineComponent({
     const fileUploadRef = useState<InstanceType<typeof FileUpload>>(
       "fileUploadRef"
     );
+    const titleInput = useState<HTMLElement>("titleInput");
 
     const isRegistered = ref<boolean>(false);
 

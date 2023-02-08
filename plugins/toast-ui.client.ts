@@ -29,6 +29,7 @@ export default defineNuxtPlugin((nuxtApp) => {
           ],
           language: "ko-KR",
           plugins: [colorSyntax],
+          autofocus: false,
         });
         editorControl.getMarkdown();
 
