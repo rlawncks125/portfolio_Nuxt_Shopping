@@ -132,7 +132,7 @@
     <div
       class="sm:hidden z-[1000] fixed bottom-0 left-0 right-0 p-[1rem] border bg-white"
     >
-      <label for="home-toggle">
+      <label for="home-toggle" class="cursor-pointer">
         <LazyFaIcon icon="bacon" size="2x" />
       </label>
     </div>
@@ -175,8 +175,11 @@
               </div>
             </div>
           </div>
+          <div class="flex justify-end text-[1.5rem]">
+            <SbuscriptionNotification class="gap-2" />
+          </div>
         </div>
-        <!-- 네비 -->
+        <!-- 네비 아이템 -->
         <div
           class="flex gap-[1rem] justify-center text-[1.2rem] py-[1rem] border-b text-center flex-wrap"
         >

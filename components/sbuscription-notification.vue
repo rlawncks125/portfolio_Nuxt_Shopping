@@ -11,7 +11,7 @@
     :class="status ? '' : 'cursor-not-allowed hover:cursor-not-allowed'"
     @click="onClick"
   >
-    <span class=" text-sm font-medium">알림 설정</span>
+    <span class=" text-[1em] font-medium">알림 설정</span>
     <label
       class="inline-flex relative items-center cursor-pointer pointer-events-none"
     >
@@ -22,7 +22,7 @@
         :disabled="status !== 'granted'"
       />
       <div
-        class="w-10 h-4 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[1rem] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"
+        class="w-[2.5em] h-[1em] bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[0.125em] after:left-[.5em] sm:after:left-[1em] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-[0.75em] after:w-[0.75em] after:transition-all dark:border-gray-600 peer-checked:bg-green-600"
       ></div>
     </label>
   </div>
