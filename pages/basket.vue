@@ -318,13 +318,14 @@ const onPayItem = () => {
       addressDetail: address.detail,
       postcode: address.postcode,
     },
-    async (sucess) => {
+    // 결제 성공시
+    async (rsp) => {
       await ShopitemService.shopItemControllerCreateIreceipt({
         body: {
           paymentInfo: {
-            card_name: sucess.rsp.card_name,
-            card_number: sucess.rsp.card_number,
-            pay_method: sucess.rsp.pay_method,
+            card_name: rsp.card_name,
+            card_number: rsp.card_number,
+            pay_method: rsp.pay_method,
             paymentPrice: paymentInfo.total,
           },
           soldItems: items.value.map((v) => {
@@ -345,43 +346,10 @@ const onPayItem = () => {
         },
       });
 
-      items.value=[]
+      items.value = [];
       alert("구매에 성공하였습니다.");
 
       useRouter().push("/orderDelivery");
-
-      // 성공시 api 호출
-      // { 영수증 정보 , 결제정보 }
-
-      // 결제 정보
-      // imp_uid: rsp.imp_uid, // imp결제 고유 번호
-      // merchant_uid: rsp.merchant_uid // 상품 번호
-
-      // rsp 정보
-      // apply_num: "45037015"
-      // bank_name: null
-      // buyer_addr: "인천 미추홀구 염전로 414,101호"
-      // buyer_email: "rlawncks125@naver.com"
-      // buyer_name: "adadw"
-      // buyer_postcode: "22124"
-      // buyer_tel: "0102020131"
-      // card_name: "BC카드"
-      // card_number: "910003*********9"
-      // card_quota: 0
-      // currency: "KRW"
-      // custom_data: null
-      // imp_uid: "imp_806967025766"
-      // merchant_uid: "merchant_Nuxt3_1662347966723"
-      // name: "[10%+12%]패... 외 1개"
-      // paid_amount: 100
-      // paid_at: 1662348011
-      // pay_method: "card"
-      // pg_provider: "html5_inicis"
-      // pg_tid: "StdpayISP_INIpayTest20220905122010028068"
-      // pg_type: "payment"
-      // receipt_url: "https://iniweb.inicis.com/DefaultWebApp/mall/cr/cm/mCmReceipt_head.jsp?noTid=StdpayISP_INIpayTest20220905122010028068&noMethod=1"
-      // status: "paid"
-      // success: true
     },
     async (fail) => {
       alert("실패하였습니다.");
