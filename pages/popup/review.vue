@@ -7,7 +7,7 @@
       :star-num="5"
       :star-size="3"
       :fill="3"
-      @click-star="changeStar"
+      @change-star="changeStar"
     />
     <div class="flex flex-col">
       <label for="pop-review-title">제목</label>
@@ -60,6 +60,8 @@ const starNumber = useState<number>("review-star", () => 0);
 
 const changeStar = (star: number) => {
   starNumber.value = star;
+
+  console.log(starNumber.value);
 };
 
 const onAddReview = () => {

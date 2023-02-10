@@ -193,36 +193,36 @@
             <div class="star-dist mt-4 h-[11rem] md:h-auto md:mt-0">
               <ul class="flex w-full h-full items-end justify-center gap-2">
                 <li>
-                  <p>{{ starDist.five * 100 }}%</p>
-                  <progress max="1" :value="starDist.five"></progress>
+                  <p>{{ starDist.five }}%</p>
+                  <progress max="1" :value="starDist.five / 100"></progress>
                   <span>
                     5
                   </span>
                 </li>
                 <li>
-                  <p>{{ starDist.four * 100 }}%</p>
-                  <progress max="1" :value="starDist.four"></progress>
+                  <p>{{ starDist.four }}%</p>
+                  <progress max="1" :value="starDist.four / 100"></progress>
                   <span>
                     4
                   </span>
                 </li>
                 <li>
-                  <p>{{ starDist.three * 100 }}%</p>
-                  <progress max="1" :value="starDist.three"></progress>
+                  <p>{{ starDist.three }}%</p>
+                  <progress max="1" :value="starDist.three / 100"></progress>
                   <span>
                     3
                   </span>
                 </li>
                 <li>
-                  <p>{{ starDist.two * 100 }}%</p>
-                  <progress max="1" :value="starDist.two"></progress>
+                  <p>{{ starDist.two }}%</p>
+                  <progress max="1" :value="starDist.two / 100"></progress>
                   <span>
                     2
                   </span>
                 </li>
                 <li>
-                  <p>{{ starDist.one * 100 }}%</p>
-                  <progress max="1" :value="starDist.one"></progress>
+                  <p>{{ starDist.one }}%</p>
+                  <progress max="1" :value="starDist.one / 100"></progress>
                   <span>
                     1
                   </span>
@@ -390,7 +390,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineComponent } from "vue";
 import { formatToWon } from "@/common/format";
 import { getItemById } from "~~/api/item";
 import {
@@ -403,10 +402,9 @@ import {
 } from "~~/api/swagger";
 import { storeToRefs } from "pinia";
 import { useUser } from "~~/sotre/user";
-import axios from "axios";
+
 import { windowFeatures } from "~~/common/popup";
 import { useLoading } from "~~/sotre/loading";
-import { onBeforeRouteLeave } from "vue-router";
 
 definePageMeta({
   middleware: ["validator-item-id", "scroll-top"],
@@ -624,6 +622,24 @@ const onHandleAnswerQa = async (d: any) => {
   console.log(d.data.data.answer);
 };
 
+/** 별점 소수점 반올림 */
+const starFloatFixed = (num: any, fixed: number) => {
+  return +Number.parseFloat(num).toFixed(fixed);
+};
+
+/**
+ * 별점 분포도 얻기
+ * @param starNumber number
+ */
+const getStarDist = (starNumber: number) => {
+  const avg =
+    item.value.reviews.filter(
+      (v) => v.star > starNumber - 1 && v.star <= starNumber
+    ).length / item.value.reviews.length || 0;
+
+  return starFloatFixed(avg * 100, 0);
+};
+
 onMounted(async () => {
   const { item: resItem } = await getItemById(+params.id);
 
@@ -636,26 +652,18 @@ onMounted(async () => {
   showTabMenu.value = 0;
 
   // 평균 별점
-  avgStar.value =
+  avgStar.value = starFloatFixed(
     resItem.reviews.reduce((a, b) => a + b.star, 0) / resItem.reviews.length ||
-    0;
+      0,
+    2
+  );
 
   // 별점 분포도
-  starDist.five =
-    resItem.reviews.filter((v) => v.star > 4 && v.star <= 5).length /
-      resItem.reviews.length || 0;
-  starDist.four =
-    resItem.reviews.filter((v) => v.star > 3 && v.star <= 4).length /
-      resItem.reviews.length || 0;
-  starDist.three =
-    resItem.reviews.filter((v) => v.star > 2 && v.star <= 3).length /
-      resItem.reviews.length || 0;
-  starDist.two =
-    resItem.reviews.filter((v) => v.star > 1 && v.star <= 2).length /
-      resItem.reviews.length || 0;
-  starDist.one =
-    resItem.reviews.filter((v) => v.star <= 1).length /
-      resItem.reviews.length || 0;
+  starDist.five = getStarDist(5);
+  starDist.four = getStarDist(4);
+  starDist.three = getStarDist(3);
+  starDist.two = getStarDist(2);
+  starDist.one = getStarDist(1);
 
   QAcallBack = onHandleAddQA;
   window.addEventListener("message", QAcallBack);

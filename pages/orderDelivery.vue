@@ -123,10 +123,14 @@ const HandleAddReview = async (d: any) => {
     },
   });
 
+  if (ok) {
+    await getIcreceipts();
+  }
+
   useLoading().off();
 };
 
-onMounted(async () => {
+const getIcreceipts = async () => {
   const {
     ok,
     ireceipts,
@@ -140,8 +144,11 @@ onMounted(async () => {
     });
 
     items.value = ireceipts;
-    console.log(ireceipts);
   }
+};
+
+onMounted(async () => {
+  getIcreceipts();
 
   reviewCallback = HandleAddReview;
   window.addEventListener("message", reviewCallback);
