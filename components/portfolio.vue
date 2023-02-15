@@ -5,7 +5,6 @@
     <!-- 타임라인 -->
     <div class="w-full flex-initial px-2">
       <h2 class="text-center text-[1.5rem] font-bold">타임라인</h2>
-
       <ol class="border-l border-gray-300">
         <li v-for="(item, index) in videoTimeLine" :key="index">
           <div class="flex flex-start items-center pt-3">
