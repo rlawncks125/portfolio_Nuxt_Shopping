@@ -170,7 +170,6 @@ export default defineComponent({
     const fileUploadRef = useState<InstanceType<typeof FileUpload>>(
       "fileUploadRef"
     );
-    const titleInput = useState<HTMLElement>("titleInput");
 
     const isRegistered = ref<boolean>(false);
 
