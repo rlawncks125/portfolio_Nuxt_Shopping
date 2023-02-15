@@ -63,12 +63,9 @@
       </div>
     </section>
 
-    <!-- 추천 상품 1-->
+    <!-- 추천 상품 2-->
     <section id="recommend1" class="width-container">
       <h2 class="text-center text-[3rem] my-[1rem]">추천 아이템</h2>
-    </section>
-    <!-- 추천 상품 2-->
-    <section id="recommend2" class="width-container">
       <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-[1.1rem]">
         <div
           class="border border-gray-200 cursor-pointer hover:border-gray-400"
@@ -79,6 +76,10 @@
           <DesignItemDesign :item="item" />
         </div>
       </div>
+    </section>
+    <!-- 포트폴리오-->
+    <section id="portfolio" class="width-container mt-10">
+      <Portfolio />
     </section>
   </div>
 </template>
@@ -116,15 +117,15 @@ export default defineComponent({
       },
       {
         src:
-          "https://www.museum.go.kr/uploadfile/ecms/visual/650047.jpg?_=1661443337447",
+          "https://www.museum.go.kr/uploadfile/ecms/visual/954313.png?_=1676457079276",
         mbSrc:
-          "https://www.museum.go.kr/uploadfile/ecms/visual/650047_m.jpg?_=1661443337447",
+          "https://www.museum.go.kr/uploadfile/ecms/visual/954313_m.jpg?_=1676457079276",
       },
       {
         src:
-          "https://www.museum.go.kr/uploadfile/ecms/visual/826493.png?_=1661443337447",
+          "https://www.museum.go.kr/uploadfile/ecms/visual/902528.jpg?_=1676457079276",
         mbSrc:
-          "https://www.museum.go.kr/uploadfile/ecms/visual/826493_m.png?_=1661443337447",
+          "https://www.museum.go.kr/uploadfile/ecms/visual/902528_m.jpg?_=1676457079276",
       },
     ];
 
