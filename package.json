@@ -16,7 +16,8 @@
     "cypress-slow-down": "^1.2.1",
     "nuxt": "3.0.0-rc.4",
     "postcss": "^8.4.14",
-    "tailwindcss": "^3.1.4"
+    "tailwindcss": "^3.1.4",
+    "vite-plugin-clear-console": "^0.2.2"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",

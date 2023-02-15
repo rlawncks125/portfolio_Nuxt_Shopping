@@ -19,7 +19,7 @@ export default defineNuxtPlugin(() => {
 
   // @ts-ignore
   const imp = window.IMP;
-  console.log("판매코드", iampCode);
+  // console.log("판매코드", iampCode);
 
   imp.init(iampCode);
 
@@ -31,7 +31,7 @@ export default defineNuxtPlugin(() => {
         fail: (rsp: any) => void
       ) => {
         const { userInfo } = useUser();
-        console.log("유저 정보: ", userInfo);
+        // console.log("유저 정보: ", userInfo);
         if (!userInfo) {
           alert("로그인후 이용해주시기 바랍니다.");
           return;
