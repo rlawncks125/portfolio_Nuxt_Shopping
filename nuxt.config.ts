@@ -24,14 +24,14 @@ export default defineNuxtConfig({
     // transpile : ['swiper']
   },
 
-  vite: {
-    plugins: [
-      {
-        ...clearConsole(),
-        apply: "build",
-      },
-    ],
-  },
+  // vite: {
+  //   plugins: [
+  //     {
+  //       ...clearConsole(),
+  //       apply: "build",
+  //     },
+  //   ],
+  // },
   // vite: {
   //   server: {
   //     proxy: {
