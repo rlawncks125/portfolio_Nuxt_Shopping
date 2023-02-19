@@ -1,5 +1,6 @@
-const cacheName = "v1.0.1";
-const cacheList = [""];
+const cacheName = "v1.0.2";
+/** 캐싱할 파일 확장자 리스트 */
+const cacheFileList = [/.vue$/, /.css$/];
 
 self.addEventListener("install", () => {
   // 대기상태에 머무르지 않고 활성화
@@ -9,10 +10,36 @@ self.addEventListener("install", () => {
 
 self.addEventListener("activate", (event) => {
   // console.log("activate");
+
+  // 작업이 마무리될떄가지 설치단계를 연장
+  event.waitUntil(
+    // 불필요한 캐시 지우기
+    caches.keys().then((keylist) => {
+      return Promise.all(
+        keylist.map((key) => {
+          if (key !== cacheName) {
+            console.log("지움", key);
+            return caches.delete(key);
+          }
+        })
+      );
+    })
+  );
 });
 
 self.addEventListener("fetch", (event) => {
-  console.log("fetch", event.request.url);
+  // console.log("fetch", event.request.url);
+
+  const requestURL = new URL(event.request.url);
+
+  cacheFileList.forEach((reg) => {
+    if (reg.test(requestURL.pathname)) {
+      // 캐시 저장
+      caches.open(cacheName).then((cache) => {
+        cache.add(event.request);
+      });
+    }
+  });
 });
 
 // push 알람 처리
