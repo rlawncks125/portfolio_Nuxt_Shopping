@@ -1,6 +1,9 @@
-const cacheName = "v1.0.2";
+const cacheName = "v1.0.0";
 /** 캐싱할 파일 확장자 리스트 */
-const cacheFileList = [/.vue$/, /.css$/];
+// const cacheFileList = [/.vue$/, /.css$/, /.mjs$/];
+
+// _nuxt/@~ , _nuxt/node_modules~ 제외
+const cacheFileList = [/_nuxt\/((?!@|node_modules).)/];
 
 self.addEventListener("install", () => {
   // 대기상태에 머무르지 않고 활성화
