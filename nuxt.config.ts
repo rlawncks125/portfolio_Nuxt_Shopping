@@ -24,14 +24,14 @@ export default defineNuxtConfig({
     // transpile : ['swiper']
   },
 
-  // vite: {
-  //   plugins: [
-  //     {
-  //       ...clearConsole(),
-  //       apply: "build",
-  //     },
-  //   ],
-  // },
+  vite: {
+    plugins: [
+      {
+        ...clearConsole(),
+        apply: "build",
+      },
+    ],
+  },
   // vite: {
   //   server: {
   //     proxy: {
@@ -55,7 +55,7 @@ export default defineNuxtConfig({
     //  }
 
     public: {
-      apiServer: process.env.APISERVER || "https://api.kimjuchan97.xyz/",
+      apiServer: process.env.APISERVER || "https://myapi.kimjuchan97.xyz/",
       iampCodeApi: "imp85605338",
       reCAPTCHA_SITE_KEY:
         process.env.reCAPTCHA_SITE_KEY ||
