@@ -68,11 +68,7 @@ const { userInfo, sellerInfo } = useUser();
   @apply w-[25rem] mx-auto p-4 border rounded-lg;
 
   div{
-    @apply pb-2 pt-4 my-2 
-  }
-
-  div ~ div {
-    @apply flex gap-2 justify-start border-t ;
+    @apply pb-2 pt-4 my-2 flex gap-2 justify-start;
 
     span {
       @apply text-left;
@@ -81,6 +77,11 @@ const { userInfo, sellerInfo } = useUser();
         @apply w-[30%];
       }
     }
+  }
+
+  div ~ div {
+    @apply border-t;
+   
   }
 }
 </style>
