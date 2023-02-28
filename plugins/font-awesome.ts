@@ -14,6 +14,7 @@ import {
   faMinus,
   faPlus,
   faEquals,
+  faBars,
 } from "@fortawesome/free-solid-svg-icons";
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -31,7 +32,8 @@ export default defineNuxtPlugin((nuxtApp) => {
     faExclamation,
     faMinus,
     faPlus,
-    faEquals
+    faEquals,
+    faBars
   );
 
   // @fortawesome/vue-fontawesome 버전을 3.x 으로 올리고
@@ -54,6 +56,7 @@ export enum FaIconName {
   "minus",
   "plus",
   "equals",
+  "bars",
 }
 
 export enum FaIconSize {

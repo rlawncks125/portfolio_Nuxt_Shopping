@@ -3,7 +3,7 @@ const cacheName = "v1.0.0";
 // const cacheFileList = [/.vue$/, /.css$/, /.mjs$/];
 
 // _nuxt/@~ , _nuxt/node_modules~ 제외
-const cacheFileList = [/_nuxt\/((?!@|node_modules).)/];
+const cacheFileList = /_nuxt\/((?!@|node_modules).)/;
 
 self.addEventListener("install", () => {
   // 대기상태에 머무르지 않고 활성화
@@ -35,14 +35,21 @@ self.addEventListener("fetch", (event) => {
 
   const requestURL = new URL(event.request.url);
 
-  cacheFileList.forEach((reg) => {
-    if (reg.test(requestURL.pathname)) {
-      // 캐시 저장
-      caches.open(cacheName).then((cache) => {
-        cache.add(event.request);
-      });
-    }
-  });
+  // cacheFileList.forEach((reg) => {
+  //   if (reg.test(requestURL.pathname)) {
+  //     // 캐시 저장
+  //     caches.open(cacheName).then((cache) => {
+  //       cache.add(event.request);
+  //     });
+  //   }
+  // });
+
+  if (cacheFileList.test(requestURL.pathname)) {
+    // 캐시 저장
+    caches.open(cacheName).then((cache) => {
+      cache.add(event.request);
+    });
+  }
 });
 
 // push 알람 처리

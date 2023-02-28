@@ -133,7 +133,7 @@
       class="sm:hidden z-[1000] fixed bottom-0 left-0 right-0 p-[1rem] border bg-white"
     >
       <label for="home-toggle" class="cursor-pointer">
-        <LazyFaIcon icon="bacon" size="2x" />
+        <LazyFaIcon icon="bars" size="2x" />
       </label>
     </div>
 
@@ -189,7 +189,7 @@
             <NuxtLink to="/basket" @click="isToggle = false">
               <LazyFaIcon
                 class="border p-[1rem] rounded-full"
-                icon="ban"
+                icon="magnifying-glass"
                 size="3x"
               />
               <p>장바구니</p>
@@ -198,7 +198,7 @@
             <NuxtLink to="/orderDelivery" @click="isToggle = false">
               <LazyFaIcon
                 class="border p-[1rem] rounded-full"
-                icon="ban"
+                icon="magnifying-glass"
                 size="3x"
               />
               <p>주문배송</p>
@@ -210,7 +210,7 @@
             <NuxtLink to="/soldItems" @click="isToggle = false">
               <LazyFaIcon
                 class="border p-[1rem] rounded-full"
-                icon="ban"
+                icon="magnifying-glass"
                 size="3x"
               />
 
@@ -219,7 +219,7 @@
             <NuxtLink to="/registeredItem" @click="isToggle = false">
               <LazyFaIcon
                 class="border p-[1rem] rounded-full"
-                icon="ban"
+                icon="magnifying-glass"
                 size="3x"
               />
 
@@ -228,7 +228,7 @@
             <NuxtLink to="/selling" @click="isToggle = false">
               <LazyFaIcon
                 class="border p-[1rem] rounded-full"
-                icon="ban"
+                icon="magnifying-glass"
                 size="3x"
               />
 
@@ -239,7 +239,7 @@
           <NuxtLink to="/mypage" @click="isToggle = false">
             <LazyFaIcon
               class="border p-[1rem] rounded-full"
-              icon="ban"
+              icon="magnifying-glass"
               size="3x"
             />
 
@@ -248,7 +248,7 @@
           <NuxtLink to="#" @click="isToggle = false">
             <LazyFaIcon
               class="border p-[1rem] rounded-full"
-              icon="ban"
+              icon="magnifying-glass"
               size="3x"
             />
 

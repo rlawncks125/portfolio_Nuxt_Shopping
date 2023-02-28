@@ -5,7 +5,8 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
-    baseUrl: "http://localhost:3000/",
+    // baseUrl: "http://localhost:3000/",
+    baseUrl: "https://nuxt-shop.kimjuchan97.xyz",
     component: {
       devServer: {
         framework: "nuxt",
