@@ -47,7 +47,7 @@ import { searchItems } from "~~/api/item";
 
 const query = useRoute().query;
 
-const searchItem = useState("searchItem", () => []);
+const searchItem = useState<any[]>("searchItem", () => []);
 
 onMounted(async () => {
   console.log(query);

@@ -21,7 +21,7 @@ definePageMeta({
 
 const answer = useState<HTMLTextAreaElement>("answerQA");
 
-const textareaAutoHieght = (e) => {
+const textareaAutoHieght = (e: any) => {
   answer.value.style.height = "auto";
 
   const scrollHeight = answer.value.scrollHeight + 4;

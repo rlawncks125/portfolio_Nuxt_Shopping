@@ -44,7 +44,7 @@ definePageMeta({
 
 const textareaRef = useState<HTMLElement>("textareaRef");
 
-const textareaAutoHieght = (e) => {
+const textareaAutoHieght = (e: any) => {
   textareaRef.value.style.height = "auto";
 
   const scrollHeight = textareaRef.value.scrollHeight + 4;

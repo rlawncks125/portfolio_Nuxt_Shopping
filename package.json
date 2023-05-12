@@ -7,6 +7,7 @@
     "preview": "nuxt preview",
     "server": "cross-env PORT=3035 node .output/server/index.mjs",
     "build:local": "cross-env APISERVER=https://myapi.kimjuchan97.xyz NITRO_PORT=3035 NITRO_PRESET=node-server nuxt build ",
+    "build:lambda": "cross-env NITRO_PRESET=aws-lambda nuxt build",
     "swagger": "node ./swagger/codegen.js"
   },
   "devDependencies": {
@@ -14,7 +15,7 @@
     "autoprefixer": "^10.4.7",
     "cypress": "^12.4.1",
     "cypress-slow-down": "^1.2.1",
-    "nuxt": "3.0.0-rc.4",
+    "nuxt": "^3.0.0-rc.14",
     "postcss": "^8.4.14",
     "tailwindcss": "^3.1.4",
     "vite-plugin-clear-console": "^0.2.2"
@@ -24,16 +25,19 @@
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/vue-fontawesome": "^3.0.1",
     "@nuxt/kit": "^3.0.0-rc.5",
-    "@pinia/nuxt": "^0.3.0",
+    "@pinia/nuxt": "^0.4.10",
     "@toast-ui/editor": "^3.1.8",
     "@toast-ui/editor-plugin-color-syntax": "^3.0.3",
     "axios": "^0.27.2",
     "cross-env": "^7.0.3",
     "lottie-web": "^5.9.6",
-    "pinia": "^2.0.16",
+    "pinia": "^2.0.35",
     "progressbar.js": "^1.1.0",
     "sass": "^1.53.0",
     "swagger-axios-codegen": "^0.13.3",
     "swiper": "^8.3.1"
+  },
+  "overrides": {
+    "vue": "latest"
   }
 }

@@ -1,27 +1,25 @@
-import { defineNuxtConfig } from "nuxt";
+import { defineNuxtConfig } from "nuxt/config";
 import clearConsole from "vite-plugin-clear-console";
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
   // target: "static",
 
-  buildModules: ["@pinia/nuxt"],
+  // buildModules: ["@pinia/nuxt"],
+  modules: ["@pinia/nuxt"],
   css: [
     "@/assets/css/tailwind.css",
     // font Awesome css
     "@fortawesome/fontawesome-svg-core/styles.css",
   ],
   build: {
-    postcss: {
-      postcssOptions: {
-        plugins: {
-          tailwindcss: {},
-          autoprefixer: {},
-        },
-      },
+    // transpile: ["swiper"],
+  },
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
     },
-
-    // transpile : ['swiper']
   },
 
   vite: {
@@ -55,7 +53,7 @@ export default defineNuxtConfig({
     //  }
 
     public: {
-      apiServer: process.env.APISERVER || "https://myapi.kimjuchan97.xyz/",
+      apiServer: process.env.APISERVER || "https://api.kimjuchan97.xyz/",
       iampCodeApi: "imp85605338",
       reCAPTCHA_SITE_KEY:
         process.env.reCAPTCHA_SITE_KEY ||
@@ -65,54 +63,55 @@ export default defineNuxtConfig({
       process.env.reCAPTCHA_SECRET_KEY ||
       "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe",
   },
+  app: {
+    head: {
+      htmlAttrs: {
+        lang: "ko",
+      },
+      viewport: "width=device-width, initial-scale=1, maximum-scale=1",
+      charset: "utf-8",
+      link: [
+        // 매니 패스트
+        {
+          rel: "manifest",
+          href: "/manifest.json",
+        },
+      ],
+      script: [
+        // jquery
+        {
+          src: "https://code.jquery.com/jquery-1.12.4.min.js",
+          type: "text/javascript",
+        },
+        // iamport
+        {
+          src: "https://cdn.iamport.kr/js/iamport.payment-1.2.0.js",
+          type: "text/javascript",
+        },
+        // 다음 우편번호 서비스
+        {
+          src:
+            "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js",
+          type: "text/javascript",
+        },
+        // reCAPTCHA
+        {
+          src: "https://www.google.com/recaptcha/api.js",
+          type: "text/javascript",
+        },
+        // 구글 애드센스
+        {
+          src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js",
+          "data-ad-client": "ca-pub-9084840519993362",
+          async: true,
+          crossorigin: "anonymous",
+          type: "text/javascript",
+        },
+      ],
+    },
+  },
 
   // <meta name="naver-site-verification" content="51613a340a3645bde340073b44cf092001efc192" />
-
-  meta: {
-    htmlAttrs: {
-      lang: "ko",
-    },
-    viewport: "width=device-width, initial-scale=1, maximum-scale=1",
-    charset: "utf-8",
-    link: [
-      // 매니 패스트
-      {
-        rel: "manifest",
-        href: "/manifest.json",
-      },
-    ],
-    script: [
-      // jquery
-      {
-        src: "https://code.jquery.com/jquery-1.12.4.min.js",
-        type: "text/javascript",
-      },
-      // iamport
-      {
-        src: "https://cdn.iamport.kr/js/iamport.payment-1.2.0.js",
-        type: "text/javascript",
-      },
-      // 다음 우편번호 서비스
-      {
-        src:
-          "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js",
-        type: "text/javascript",
-      },
-      // reCAPTCHA
-      {
-        src: "https://www.google.com/recaptcha/api.js",
-        type: "text/javascript",
-      },
-      // 구글 애드센스
-      {
-        src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js",
-        "data-ad-client": "ca-pub-9084840519993362",
-        async: true,
-        crossorigin: "anonymous",
-        type: "text/javascript",
-      },
-    ],
-  },
 });
 
 // runtimeConfig 타입 정의

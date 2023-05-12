@@ -11,7 +11,7 @@ export default defineNuxtPlugin(() => {
         const newWorker = Worker.instance.installing();
         console.log("서비스 워커 업데이트 발견");
 
-        newWorker.addEventListener("statechange", function () {
+        newWorker!.addEventListener("statechange", function () {
           console.log("서비스 워커 상태 변경", this.state);
         });
       });
@@ -91,7 +91,7 @@ export class Worker {
     if ((await this.isSubscribe()) === null) return;
     return await this.#regist.pushManager
       .getSubscription()
-      .then(async (subscription) => {
+      .then(async (subscription:any) => {
         // 백엔드 구독 삭제
         await Notification.deleteRegister(subscription);
 
@@ -135,6 +135,7 @@ export class Worker {
 
     return Notification.delteRegisterUser({ auth });
   }
+
 }
 
 // export class Worker {

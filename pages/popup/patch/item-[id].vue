@@ -200,7 +200,7 @@ const updateItem = async () => {
   }
 };
 
-const onAddOption = (e) => {
+const onAddOption = (e: any) => {
   const formEl = e.target as HTMLElement;
   const optionName = formEl.querySelector("input");
 
@@ -212,7 +212,7 @@ const onAddOption = (e) => {
   });
   options.value.optionName = "";
   options.value.optionPrice = 0;
-  optionName.focus();
+  optionName!.focus();
 };
 
 onMounted(async () => {
@@ -222,7 +222,7 @@ onMounted(async () => {
     item.value = getItem;
   }
 
-  if (getItem.sellUserInfo.id !== sellerInfo.value.id) {
+  if (getItem.sellUserInfo.id !== sellerInfo.value!.id) {
     window.close();
   }
 });

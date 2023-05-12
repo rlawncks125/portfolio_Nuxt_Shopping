@@ -1,5 +1,7 @@
 <template>
-  <font-awesome :icon="['fa', $props.icon]" :size="$props.size" />
+  <ClientOnly>
+    <font-awesome :icon="['fa', $props.icon]" :size="$props.size" />
+  </ClientOnly>
 </template>
 
 <script lang="ts">

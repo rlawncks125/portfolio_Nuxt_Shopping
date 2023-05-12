@@ -48,3 +48,21 @@ ex ) https://www.google.com/ping?sitemap=https://nuxt-shop.kimjuchan97.xyz/sitem
 
 - 아이템 삭제
 - [x]배송 상태 변경시 알람
+
+# CLOUDTYPE 배포
+
+```
+# Dockerfile 감지되면 Docker 파일로 배포 진행함
+Dockerfile <- 삭제
+
+#Env
+NITRO_PRESET=node-server
+
+#Build variables
+...Env 환경 값
+
+# command
+Build command - npm run build
+Start command - node .output/server/index.mjs
+
+```

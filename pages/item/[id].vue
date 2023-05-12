@@ -423,7 +423,7 @@ const itemOptions = ref<BaksetItemSelectedOptions[]>([]);
 
 // 총합 액수 계산
 const optionPriceSum = computed(() => {
-  const salePrice = +item.value.price * ((100 - item.value.sale) / 100);
+  const salePrice = +item.value!.price * ((100 - item.value!.sale) / 100);
   // 옵션 총합 계산
   const optionSum = itemOptions.value.reduce(
     (a, b) => a + toRaw(b.price * b.count),
@@ -434,8 +434,8 @@ const optionPriceSum = computed(() => {
 });
 // 배송비 포함 비용
 const totalPrice = computed(() => {
-  if (optionPriceSum.value < item.value.freeParcel) {
-    return optionPriceSum.value + item.value.parcel;
+  if (optionPriceSum.value < item.value!.freeParcel) {
+    return optionPriceSum.value + item.value!.parcel;
   } else {
     return optionPriceSum.value;
   }
@@ -459,21 +459,21 @@ watch(selectOption, () => {
   }
 
   // 아이템 추가
-  const findItem = item.value.options.find(
+  const findItem = item.value!.options.find(
     (v) => v.name === selectOption.value
   );
   // itemOptions.value = [
   //   ...itemOptions.value,
   //   { ...toRaw(findItem), count: 1 },
   // ];
-  itemOptions.value.push({ ...toRaw(findItem), count: 1 });
+  itemOptions.value.push({ ...toRaw(findItem!), count: 1 });
 
   selectOption.value = "";
 });
 
 const addBaskItem = async () => {
   const basketItem: BasketItem = {
-    itemId: item.value.id,
+    itemId: item.value!.id,
     selectedOptions: itemOptions.value,
   };
 
@@ -531,7 +531,7 @@ const onClickBuyItem = async () => {
 const tapMenuRef = ref<HTMLElement>();
 
 const changeTabMenuByIndex = (index: number) => {
-  tapMenuRef.value.scrollIntoView({ behavior: "auto", block: "start" });
+  tapMenuRef.value!.scrollIntoView({ behavior: "auto", block: "start" });
 
   showTabMenu.value = index;
 };
@@ -557,10 +557,10 @@ const openInquiry = (index: number) => {
 };
 
 // QA
-let QAcallBack;
+let QAcallBack: any;
 const openQA = () => {
   window.open(
-    `${document.location.origin}/popup/QA-${item.value.id}`,
+    `${document.location.origin}/popup/QA-${item.value!.id}`,
     "add_QA",
     windowFeatures()
   );
@@ -582,8 +582,8 @@ const onHandleAddQA = async (d: any) => {
 };
 
 // QA 답변
-let answerQAcallBack;
-let answerQAaddDay;
+let answerQAcallBack: any;
+let answerQAaddDay: any;
 const answerQA = (addDay: string) => {
   answerQAaddDay = addDay;
   console.log(answerQAaddDay);
@@ -606,7 +606,7 @@ const onHandleAnswerQa = async (d: any) => {
     body: {
       addDay: answerQAaddDay,
       answer,
-      itemId: item.value.id,
+      itemId: item.value!.id,
     },
   });
   if (ok) {
@@ -633,9 +633,9 @@ const starFloatFixed = (num: any, fixed: number) => {
  */
 const getStarDist = (starNumber: number) => {
   const avg =
-    item.value.reviews.filter(
+    item.value!.reviews.filter(
       (v) => v.star > starNumber - 1 && v.star <= starNumber
-    ).length / item.value.reviews.length || 0;
+    ).length / item.value!.reviews.length || 0;
 
   return starFloatFixed(avg * 100, 0);
 };
@@ -678,30 +678,33 @@ onUnmounted(() => {
 });
 
 // og데이터
-const ogTitle = useState("ogTitle", () => "타이틀");
-const ogSrc = useState(
-  "ogSrc",
-  () =>
-    "https://www.kogl.or.kr/upload_recommend/2018/DMZ/thumb_B008-C001-0052-09_L.jpg"
+const ogData = toRefs(
+  reactive({
+    title: "title",
+    src:
+      "https://www.kogl.or.kr/upload_recommend/2018/DMZ/thumb_B008-C001-0052-09_L.jpg",
+    desc: "desc",
+  })
 );
-const ogDesc = useState("ogDesc", () => "desc");
-
-const { data: ogData } = await useLazyAsyncData("ogMetaData", () =>
+// 서버에서 렌더링되기 전 호출할 비동기
+onServerPrefetch(async () => {
   // 아이템 정보 가져오기 처리
-  getItemById(+params.id)
-    .then(({ ok, item }) => {
-      if (ok) {
-        ogTitle.value = `타이틀 : ${item.title}`;
-        ogSrc.value = item.thumbnailSrc;
-        ogDesc.value = `${item.title}의 가격은 ${item.price}입니다.`;
-      }
-      console.log("data ", item.title);
-      return { ok, item };
-    })
-    .catch(function(error) {
-      console.log(error.toJSON());
-    })
-);
+  await useLazyAsyncData("ogMetaData", () =>
+    getItemById(+params.id)
+      .then(({ ok, item }) => {
+        if (ok) {
+          ogData.title.value = `타이틀 : ${item.title}`;
+          ogData.src.value = item.thumbnailSrc;
+          ogData.desc.value = `${item.title}의 가격은 ${item.price}입니다.`;
+        }
+        console.log("data ", item.title);
+        return { ok, item };
+      })
+      .catch(function(error) {
+        console.log(error.toJSON());
+      })
+  );
+});
 
 useHead({
   title: `아이템 :  ${params.id}`,
@@ -713,17 +716,17 @@ useHead({
     {
       name: "og:title",
       property: "og:title",
-      content: ogTitle,
+      content: ogData.title,
     },
     {
       name: "og:description",
       property: "og:description",
-      content: ogDesc,
+      content: ogData.desc,
     },
     {
       name: "og:image",
       property: "og:image",
-      content: ogSrc,
+      content: ogData.src,
     },
   ],
 });

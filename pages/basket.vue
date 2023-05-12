@@ -239,6 +239,7 @@ const findAdress = () => {
 };
 const userAdress = () => {
   const { userInfo } = useUser();
+  if (!userInfo) return;
   address.postcode = userInfo.postcode;
   address.address = userInfo.address;
   address.detail = userInfo.addressDetail;

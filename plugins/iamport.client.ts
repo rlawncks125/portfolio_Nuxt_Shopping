@@ -54,7 +54,7 @@ export default defineNuxtPlugin(() => {
             buyer_name: userInfo.nickName,
             buyer_tel: userInfo.tel,
           },
-          function(rsp) {
+          function(rsp: any) {
             // callback
             if (rsp.success) {
               // 결제 성공 시 로직,
