@@ -1,38 +1,40 @@
 <template>
   <div>
     <!-- <div>아이템 id : {{ params.id }}</div> -->
-    <div v-if="item" class="text-[1.1rem]">
+    <div v-if="item?.value" class="text-[1.1rem]">
       <!-- 상품정보 헤드 -->
       <section class="width-container mb-[3rem]">
         <div class="block sm:flex px-[1rem]">
           <div class="w-auto sm:w-0 sm:flex-auto">
             <img
               class="w-full  object-contain object-top"
-              :src="item.thumbnailSrc"
+              :src="item.value.thumbnailSrc"
               alt=""
             />
           </div>
           <div class="p-4 sm:w-[55vw] sm:max-w-[35rem] ">
-            <p class="text-[1.5rem]">{{ item.title }}</p>
+            <p class="text-[1.5rem]">{{ item.value.title }}</p>
             <div class="flex items-center gap-1">
               <start-fill :star-size="1" :star-num="5" :fill="avgStar" />
 
               <p class="text-[0.8rem] text-gray-500">
-                ({{ item.reviews.length }})
+                ({{ item.value.reviews.length }})
               </p>
             </div>
             <!-- 금액 표기 -->
             <p class="text-gray-400 text-[0.8rem] flex items-center">
               <span class="text-red-500 mr-[.5rem] text-[3rem] font-bold"
-                >{{ item.sale }}%</span
+                >{{ item.value.sale }}%</span
               >
 
               <span class="flex flex-col">
-                <del> {{ formatToWon(item.price) }}<span>원</span> </del>
+                <del> {{ formatToWon(item.value.price) }}<span>원</span> </del>
                 <p class="font-bold text-[1.5rem] text-black">
                   <span>
                     {{
-                      formatToWon(+item.price * ((100 - item.sale) / 100) + "")
+                      formatToWon(
+                        +item.value.price * ((100 - item.value.sale) / 100) + ""
+                      )
                     }}
                   </span>
                   <span class="text-[0.9rem]">원</span>
@@ -41,18 +43,18 @@
             </p>
             <!-- 배송료 -->
             <div class="border-t mb-[1rem] py-[1rem]">
-              <p v-if="item.freeParcel === 0">무료 배송</p>
+              <p v-if="item.value.freeParcel === 0">무료 배송</p>
               <div v-else>
-                <p>배송료 : {{ formatToWon(item.parcel) }}</p>
+                <p>배송료 : {{ formatToWon(item.value.parcel) }}</p>
                 <span>
-                  {{ formatToWon(item.freeParcel) }}이상 구매시 무료배송
+                  {{ formatToWon(item.value.freeParcel) }}이상 구매시 무료배송
                 </span>
               </div>
             </div>
 
             <!-- 원산지 -->
             <div class="border-t mb-[1rem] py-[1rem]">
-              <p>원산지 : {{ item.origin }}</p>
+              <p>원산지 : {{ item.value.origin }}</p>
             </div>
             <!-- 추가 옵션 선택 -->
             <div class="border-t mb-[1rem] py-[1rem]">
@@ -61,7 +63,7 @@
                 class="block border text-gray-500 "
               >
                 <option disabled value="" class="hidden">추가옵션</option>
-                <template v-for="(option, index) in item.options">
+                <template v-for="(option, index) in item.value.options">
                   <option :value="option.name"
                     >{{ option.name }} ( {{ formatToWon(option.price) }}원
                     )</option
@@ -70,12 +72,12 @@
               </select>
             </div>
             <!-- 추가 옵션 추가 -->
-            <div v-if="itemOptions.length > 0">
+            <div v-if="itemOptions && itemOptions.length > 0">
               <template v-for="(option, index) in itemOptions">
                 <div class="border p-2">
                   <div class="flex justify-between">
                     <p>{{ option.name }}</p>
-                    <button @click="deleteOption(index)">
+                    <button @click="item.deleteOption(index)">
                       X
                     </button>
                   </div>
@@ -107,7 +109,7 @@
             </div>
             <!-- 총금액 표기 -->
             <p class="float-right clear-both">
-              총 금액 :{{ formatToWon(totalPrice) }}원
+              총 금액 :{{ formatToWon(totalPrice || 0) }}원
             </p>
             <!-- 구매 버튼 & 장바구니 버튼 -->
             <div class="clear-both flex  justify-end gap-2 ">
@@ -158,7 +160,7 @@
               <p>
                 {{ tabName }}
                 <span class="text-gray-200 font-medium" v-show="index === 1"
-                  >{{ item.reviews.length }}
+                  >{{ item.value.reviews.length }}
                 </span>
               </p>
             </div>
@@ -168,10 +170,12 @@
       <!-- 탭 활성화 메뉴 랜더 -->
       <section class="width-container mt-[2rem] px-2">
         <!-- 상품 상세정보 -->
-        <div v-show="showTabMenu === 0" v-html="item.detailHtml"></div>
+        <div v-show="showTabMenu === 0" v-html="item.value.detailHtml"></div>
         <!-- 구매후기 -->
         <div v-show="showTabMenu === 1">
-          <h1 class="text-[2rem] text-center">{{ item.title }} 구매후기</h1>
+          <h1 class="text-[2rem] text-center">
+            {{ item.value.title }} 구매후기
+          </h1>
           <br />
 
           <!-- 별 평균 & 별 분포도 -->
@@ -181,7 +185,7 @@
             <!-- 별 평균 -->
             <div class="border-b-2 md:border-b-0 md:border-r-2 border-gray-200">
               <p class="text-[3rem] text-center">
-                {{ avgStar }}
+                {{ item.getItemStarAvg() }}
               </p>
               <start-fill
                 class="mx-auto "
@@ -194,36 +198,51 @@
             <div class="star-dist mt-4 h-[11rem] md:h-auto md:mt-0">
               <ul class="flex w-full h-full items-end justify-center gap-2">
                 <li>
-                  <p>{{ starDist.five }}%</p>
-                  <progress max="1" :value="starDist.five / 100"></progress>
+                  <p>{{ item.getItemStarDistribution(5) }}%</p>
+                  <progress
+                    max="1"
+                    :value="item.getItemStarDistribution(5) / 100"
+                  ></progress>
                   <span>
                     5
                   </span>
                 </li>
                 <li>
-                  <p>{{ starDist.four }}%</p>
-                  <progress max="1" :value="starDist.four / 100"></progress>
+                  <p>{{ item.getItemStarDistribution(4) }}%</p>
+                  <progress
+                    max="1"
+                    :value="item.getItemStarDistribution(4) / 100"
+                  ></progress>
                   <span>
                     4
                   </span>
                 </li>
                 <li>
-                  <p>{{ starDist.three }}%</p>
-                  <progress max="1" :value="starDist.three / 100"></progress>
+                  <p>{{ item.getItemStarDistribution(3) }}%</p>
+                  <progress
+                    max="1"
+                    :value="item.getItemStarDistribution(3) / 100"
+                  ></progress>
                   <span>
                     3
                   </span>
                 </li>
                 <li>
-                  <p>{{ starDist.two }}%</p>
-                  <progress max="1" :value="starDist.two / 100"></progress>
+                  <p>{{ item.getItemStarDistribution(2) }}%</p>
+                  <progress
+                    max="1"
+                    :value="item.getItemStarDistribution(2) / 100"
+                  ></progress>
                   <span>
                     2
                   </span>
                 </li>
                 <li>
-                  <p>{{ starDist.one }}%</p>
-                  <progress max="1" :value="starDist.one / 100"></progress>
+                  <p>{{ item.getItemStarDistribution(1) }}%</p>
+                  <progress
+                    max="1"
+                    :value="item.getItemStarDistribution(1) / 100"
+                  ></progress>
                   <span>
                     1
                   </span>
@@ -235,7 +254,7 @@
           <!-- 구매 후기 리스트-->
           <div class="mt-[2rem]">
             <div
-              v-for="review in item.reviews"
+              v-for="review in item.value.reviews"
               class="flex flex-col gap-2 pb-4 border-b-2"
             >
               <div class="flex gap-2 text-gray-400">
@@ -266,10 +285,10 @@
         </div>
         <!-- 상품문의 -->
         <div v-show="showTabMenu === 2">
-          <h1 class="text-[2rem] text-center">{{ item.title }}</h1>
+          <h1 class="text-[2rem] text-center">{{ item.value.title }}</h1>
           <br />
           <div class="flex  justify-between border-b-2 font-bold">
-            <p>상품문의 ({{ item.QA.length }})</p>
+            <p>상품문의 ({{ item.value.QA.length }})</p>
             <div
               @click="openQA"
               class="border border-b-0 p-1 cursor-pointer hover:text-green-500"
@@ -288,7 +307,7 @@
             </div>
             <!-- 문의 랜더 -->
 
-            <div v-for="(qa, index) in item.QA">
+            <div v-for="(qa, index) in item.value.QA">
               <div class="flex justify-between text-center border-b mt-[1rem] ">
                 <p
                   class="w-[15%] "
@@ -331,7 +350,8 @@
 
                     <div
                       v-if="
-                        sellerInfo && item.sellUserInfo.id === sellerInfo.id
+                        sellerInfo &&
+                          item.value.sellUserInfo.id === sellerInfo.id
                       "
                       class="border bg-blue-400 p-2 rounded-md text-white cursor-pointer"
                       @click="answerQA(qa.addDay)"
@@ -365,11 +385,15 @@
 
           <div>
             <h1 class="text-[2rem]">판매자정보</h1>
-            <p><span>상호명 : </span>{{ item.sellUserInfo.companyName }}</p>
-            <p><span>대표자 : </span>{{ item.sellUserInfo.represent }}</p>
-            <p><span>연락처 : </span>{{ item.sellUserInfo.phone }}</p>
-            <p><span>상호명 : </span>{{ item.sellUserInfo.companyAddress }}</p>
-            <p><span>이메일 : </span>{{ item.sellUserInfo.eMail }}</p>
+            <p>
+              <span>상호명 : </span>{{ item.value.sellUserInfo.companyName }}
+            </p>
+            <p><span>대표자 : </span>{{ item.value.sellUserInfo.represent }}</p>
+            <p><span>연락처 : </span>{{ item.value.sellUserInfo.phone }}</p>
+            <p>
+              <span>상호명 : </span>{{ item.value.sellUserInfo.companyAddress }}
+            </p>
+            <p><span>이메일 : </span>{{ item.value.sellUserInfo.eMail }}</p>
           </div>
         </div>
       </section>
@@ -392,105 +416,59 @@
 
 <script lang="ts" setup>
 import { getItemById } from "~~/api/item";
-import {
-  BasketItem,
-  ShopItem,
-  BaksetItemSelectedOptions,
-  ShopUserService,
-  EnumUserInfoRole,
-  ShopitemService,
-} from "~~/api/swagger";
+import { EnumUserInfoRole, ShopitemService } from "~~/api/swagger";
 import { storeToRefs } from "pinia";
 import { useUser } from "~~/sotre/user";
 
 import { windowFeatures } from "~~/common/popup";
 import { useLoading } from "~~/sotre/loading";
 
+import { SellShopItem } from "@/common/class/SellShopItem";
+
 definePageMeta({
   middleware: ["validator-item-id", "scroll-top"],
 });
 
+const { params } = useRoute();
 const { userInfo, sellerInfo } = storeToRefs(useUser());
 
-const { params } = useRoute();
-const item = ref<ShopItem>();
+const item = ref<SellShopItem>(new SellShopItem());
 const avgStar = ref<number>();
 const showTabMenu = useState("showTabMenu", () => 0);
 
 // 옵션  & 계산 & 구매
-const itemOptions = ref<BaksetItemSelectedOptions[]>([]);
+const itemOptions = computed(() => item.value?.getItemOptions);
 
-// 총합 액수 계산
-const optionPriceSum = computed(() => {
-  const salePrice = +item.value!.price * ((100 - item.value!.sale) / 100);
-  // 옵션 총합 계산
-  const optionSum = itemOptions.value.reduce(
-    (a, b) => a + toRaw(b.price * b.count),
-    0
-  );
-
-  return salePrice + optionSum;
-});
 // 배송비 포함 비용
-const totalPrice = computed(() => {
-  if (optionPriceSum.value < item.value!.freeParcel) {
-    return optionPriceSum.value + item.value!.parcel;
-  } else {
-    return optionPriceSum.value;
-  }
-});
+const totalPrice = computed(() => item.value?.totalPrice);
 
 // 옵션
 const selectOption = ref("");
-const deleteOption = (index: number) => {
-  itemOptions.value = itemOptions.value.filter((v, i) => i !== index);
-};
-// 옵션 선택
-watch(selectOption, () => {
+const handlerCahngeSelectOption = () => {
   if (selectOption.value === "") return;
 
-  if (
-    itemOptions.value.findIndex((v) => v.name === selectOption.value) !== -1
-  ) {
+  if (item.value?.validataionOption(selectOption.value)) {
     alert("이미 선택된 옵션 입니다.");
     selectOption.value = "";
     return;
   }
 
-  // 아이템 추가
-  const findItem = item.value!.options.find(
-    (v) => v.name === selectOption.value
-  );
-  // itemOptions.value = [
-  //   ...itemOptions.value,
-  //   { ...toRaw(findItem), count: 1 },
-  // ];
-  itemOptions.value.push({ ...toRaw(findItem!), count: 1 });
+  // 추가 옵션 추가
+  item.value?.addOptionItem(selectOption.value);
 
   selectOption.value = "";
-});
-
-const addBaskItem = async () => {
-  const basketItem: BasketItem = {
-    itemId: item.value!.id,
-    selectedOptions: itemOptions.value,
-  };
-
-  return await ShopUserService.shopUserControllerAddBasketItem({
-    body: {
-      basketItem,
-    },
-  });
 };
+// 옵션 선택 감지
+watch(selectOption, handlerCahngeSelectOption);
 
 // 장바구니 담기
 const onAddBasketItem = async () => {
-  if (!userInfo.value) {
+  if (!userInfo.value || !item.value) {
     alert("로그인을 해야 이용할수 있습니다.");
     return;
   }
 
-  const { ok: baskOk } = await addBaskItem();
+  const { ok: baskOk } = await item.value.addBaskItem();
 
   if (!baskOk) {
     alert("장바구니를 추가하지 못하였습니다.");
@@ -507,7 +485,7 @@ const onAddBasketItem = async () => {
 
 // 상품 구매하기
 const onClickBuyItem = async () => {
-  if (!userInfo.value) {
+  if (!userInfo.value || !item.value) {
     alert("로그인을 해야 이용할수 있습니다.");
     return;
   }
@@ -517,7 +495,7 @@ const onClickBuyItem = async () => {
     return;
   }
 
-  const { ok: baskOk, err } = await addBaskItem();
+  const { ok: baskOk, err } = await item.value.addBaskItem();
 
   if (baskOk) {
     useRouter().push("/basket");
@@ -535,31 +513,19 @@ const changeTabMenuByIndex = (index: number) => {
   showTabMenu.value = index;
 };
 
-// 구매후기
-const starDist = reactive({
-  five: 0,
-  four: 0,
-  three: 0,
-  two: 0,
-  one: 0,
-});
-
 // 상품문의
 const openInquiryIndex = ref();
 const openInquiry = (index: number) => {
-  if (openInquiryIndex.value === index) {
-    openInquiryIndex.value = null;
-    return;
-  }
-
-  openInquiryIndex.value = index;
+  openInquiryIndex.value === index
+    ? (openInquiryIndex.value = null)
+    : (openInquiryIndex.value = index);
 };
 
 // QA
 let QAcallBack: any;
 const openQA = () => {
   window.open(
-    `${document.location.origin}/popup/QA-${item.value!.id}`,
+    `${document.location.origin}/popup/QA-${item.value?.value!.id}`,
     "add_QA",
     windowFeatures()
   );
@@ -572,7 +538,7 @@ const HandlerAddQA = async (d: any) => {
     useLoading().on();
     const { ok, item: resItem } = await getItemById(+params.id);
     if (ok) {
-      item.value = resItem;
+      item.value.value = resItem;
       changeTabMenuByIndex(2);
     }
 
@@ -605,13 +571,13 @@ const HandlerAnswerQa = async (d: any) => {
     body: {
       addDay: answerQAaddDay,
       answer,
-      itemId: item.value!.id,
+      itemId: item.value!.value.id,
     },
   });
   if (ok) {
     const { ok: gok, item: resItem } = await getItemById(+params.id);
     if (gok) {
-      item.value = resItem;
+      item.value.value = resItem;
       changeTabMenuByIndex(2);
     }
   }
@@ -621,45 +587,12 @@ const HandlerAnswerQa = async (d: any) => {
   console.log(d.data.data.answer);
 };
 
-/**
- * 별점 분포도 얻기
- * @param item ShopItem
- * @param starNumber number
- */
-const calculatorItemStarDist = (item: ShopItem, starNumber: number) => {
-  const avg =
-    item.reviews.filter((v) => v.star > starNumber - 1 && v.star <= starNumber)
-      .length / item.reviews.length || 0;
-
-  return floatFixed(avg * 100, 0);
-};
-
-const calculatorItemStarAvg = (item: ShopItem) => {
-  return floatFixed(
-    item.reviews.reduce((a, b) => a + b.star, 0) / item.reviews.length || 0,
-    2
-  );
-};
-
 onMounted(async () => {
   const { item: resItem } = await getItemById(+params.id);
-  item.value = resItem;
+  item.value.value = resItem;
+  avgStar.value = item.value.getItemStarAvg();
 
-  if (!item.value) return;
-
-  // console.log(item.value);
-  // console.log(sellerInfo);
   showTabMenu.value = 0;
-
-  // 평균 별점
-  avgStar.value = calculatorItemStarAvg(item.value);
-
-  // 별점 분포도
-  starDist.five = calculatorItemStarDist(item.value, 5);
-  starDist.four = calculatorItemStarDist(item.value, 4);
-  starDist.three = calculatorItemStarDist(item.value, 3);
-  starDist.two = calculatorItemStarDist(item.value, 2);
-  starDist.one = calculatorItemStarDist(item.value, 1);
 
   QAcallBack = HandlerAddQA;
   window.addEventListener("message", QAcallBack);
@@ -685,22 +618,15 @@ const ogData = toRefs(
 // 서버에서 렌더링되기 전 호출할 비동기
 onServerPrefetch(async () => {
   // 아이템 정보 가져오기 처리
-  await useLazyAsyncData("ogMetaData", () =>
-    getItemById(+params.id)
-      .then((data) => {
-        if (data.ok) {
-          ogData.title.value = `타이틀 : ${data.item.title}`;
-          ogData.src.value = data.item.thumbnailSrc;
-          ogData.desc.value = `${data.item.title}의 가격은 ${data.item.price}입니다.`;
-        }
-        console.log("data ", data.item.title);
-
-        return data;
-      })
-      .catch(function(error) {
-        console.log(error.toJSON());
-      })
-  );
+  const {
+    data: { value: data },
+    error,
+  } = await useLazyAsyncData("ogMetaData", () => getItemById(+params.id));
+  if (data?.ok) {
+    ogData.title.value = `타이틀 : ${data.item.title}`;
+    ogData.src.value = data.item.thumbnailSrc;
+    ogData.desc.value = `${data.item.title}의 가격은 ${data.item.price}입니다.`;
+  }
 });
 
 useHead({

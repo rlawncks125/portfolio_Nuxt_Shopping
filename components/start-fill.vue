@@ -54,9 +54,12 @@ const fillStar = reactive({
   top: `2px`,
   lineHeight: `normal`,
 });
-watch(props, () => {
-  fillStar.width = `${starWidth.value * (fill.value / starNum.value)}rem`;
-});
+watch(
+  () => props,
+  () => {
+    fillStar.width = `${starWidth.value * (fill.value / starNum.value)}rem`;
+  }
+);
 </script>
 
 <style lang="scss" scoped></style>

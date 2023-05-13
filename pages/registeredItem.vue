@@ -57,7 +57,7 @@
 
 <script setup lang="ts">
 import { ShopitemService, ShopItem } from "~~/api/swagger";
-import { formatToWon } from "~~/common/format";
+import { formatToWon } from "~~/utils/format";
 
 let msgCallback;
 const router = useRouter();

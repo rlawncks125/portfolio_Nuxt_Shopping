@@ -207,7 +207,7 @@ import {
   ShopSoldItem,
 } from "~~/api/swagger";
 
-import { formatToWon } from "@/common/format";
+import { formatToWon } from "~~/utils/format";
 import { useUser } from "~~/sotre/user";
 
 definePageMeta({

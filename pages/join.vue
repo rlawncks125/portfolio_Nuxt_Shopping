@@ -340,7 +340,7 @@ import {
   PasswordValidation,
   EmailValidation,
   TelValidation,
-} from "~~/common/Validation";
+} from "~~/utils/Validation";
 
 definePageMeta({
   layout: "no-header",

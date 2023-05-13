@@ -81,7 +81,7 @@ import {
   ShopitemService,
   ShopSoldItem,
 } from "~~/api/swagger";
-import { formatToWon, formatTelNumber } from "@/common/format";
+import { formatToWon, formatTelNumber } from "~~/utils/format";
 import { useLoading } from "~~/sotre/loading";
 
 definePageMeta({

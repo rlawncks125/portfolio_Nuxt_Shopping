@@ -55,7 +55,7 @@
 
 <script setup lang="ts">
 import { AddCompanyInputDto } from "~~/api/swagger";
-import { EmailValidation, TelValidation } from "@/common/Validation";
+import { EmailValidation, TelValidation } from "~~/utils/Validation";
 import { userAddCompany } from "@/api/user";
 import { useUser } from "~~/sotre/user";
 

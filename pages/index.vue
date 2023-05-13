@@ -87,7 +87,7 @@
 <script lang="ts">
 import Swiper, { Navigation } from "swiper";
 import { defineComponent } from "vue";
-import { formatToWon } from "@/common/format";
+import { formatToWon } from "~~/utils/format";
 import { getItemById, searchItems } from "~~/api/item";
 import { ShopItem, ShopitemService } from "~~/api/swagger";
 

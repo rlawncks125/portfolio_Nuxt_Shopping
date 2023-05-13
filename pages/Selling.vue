@@ -154,7 +154,7 @@ import { EnumUserInfoRole } from "~~/api/swagger";
 import { AddShopItemInputDto } from "~~/api/swagger";
 import { addShopItem } from "@/api/item";
 
-import { formatToWon } from "@/common/format";
+import { formatToWon } from "~~/utils/format";
 import FileUpload from "~~/components/file-upload.vue";
 import { useLoading } from "~~/sotre/loading";
 

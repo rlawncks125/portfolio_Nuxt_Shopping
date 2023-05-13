@@ -46,7 +46,7 @@
 
 <script setup lang="ts">
 import { userLogin } from "~~/api/user";
-import { HangulValidation } from "~~/common/Validation";
+import { HangulValidation } from "~~/utils/Validation";
 import { useUser } from "~~/sotre/user";
 
 const loginId = useState("loginId", () => "");

@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
 import { ShopItem } from "~~/api/swagger";
-import { formatToWon } from "~~/common/format";
+import { formatToWon } from "~~/utils/format";
 
 const { item } = defineProps({
   item: Object as () => ShopItem,

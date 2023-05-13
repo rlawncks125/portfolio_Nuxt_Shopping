@@ -76,7 +76,7 @@ import {
   ShopitemService,
   ShopSoldItem,
 } from "~~/api/swagger";
-import { formatTelNumber } from "@/common/format";
+import { formatTelNumber } from "~~/utils/format";
 import { windowFeatures } from "@/common/popup";
 import { useLoading } from "~~/sotre/loading";
 
