@@ -59,12 +59,9 @@
               <p>
                 {{ v.item.sellUserInfo.companyName }}
               </p>
-              <LazyFaIcon
-                class="cursor-pointer"
-                icon="xmark"
-                size="1x"
-                @click="removeBaskItem(index)"
-              />
+              <div @click="removeBaskItem(index)" class="cursor-pointer">
+                <LazyFaIcon class="cursor-pointer" icon="xmark" size="1x" />
+              </div>
             </div>
             <div class="h-[2px] bg-gray-400"></div>
             <div
