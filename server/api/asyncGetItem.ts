@@ -2,7 +2,7 @@ import axios from "axios";
 import { ShopItem } from "~~/api/swagger";
 
 export default defineEventHandler(async (event) => {
-  const id = await useBody(event);
+  const id = await readBody(event);
 
   const url = `https://myapi.kimjuchan97.xyz`;
 

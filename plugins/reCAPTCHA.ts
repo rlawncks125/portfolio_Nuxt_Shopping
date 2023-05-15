@@ -7,6 +7,7 @@ export default defineNuxtPlugin(() => {
     provide: {
       reCAPTCHA: (el: HTMLElement, result: (res: any) => void) => {
         const verifyCallback = async (response: any) => {
+          console.log("server respone", response);
           // cors 정책 걸려서
           // server/api 폴더 위치가 서버 역할하는 위치 므로
           // useFetch를 이용해서 호출
