@@ -159,7 +159,10 @@ useHead({
 const route = useRoute();
 const item = useState<ShopItem>("itemInfo");
 const { sellerInfo } = storeToRefs(useUser());
-const options = useState("", () => ({ optionName: "", optionPrice: 0 }));
+const options = useState("patch-item-option", () => ({
+  optionName: "",
+  optionPrice: 0,
+}));
 
 const updateItem = async () => {
   const {
