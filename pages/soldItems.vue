@@ -91,9 +91,9 @@ definePageMeta({
 
 const router = useRouter();
 
-const soldItems = useState<ShopSoldItem[]>("soldItems");
+const soldItems = useState<ShopSoldItem[]>("soldItems", () => []);
 const itemStatus = Object.keys(EnumShopSoldItemStatus);
-let msgCallback;
+let msgCallback: any;
 let openItemid: number;
 // useLoading().on();
 
@@ -112,12 +112,13 @@ const changeSoldItemInfo = async (data: {
     body: {
       itemId: openItemid,
       status: data.status,
-      transportNumber: data.transportNumber || null,
+      transportNumber: data.transportNumber || "",
     },
   });
+
   if (ok) {
     soldItems.value = soldItems.value.map((v) => {
-      if (v.id === openItemid) return soldItem;
+      if (v.id === openItemid) return soldItem!;
       return v;
     });
   }

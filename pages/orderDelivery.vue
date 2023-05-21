@@ -88,7 +88,7 @@ const items = useState<ShopIreceipt[]>("OrderItems", () => []);
 const shipStatus = Object.keys(EnumShopSoldItemStatus);
 
 let openitem: ShopSoldItem;
-let reviewCallback;
+let reviewCallback: any;
 
 console.log(shipStatus);
 

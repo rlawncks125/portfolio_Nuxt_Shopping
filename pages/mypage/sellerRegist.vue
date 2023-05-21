@@ -19,12 +19,12 @@
 import { storeToRefs } from "pinia";
 import { useUser } from "~~/sotre/user";
 
-const passowrdCheck = useState("passwordCheck", () => null);
+const passowrdCheck = useState("passwordCheck", () => false);
 
 const { sellerInfo } = storeToRefs(useUser());
 
 onMounted(() => {
-  passowrdCheck.value = null;
+  passowrdCheck.value = false;
 });
 </script>
 

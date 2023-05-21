@@ -43,9 +43,9 @@
 import { userPasswordChekced, userModify } from "@/api/user";
 
 const input = reactive({
-  checkPassword: null,
-  password1: null,
-  password2: null,
+  checkPassword: "",
+  password1: "",
+  password2: "",
 });
 
 const onChange = async () => {

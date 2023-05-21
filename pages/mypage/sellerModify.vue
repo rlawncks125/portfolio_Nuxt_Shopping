@@ -3,7 +3,7 @@
     판매자 정보 수정
     <div v-if="passowrdCheck">
       <p>판매자 정보 수정 폼</p>
-      <div class="form-style">
+      <div class="form-style" v-if="input">
         <div>
           <label for="represent">대표자</label>
           <input
@@ -71,7 +71,7 @@ import { storeToRefs } from "pinia";
 import { useUser } from "~~/sotre/user";
 import { userSellerModify } from "@/api/user";
 
-const passowrdCheck = useState("passwordCheck", () => null);
+const passowrdCheck = useState("passwordCheck", () => false);
 
 const { sellerInfo: input } = storeToRefs(useUser());
 const { reFresh } = useUser();
@@ -79,7 +79,7 @@ const { reFresh } = useUser();
 const onChange = async () => {
   console.log(input.value);
 
-  const { ok } = await userSellerModify(input.value);
+  const { ok } = await userSellerModify(input.value!);
   if (ok) {
     reFresh();
     alert("수정 되었습니다.");
@@ -89,13 +89,13 @@ const onChange = async () => {
 const findAddr = () => {
   const { $daumAddress } = useNuxtApp();
   $daumAddress(({ address, zonecode }) => {
-    input.value.companyAddress = address;
+    input.value!.companyAddress = address;
     console.log(address, zonecode);
   });
 };
 
 onMounted(() => {
-  passowrdCheck.value = null;
+  passowrdCheck.value = false;
 });
 </script>
 

@@ -144,7 +144,7 @@ export default defineComponent({
       fakeItems,
     ]);
     onMounted(async () => {
-      swiperControl = $setSwiper(swiper.swiper, {
+      swiperControl = $setSwiper(swiper.swiper!, {
         loop: true,
         allowTouchMove: false,
         navigation: {

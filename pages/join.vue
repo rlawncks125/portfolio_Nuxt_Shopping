@@ -354,7 +354,10 @@ watch(userStep, () => {
 });
 
 // 1.회원선택
-const userSelect = useState("useSelect", () => null);
+const userSelect = useState<EnumCreateShopUserInputDtoRole | null>(
+  "useSelect",
+  () => null
+);
 
 const onSelectType = (type: EnumCreateShopUserInputDtoRole) => {
   userSelect.value = type;
@@ -364,17 +367,17 @@ const onSelectType = (type: EnumCreateShopUserInputDtoRole) => {
 // 2.약관동의
 const isClause = useState("isClause", () => false);
 const clauseAllchked = useState("clauseAll", () => false);
-const clauseList = reactive({
+const clauseList = reactive<{ [key: string]: boolean }>({
   clause1: false,
   clause2: false,
   clause3: false,
   clause4: false,
 });
-const choiceClauseList = reactive({
+const choiceClauseList = reactive<{ [key: string]: boolean }>({
   clause1: false,
 });
 
-const clauseAllSelcted = (e) => {
+const clauseAllSelcted = (e: any) => {
   const el = e.target as HTMLInputElement;
 
   if (el.checked) {
@@ -473,7 +476,7 @@ const onCreateUser = async (e: SubmitEvent) => {
     addr,
     addrDetail,
     postcode,
-  } = obj;
+  } = obj!;
   console.log("회원 유형 : " + userSelect.value);
   console.log("nickName : " + nickName);
   console.log("userId : " + userId);
@@ -514,7 +517,7 @@ const onCreateUser = async (e: SubmitEvent) => {
     { username: userId, password: userPassword },
     {
       nickName,
-      role: userSelect.value,
+      role: userSelect.value!,
       email,
       address: addr,
       addressDetail: addrDetail,

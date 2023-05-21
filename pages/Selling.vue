@@ -184,7 +184,7 @@ export default defineComponent({
     });
 
     const thumbnailFile = ref<{
-      file: File;
+      file: File | null;
       data: any;
     }>({
       file: null,
@@ -196,7 +196,7 @@ export default defineComponent({
         price: number;
       }[]
     >([]);
-    const onAddOption = (e) => {
+    const onAddOption = (e: any) => {
       const formEl = e.target as HTMLElement;
       const optionName = formEl.querySelector("input");
 
@@ -207,7 +207,7 @@ export default defineComponent({
       });
       inputData.optionName = "";
       inputData.optionPrice = 0;
-      optionName.focus();
+      optionName?.focus();
     };
     const onAddItem = async () => {
       useLoading().on();
@@ -241,7 +241,7 @@ export default defineComponent({
       useRouter().push("/");
     };
 
-    const reFreshGuard = async (event) => {
+    const reFreshGuard = async (event: any) => {
       // F5 새로고침을 RouteLeave가 감지를 못해서
       // 키입력 반응을 이벤트를설정
 
@@ -255,7 +255,7 @@ export default defineComponent({
 
     onMounted(() => {
       // 판매자가 아닐시 홈페이지로 리다렉트
-      if (userInfo.value.role !== EnumUserInfoRole.company) {
+      if (userInfo.value!.role !== EnumUserInfoRole.company) {
         alert("판매자가 아닙니다.");
         isRegistered.value = true;
         useRouter().push("/");
@@ -285,7 +285,7 @@ export default defineComponent({
       const deleteImages = toastUiRef.value.uploadImageUrlLists() as string[];
       console.log(deleteImages);
       // 작성중에 포함된 이미지 삭제
-      let deletePromiseAll = [];
+      let deletePromiseAll: any[] = [];
       deleteImages.forEach((v) => {
         deletePromiseAll.push(deleteImageUrl(v));
       });

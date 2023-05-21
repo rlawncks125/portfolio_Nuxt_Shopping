@@ -423,7 +423,7 @@ import { useUser } from "~~/sotre/user";
 import { windowFeatures } from "~~/common/popup";
 import { useLoading } from "~~/sotre/loading";
 
-import { SellShopItem } from "@/common/class/SellShopItem";
+import { SellShopItem } from "@/class/SellShopItem";
 
 definePageMeta({
   middleware: ["validator-item-id", "scroll-top"],

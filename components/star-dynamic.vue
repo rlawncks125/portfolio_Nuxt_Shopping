@@ -101,6 +101,7 @@ const overFillStar = {
   ...commonStarFillStyle,
 };
 const overFillRef = ref<HTMLElement>();
+
 const onClickStartEvent = (index: number) => {
   const fillStartWidth = starWidth * (index / (starNum.value * 2));
   // overFillStarWrap.width = `${fillStartWidth}rem`;

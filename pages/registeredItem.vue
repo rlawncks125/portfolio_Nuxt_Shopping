@@ -59,7 +59,7 @@
 import { ShopitemService, ShopItem } from "~~/api/swagger";
 import { formatToWon } from "~~/utils/format";
 
-let msgCallback;
+let msgCallback: any;
 const router = useRouter();
 const salesItems = useState<ShopItem[] | undefined>(undefined);
 
@@ -78,7 +78,7 @@ const changeItemInfo = (data: { type: string; data: { item: ShopItem } }) => {
 
   if (type !== "updateItem") return;
 
-  salesItems.value = salesItems.value.map((item) => {
+  salesItems.value = salesItems.value!.map((item) => {
     if (item.id === newItem.id) {
       return newItem;
     }

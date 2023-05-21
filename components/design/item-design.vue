@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="item">
     <img class="w-full h-[60%]" :src="item.thumbnailSrc" alt="" />
     <div class="p-4">
       <p>{{ item.title }}</p>

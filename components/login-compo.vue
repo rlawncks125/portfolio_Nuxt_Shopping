@@ -77,7 +77,7 @@ const clickedLogin = async () => {
   const { setUserToken, setUser, setSeller } = useUser();
   setUserToken(token);
   setUser(userInfo);
-  setSeller(sellerInfo);
+  setSeller(sellerInfo!);
 
   loginId.value = "";
   loginPassword.value = "";

@@ -5,7 +5,7 @@
     </h2>
     <div v-if="passowrdCheck">
       <!-- 개인 정보 수정 폼-->
-      <div class="form-style" @submit.prevent="onChange">
+      <div v-if="input" class="form-style" @submit.prevent="onChange">
         <div>
           <label for="nickName">nickName</label>
           <input
@@ -88,13 +88,13 @@ import { useUser } from "~~/sotre/user";
 import { userModify } from "@/api/user";
 import { storeToRefs } from "pinia";
 
-const passowrdCheck = useState("passwordCheck", () => null);
+const passowrdCheck = useState<boolean>("passwordCheck", () => false);
 
 const { userInfo: input } = storeToRefs(useUser());
 const { reFresh } = useUser();
 
 const onChange = async () => {
-  const { ok } = await userModify(input.value);
+  const { ok } = await userModify(input.value!);
 
   if (ok) {
     reFresh();
@@ -105,13 +105,13 @@ const onChange = async () => {
 const findAddr = () => {
   const { $daumAddress } = useNuxtApp();
   $daumAddress(({ address, zonecode }) => {
-    input.value.address = address;
-    input.value.postcode = zonecode;
+    input.value!.address = address;
+    input.value!.postcode = zonecode;
     console.log(address, zonecode);
   });
 };
 onMounted(() => {
-  passowrdCheck.value = null;
+  passowrdCheck.value = false;
 });
 </script>
 

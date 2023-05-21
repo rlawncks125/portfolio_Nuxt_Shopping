@@ -52,7 +52,7 @@ export default defineComponent({
     const { $setToastEditor } = useNuxtApp();
     let control: Editor;
     const preview = ref();
-    let imageUrlLists = [];
+    let imageUrlLists: any[] = [];
 
     const isLoading = ref<boolean>(false);
 

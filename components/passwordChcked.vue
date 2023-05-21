@@ -39,6 +39,7 @@ const emit = defineEmits<{
 const password = useState("checkedPassword", () => null);
 
 const onChecked = async () => {
+  if (!password.value) return;
   const { ok } = await userPasswordChekced(password.value);
 
   if (!ok) {

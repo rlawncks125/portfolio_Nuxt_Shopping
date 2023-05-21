@@ -68,8 +68,8 @@ const inputDto = reactive({
 }) as AddCompanyInputDto;
 
 const validationErrorLists = reactive({
-  phone: null,
-  eMail: null,
+  phone: null as string | null,
+  eMail: null as string | null,
 });
 
 watch(

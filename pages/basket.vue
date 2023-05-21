@@ -121,7 +121,7 @@
               <div>
                 <p class="text-[.8rem] text-gray-400">추가 옵션</p>
                 <p class="font-bold">
-                  {{ formatToWon(getOptionsTotalPrice(v.selectedOptions)) }}원
+                  {{ formatToWon(calculationItemOptions(v.selectedOptions)) }}원
                 </p>
               </div>
             </template>
@@ -130,7 +130,10 @@
             <div>
               <p class="text-[.8rem] text-gray-400">배송비</p>
 
-              <p class="font-bold" v-if="itemPriceSum(v) < v.item.freeParcel">
+              <p
+                class="font-bold"
+                v-if="getItemPriceWithSale(v) < v.item.freeParcel"
+              >
                 {{ formatToWon(v.item.parcel) }}원
               </p>
               <p class="font-bold" v-else>0원</p>
@@ -139,7 +142,7 @@
             <LazyFaIcon class="text-gray-400" icon="equals" size="1x" />
             <div>
               <p class="text-[.8rem] text-gray-400">총 금액</p>
-              <p class="font-bold">{{ formatToWon(getTotalPrice(v)) }}원</p>
+              <p class="font-bold">{{ formatToWon(amountTotalPrice(v)) }}원</p>
             </div>
           </div>
         </div>
@@ -156,13 +159,22 @@
               <p class="font-bold">{{ items.length }}개</p>
             </div>
             <div class="flex justify-between">
-              <p>상품금액</p>
+              <p>상품 금액</p>
 
-              <p class="font-bold">{{ formatToWon(paymentInfo.price) }}원</p>
+              <p class="font-bold">
+                {{ formatToWon(paymentInfo.nonSalePrice) }}원
+              </p>
             </div>
-            <div class="flex justify-between">
+            <div class="flex justify-between text-red-600">
               <p>할인 금액</p>
-              <p class="font-bold">{{ formatToWon(paymentInfo.sale) }}원</p>
+              <p class="font-bold">- {{ formatToWon(paymentInfo.sale) }}원</p>
+            </div>
+
+            <div class="flex justify-between">
+              <p>할인 적용 금액</p>
+              <p class="font-bold">
+                {{ formatToWon(paymentInfo.discountPrice) }}원
+              </p>
             </div>
             <div class="flex justify-between">
               <p>배송비</p>
@@ -214,7 +226,8 @@ definePageMeta({
 const items = useState<BasketItemInfo[]>("baskItem", () => []);
 
 const paymentInfo = reactive({
-  price: 0,
+  nonSalePrice: 0,
+  discountPrice: 0,
   sale: 0,
   parcel: 0,
   total: 0,
@@ -268,28 +281,33 @@ const removeBaskItem = async (itemIndex: number) => {
     );
   }
 };
+const getItemPrice = (bask: BasketItemInfo) => {
+  const optionSum = calculationItemOptions(bask.selectedOptions);
+  return +bask.item.price + optionSum;
+};
 
 // 배송비를 제외한 총 금액
-const itemPriceSum = (bask: BasketItemInfo) => {
+const getItemPriceWithSale = (bask: BasketItemInfo) => {
+  // 세일을 적용한 금액
   const salePrice = +bask.item.price * ((100 - bask.item.sale) / 100);
   // 옵션 총합 계산
-  const optionSum = getOptionsTotalPrice(bask.selectedOptions);
+  const optionSum = calculationItemOptions(bask.selectedOptions);
 
   return salePrice + optionSum;
 };
 
 // 선택 옵션 총 합 계산
-const getOptionsTotalPrice = (options: BaksetItemSelectedOptions[]) => {
+const calculationItemOptions = (options: BaksetItemSelectedOptions[]) => {
   return options.reduce((a, b) => a + toRaw(b.price * b.count), 0);
 };
 
-const getTotalPrice = (bask: BasketItemInfo) => {
+const amountTotalPrice = (bask: BasketItemInfo) => {
   // 배송비 포함 최종 비용
 
-  if (itemPriceSum(bask) < bask.item.freeParcel) {
-    return itemPriceSum(bask) + bask.item.parcel;
+  if (getItemPriceWithSale(bask) < bask.item.freeParcel) {
+    return getItemPriceWithSale(bask) + bask.item.parcel;
   } else {
-    return itemPriceSum(bask);
+    return getItemPriceWithSale(bask);
   }
 };
 
@@ -310,7 +328,7 @@ const onPayItem = () => {
   $impPayment(
     {
       // amount : paymentInfo.total,
-      amount: 100,
+      amount: 100, // 금액
       name: paymentName,
       address: address.address,
       addressDetail: address.detail,
@@ -332,7 +350,7 @@ const onPayItem = () => {
                 item: v.item,
                 selectedOptions: v.selectedOptions,
               },
-              payment: getTotalPrice(v),
+              payment: amountTotalPrice(v),
               shipInfo: {
                 address: address.address,
                 addressDetail: address.detail,
@@ -368,7 +386,7 @@ const onPayItem = () => {
                   item: v.item,
                   selectedOptions: v.selectedOptions,
                 },
-                payment: getTotalPrice(v),
+                payment: amountTotalPrice(v),
                 shipInfo: {
                   address: address.address,
                   addressDetail: address.detail,
@@ -391,19 +409,26 @@ onMounted(async () => {
 });
 
 watch(items, () => {
-  paymentInfo.price = 0;
+  // init
+  paymentInfo.nonSalePrice = 0;
+  paymentInfo.discountPrice = 0;
   paymentInfo.sale = 0;
   paymentInfo.parcel = 0;
   paymentInfo.total = 0;
 
+  // calculationPayment
   items.value.forEach((v) => {
-    const sumPrice = itemPriceSum(v);
-    paymentInfo.price += sumPrice;
+    const discountPrice = getItemPriceWithSale(v);
+    const parcel = discountPrice < v.item.freeParcel ? v.item.parcel : 0;
+
+    paymentInfo.nonSalePrice += getItemPrice(v);
     paymentInfo.sale += +v.item.price * (v.item.sale / 100);
-    if (sumPrice < v.item.freeParcel) {
-      paymentInfo.parcel += v.item.parcel;
-    }
-    paymentInfo.total += getTotalPrice(v);
+
+    paymentInfo.discountPrice += discountPrice;
+    paymentInfo.parcel += parcel;
+
+    paymentInfo.total += discountPrice + parcel;
+    // paymentInfo.total += amountTotalPrice(v);
   });
 });
 </script>

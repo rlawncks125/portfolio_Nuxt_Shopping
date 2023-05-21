@@ -11,7 +11,6 @@ const reCAPTCHARef = useState("reCAPTCHARef");
 onMounted(() => {
   const { $reCAPTCHA } = useNuxtApp();
   $reCAPTCHA(reCAPTCHARef.value, (res) => {
-    console.log(res);
     if ("success" in res) {
       emit("success", res["success"]);
     }
