@@ -64,11 +64,11 @@ useHead({
     {
       name: "naver-site-verification",
       property: "naver-site-verification",
-      content: "51613a340a3645bde340073b44cf092001efc192",
+      content: "c6133382bba6ab68544963359e13d5ea08ae5f25",
     },
     {
       name: "google-site-verification",
-      content: "vtqZyN4fnhpMU9K94e86xOtSp3kwew7-nWkHhsW0m_U",
+      content: "3SDF3jz-RPORfmf2Er0T5QNRPRVJ7eAhOwzHOckT8YY",
     },
   ],
 });
