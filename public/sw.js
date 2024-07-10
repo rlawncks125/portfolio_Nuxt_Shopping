@@ -1,4 +1,4 @@
-const cacheName = "v1.0.4";
+const cacheName = "v1.0.5";
 // 캐시할 파일
 const cacheList = [
   "https://res.cloudinary.com/dhdq4v4ar/image/upload/v1661371113/transparent-bg_-no-shadow-designify_wst7my.png",
@@ -51,7 +51,7 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   console.log("fetch", event.request.url);
 
-  const requestURL = new URL(event.request.url);
+  // const requestURL = new URL(event.request.url);
 
   // console.log("fetch", requestURL.pathname);
 
@@ -116,5 +116,5 @@ self.addEventListener("push", (event) => {
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
   console.log(event.data);
-  event.waitUntil(clients.openWindow("http://nuxt-shop.kimjuchan97.xyz"));
+  event.waitUntil(clients.openWindow("http://shop.juchandev.store"));
 });

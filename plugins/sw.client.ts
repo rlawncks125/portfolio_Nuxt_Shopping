@@ -15,6 +15,10 @@ export default defineNuxtPlugin(() => {
           console.log("서비스 워커 상태 변경", this.state);
         });
       });
+    })
+    .catch(err => {
+      console.log("Service Worker Failed",err);
+      
     });
 
     navigator.serviceWorker.addEventListener("controllerchange", () => {
