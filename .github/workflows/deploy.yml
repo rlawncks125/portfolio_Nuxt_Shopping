@@ -35,7 +35,7 @@ jobs:
         secrets: |
           "APISERVER=${{ secrets.APISERVER}}"
           "reCAPTCHA_SITE_KEY=${{ secrets.reCAPTCHA_SITE_KEY }}"
-          "reCAPTCHA_SECRET_KEY=${{ secrets.reCAPTCHA_SECRET_KEY }}
+          "reCAPTCHA_SECRET_KEY=${{ secrets.reCAPTCHA_SECRET_KEY }}"
 
   deploy:
     runs-on: ubuntu-latest
