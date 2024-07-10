@@ -11,4 +11,5 @@ FROM node:18-alpine
 WORKDIR /app
 COPY --from=builder /app/.output ./.output
 # application 실행
-CMD ["node",".output/server/index.mjs"]
+# CMD ["node",".output/server/index.mjs"]
+ENTRYPOINT [ "sh","-c","PORT=$PORT APISERVER=$APISERVER reCAPTCHA_SITE_KEY=$reCAPTCHA_SITE_KEY reCAPTCHA_SECRET_KEY=$reCAPTCHA_SECRET_KEY node .output/server/index.mjs" ]
