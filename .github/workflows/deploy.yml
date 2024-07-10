@@ -13,6 +13,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: add .env file
+        run: |
+          echo "APISERVER=$APISERVER" >> .env
+          echo "reCAPTCHA_SITE_KEY=$reCAPTCHA_SITE_KEY" >> .env
+          echo "reCAPTCHA_SECRET_KEY=$reCAPTCHA_SECRET_KEY" >> .env
+
+        env:
+          APISERVER: ${{ secrets.APISERVER }}
+          reCAPTCHA_SITE_KEY: ${{ secrets.reCAPTCHA_SITE_KEY }}
+          reCAPTCHA_SECRET_KEY: ${{ secrets.reCAPTCHA_SECRET_KEY }}
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -32,10 +43,6 @@ jobs:
           file: Dockerfile
           push: true
           tags: rlawncks125/nuxt-shop:latest
-          secrets: |
-            "APISERVER=${{ secrets.APISERVER}}"
-            "reCAPTCHA_SITE_KEY=${{ secrets.reCAPTCHA_SITE_KEY }}"
-            "reCAPTCHA_SECRET_KEY=${{ secrets.reCAPTCHA_SECRET_KEY }}"
 
   deploy:
     runs-on: ubuntu-latest
