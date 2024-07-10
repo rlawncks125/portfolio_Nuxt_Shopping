@@ -1,10 +1,9 @@
-const cacheName = "v1.0.5";
+const cacheName = "v1.0.2";
 // 캐시할 파일
 const cacheList = [
   "https://res.cloudinary.com/dhdq4v4ar/image/upload/v1661371113/transparent-bg_-no-shadow-designify_wst7my.png",
-  "https://res.cloudinary.com/dhdq4v4ar/image/upload/v1664595455/back-Portfolio/mhmw6xonw2big2zwpzx4.jpg",
   "https://res.cloudinary.com/dhdq4v4ar/video/upload/v1676287371/nuxt-shop_lkx3qp.mp4",
-  "https://www.museum.go.kr/uploadfile/ecms/visual/773161_m.jpg?_=1661443337447",
+  // "https://www.museum.go.kr/uploadfile/ecms/visual/773161_m.jpg?_=1661443337447",
 ];
 // const cacheList = [];
 
