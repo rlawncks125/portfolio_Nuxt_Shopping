@@ -1,4 +1,4 @@
-const cacheName = "v1.0.2";
+const cacheName = "v1.0.3";
 // 캐시할 파일
 const cacheList = [
   "https://res.cloudinary.com/dhdq4v4ar/image/upload/v1661371113/transparent-bg_-no-shadow-designify_wst7my.png",
@@ -56,6 +56,15 @@ self.addEventListener("fetch", (event) => {
 
   event.respondWith(
     caches.match(event.request).then((response) => {
+      // 서버 api 주소 : ex ) https://server.domian 일시
+      // 서버 api 요청과 GET 요청이 아닌 다른 메소드 요청일시 캐시하지 않음
+      if (
+        event.request.url.includes("server") ||
+        event.request.method !== "GET"
+      ) {
+        return fetch(event.request);
+      }
+
       // 캐시된 응답이 있다면 제공
       if (response) {
         return response;
