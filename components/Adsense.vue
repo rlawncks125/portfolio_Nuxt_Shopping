@@ -19,7 +19,7 @@ const props = defineProps({
 });
 
 onMounted(() => {
-  (adsbygoogle = window.adsbygoogle || []).push({});
+  // (adsbygoogle = window.adsbygoogle || []).push({});
 });
 </script>
 

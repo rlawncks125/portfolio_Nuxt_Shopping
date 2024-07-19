@@ -1,4 +1,4 @@
-const cacheName = "v1.0.3";
+const cacheName = "v1.0.4";
 // 캐시할 파일
 const cacheList = [
   "https://res.cloudinary.com/dhdq4v4ar/image/upload/v1661371113/transparent-bg_-no-shadow-designify_wst7my.png",
@@ -48,7 +48,13 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-  console.log("fetch", event.request.url);
+  // console.log("fetch", event.request.url);
+
+  // 서버 api 주소 : ex ) https://server.domian 일시
+  // 서버 api 요청과 GET 요청이 아닌 다른 메소드 요청일시 캐시하지 않음
+  if (event.request.url.includes("server") || event.request.method !== "GET") {
+    return fetch(event.request);
+  }
 
   // const requestURL = new URL(event.request.url);
 
@@ -56,15 +62,6 @@ self.addEventListener("fetch", (event) => {
 
   event.respondWith(
     caches.match(event.request).then((response) => {
-      // 서버 api 주소 : ex ) https://server.domian 일시
-      // 서버 api 요청과 GET 요청이 아닌 다른 메소드 요청일시 캐시하지 않음
-      if (
-        event.request.url.includes("server") ||
-        event.request.method !== "GET"
-      ) {
-        return fetch(event.request);
-      }
-
       // 캐시된 응답이 있다면 제공
       if (response) {
         return response;
@@ -72,6 +69,13 @@ self.addEventListener("fetch", (event) => {
 
       // 캐시된 응답이 없으면 네트워크 요청
       return fetch(event.request).then((networkResponse) => {
+        if (networkResponse.type.includes("basic")) {
+          // TODO : 오류
+          // 쿠키쪽 캐시 문제가 있음
+          // 임시로 자신의 사이트 의 요청을 캐시하지 않음
+          return networkResponse;
+        }
+
         // 네트워크 응답이 유효한 경우에만 캐시에 저장
         if (
           networkResponse &&
