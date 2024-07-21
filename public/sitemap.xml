@@ -8,22 +8,22 @@
 
 
 <url>
-  <loc>https://nuxt-shop.kimjuchan97.xyz/</loc>
+  <loc>https://shop.juchandev.store/</loc>
   <lastmod>2022-12-06T20:14:29+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>https://nuxt-shop.kimjuchan97.xyz/login</loc>
+  <loc>https://shop.juchandev.store/login</loc>
   <lastmod>2022-12-06T20:14:29+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://nuxt-shop.kimjuchan97.xyz/join</loc>
+  <loc>https://shop.juchandev.store/join</loc>
   <lastmod>2022-12-06T20:14:29+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://nuxt-shop.kimjuchan97.xyz/mypage</loc>
+  <loc>https://shop.juchandev.store/mypage</loc>
   <lastmod>2022-12-06T20:14:29+00:00</lastmod>
   <priority>0.80</priority>
 </url>
