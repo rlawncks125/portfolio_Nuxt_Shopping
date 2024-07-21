@@ -68,7 +68,7 @@ useHead({
     },
     {
       name: "google-site-verification",
-      content: "3SDF3jz-RPORfmf2Er0T5QNRPRVJ7eAhOwzHOckT8YY",
+      content: "XYcTcfWhtK72ndzC_OAqfQaLr_KZaZI8UjqSWNU5Ag8",
     },
   ],
 });

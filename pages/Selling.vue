@@ -291,7 +291,7 @@ export default defineComponent({
       });
       if (deletePromiseAll.length > 0) {
         useLoading().on();
-        await Promise.all(deletePromiseAll);
+        await Promise.allSettled(deletePromiseAll);
         useLoading().off();
       }
       next();
