@@ -8,7 +8,8 @@
     }"
     data-ad-client="ca-pub-9084840519993362"
     :data-ad-slot="props.adSlot"
-  ></ins>
+    >광고</ins
+  >
 </template>
 
 <script setup>

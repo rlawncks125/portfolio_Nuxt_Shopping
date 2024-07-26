@@ -15,8 +15,12 @@
             <!-- Slides -->
             <div v-for="item in swiperItems" class="swiper-slide">
               <picture>
-                <source media="(min-width : 640px)" :srcset="item.src" />
-                <img class="w-full h-full" :src="item.mbSrc" alt="" />
+                <!-- <source media="(min-width : 640px)" :srcset="item.src" /> -->
+                <img
+                  class="w-full h-full max-h-[600px]"
+                  :src="item.mbSrc"
+                  alt=""
+                />
               </picture>
             </div>
           </div>
@@ -69,11 +73,20 @@
       <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-[1.1rem]">
         <div
           class="border border-gray-200 cursor-pointer hover:border-gray-400"
+          v-if="productItems.length > 0"
           v-for="(item, index) in productItems"
           @click="() => useRouter().push(`/item/${item.id}`)"
           :key="index"
         >
           <DesignItemDesign :item="item" />
+        </div>
+        <div
+          class="border border-gray-200 cursor-pointer hover:border-gray-400"
+          v-else
+          v-for="(item, index) in [0, 1, 2, 3, 4, 5]"
+          :key="item"
+        >
+          <SkeletonItemDesign />
         </div>
       </div>
     </section>
@@ -105,27 +118,27 @@ export default defineComponent({
     const swiperItems = [
       {
         src:
-          "https://www.museum.go.kr/uploadfile/ecms/visual/650242.jpg?_=1661443337446",
+          "https://img.freepik.com/free-vector/gradient-vaporwave-super-sale-background_23-2149214799.jpg?w=996&t=st=1721977772~exp=1721978372~hmac=7d457546ec21b33921a0e836c6fea6e2fccaaa4b27ee87f18b59cab8b457129d",
         mbSrc:
-          "https://www.museum.go.kr/uploadfile/ecms/visual/650242_m.jpg?_=1661443337446",
+          "https://img.freepik.com/free-vector/gradient-vaporwave-super-sale-background_23-2149214799.jpg?w=996&t=st=1721977772~exp=1721978372~hmac=7d457546ec21b33921a0e836c6fea6e2fccaaa4b27ee87f18b59cab8b457129d",
       },
       {
         src:
-          "https://www.museum.go.kr/uploadfile/ecms/visual/773161.jpg?_=166144333744",
+          "https://img.freepik.com/free-vector/flat-father-s-day-sale-horizontal-banners-set_23-2149382892.jpg?w=826&t=st=1721977818~exp=1721978418~hmac=77ead2650667dc0ebc0a909b09eec99ceba8aae0e3ec57f449b5f977a91e4805",
         mbSrc:
-          "https://www.museum.go.kr/uploadfile/ecms/visual/773161_m.jpg?_=1661443337447",
+          "https://img.freepik.com/free-vector/flat-father-s-day-sale-horizontal-banners-set_23-2149382892.jpg?w=826&t=st=1721977818~exp=1721978418~hmac=77ead2650667dc0ebc0a909b09eec99ceba8aae0e3ec57f449b5f977a91e4805",
       },
       {
         src:
-          "https://www.museum.go.kr/uploadfile/ecms/visual/954313.png?_=1676457079276",
+          "https://img.freepik.com/free-vector/flat-design-shopping-center-twitter-header_23-2149325213.jpg?w=900&t=st=1721977837~exp=1721978437~hmac=84a7ca39bddec49a559e30a1f87da8ccc277680d8e36d918dedcfa4f54d21a9e",
         mbSrc:
-          "https://www.museum.go.kr/uploadfile/ecms/visual/954313_m.jpg?_=1676457079276",
+          "https://img.freepik.com/free-vector/flat-design-shopping-center-twitter-header_23-2149325213.jpg?w=900&t=st=1721977837~exp=1721978437~hmac=84a7ca39bddec49a559e30a1f87da8ccc277680d8e36d918dedcfa4f54d21a9e",
       },
       {
         src:
-          "https://www.museum.go.kr/uploadfile/ecms/visual/902528.jpg?_=1676457079276",
+          "https://img.freepik.com/premium-vector/flat-sale-banners-set-with-photo_23-2149007216.jpg?w=740",
         mbSrc:
-          "https://www.museum.go.kr/uploadfile/ecms/visual/902528_m.jpg?_=1676457079276",
+          "https://img.freepik.com/premium-vector/flat-sale-banners-set-with-photo_23-2149007216.jpg?w=740",
       },
     ];
 
@@ -137,12 +150,7 @@ export default defineComponent({
       price: 0,
     } as ShopItem;
 
-    const productItems = ref<ShopItem[]>([
-      fakeItems,
-      fakeItems,
-      fakeItems,
-      fakeItems,
-    ]);
+    const productItems = ref<ShopItem[]>([]);
     onMounted(async () => {
       swiperControl = $setSwiper(swiper.swiper!, {
         loop: true,
