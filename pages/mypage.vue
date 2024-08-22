@@ -5,8 +5,13 @@
         for="list-checked"
         class="flex md:hidden py-3 px-2 cursor-pointer items-center justify-start"
       >
-        <LazyFaIcon v-show="isChecked" icon="angle-up" size="2x" />
-        <LazyFaIcon v-show="!isChecked" icon="angle-down" size="2x" />
+        <div v-show="isChecked">
+          <LazyFaIcon icon="angle-up" size="2x" />
+        </div>
+        <div v-show="!isChecked">
+          <LazyFaIcon icon="angle-down" size="2x" />
+        </div>
+
         <span
           class="ml-4 font-bold text-[1.5rem]"
           :style="{ lineHeight: '.5rem', order: 2 }"

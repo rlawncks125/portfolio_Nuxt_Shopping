@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-container mx-auto px-4">
-    <h1 class="text-[2rem] font-bold text-center mt-4">
+    <h1 class="text-center font-bold text-[3rem] my-4">
       아이템 판매
     </h1>
 
@@ -44,7 +44,7 @@
         </div>
         <div>
           <label for="input-free-parcel"
-            >IF 무료 배송비 조건 <span> (금액 이상)</span>
+            >무료 배송비 조건 <span> (금액 이상)</span>
           </label>
           <input
             class="input-base"
@@ -105,24 +105,27 @@
                 </div>
               </div>
             </div>
-            <button class="mb:self-end flex-none !p-[.4rem]">
+            <button class="button-blue mb:self-end flex-none !p-[.4rem]">
               옵션 추가
             </button>
           </form>
           <!-- 추가 옵션 랜더 -->
-          <div v-if="options && options.length > 0">
+          <div
+            v-if="options && options.length > 0"
+            class="flex flex-col gap-2 my-2"
+          >
             <div v-for="(option, index) in options">
-              <span>{{ option.name }} - {{ formatToWon(option.price) }}</span>
               <button
                 @click="
                   () => {
                     options = options.filter((v, findex) => findex !== index);
                   }
                 "
-                class="ml-2 bg-slate-500 px-3 rounded-full"
+                class="button-red rounded-full mr-4"
               >
                 X
               </button>
+              <span>{{ option.name }} - {{ formatToWon(option.price) }}</span>
             </div>
           </div>
         </div>
@@ -133,7 +136,7 @@
 
       <button
         @click="onAddItem"
-        class="block text-[2rem] mx-6 !bg-green-500 float-right "
+        class="button-green block text-[2rem] mx-6 my-4 float-right "
       >
         판매 등록하기
       </button>
@@ -144,7 +147,6 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { ToastUi } from "~~/.nuxt/components";
 import { deleteImageUrl } from "@/api/file";
 import { onBeforeRouteLeave, onBeforeRouteUpdate } from "vue-router";
 import { storeToRefs } from "pinia";
@@ -157,6 +159,7 @@ import { addShopItem } from "@/api/item";
 import { formatToWon } from "~~/utils/format";
 import FileUpload from "~~/components/file-upload.vue";
 import { useLoading } from "~~/sotre/loading";
+import ToastUi from "~~/components/toast-ui.vue";
 
 definePageMeta({
   layout: "login-required",
@@ -323,9 +326,5 @@ label {
 }
 .input-base {
   @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight outline-red-400;
-}
-
-button {
-  @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2;
 }
 </style>

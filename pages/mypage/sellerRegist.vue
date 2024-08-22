@@ -1,6 +1,8 @@
 <template>
   <div>
-    판매자 등록
+    <h2 class="text-center text-[2rem] my-2">
+      판매자 등록
+    </h2>
     <div v-if="passowrdCheck">
       <div v-if="sellerInfo">
         <p>이미 등록되었습니다.</p>

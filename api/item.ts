@@ -26,15 +26,19 @@ interface searchQuery {
   title?: string;
   take?: number;
   createTimeOrder?: "ASC" | "DESC";
+  category?: string | undefined;
 }
 export const searchItems = async ({
   title = "",
   take = 10,
   createTimeOrder = "ASC",
+  category = undefined,
 }: searchQuery) => {
   return ApiServer.axios
     .get(
-      `shop-item/search?title=${title}&take=${take}&createTimeOrder=${createTimeOrder}`
+      `shop-item/search?title=${title}&take=${take}&createTimeOrder=${createTimeOrder}${
+        category !== undefined ? `&category=${category}` : ""
+      }`
     )
     .then((res) => res.data as SearchItemsOutPutDto);
 };

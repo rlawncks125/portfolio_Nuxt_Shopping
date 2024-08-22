@@ -44,7 +44,7 @@
       </div>
       <div>
         <label for="input-free-parcel"
-          >IF 무료 배송비 조건 <span> (금액 이상)</span>
+          >무료 배송비 조건 <span> (금액 이상)</span>
         </label>
         <input
           class="input-base"
@@ -105,14 +105,16 @@
               </div>
             </div>
           </div>
-          <button class="mb:self-end flex-none !p-[.4rem]">
+          <button class="button-blue mb:self-end flex-none !p-[.4rem]">
             옵션 추가
           </button>
         </form>
         <!-- 추가 옵션 랜더 -->
-        <div v-if="item.options && item.options.length > 0">
+        <div
+          v-if="item.options && item.options.length > 0"
+          class="flex flex-col gap-2 my-2"
+        >
           <div v-for="(option, index) in item.options">
-            <span>{{ option.name }} - {{ formatToWon(option.price) }}</span>
             <button
               @click="
                 () => {
@@ -121,19 +123,19 @@
                   );
                 }
               "
-              class="ml-2 bg-slate-500 px-3 rounded-full"
+              class=" button-red  "
             >
               X
             </button>
+            <span class="ml-3"
+              >{{ option.name }} - {{ formatToWon(option.price) }}</span
+            >
           </div>
         </div>
       </div>
     </div>
 
-    <button
-      class="block text-[2rem] mx-6 !bg-green-500 float-right "
-      @click="updateItem"
-    >
+    <button class="button-green block mx-6 float-right " @click="updateItem">
       적용 하기
     </button>
     <div class="clear-both mb-4"></div>
@@ -241,9 +243,5 @@ label {
 }
 .input-base {
   @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight outline-red-400;
-}
-
-button {
-  @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2;
 }
 </style>

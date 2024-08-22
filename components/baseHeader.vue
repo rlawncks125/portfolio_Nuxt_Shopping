@@ -84,11 +84,12 @@
         </form>
       </div>
       <!-- 광고 블럭 -->
-      <div
-        class=" w-[10rem] h-[5rem] hidden lg:block absolute top-0 right-0 border"
+      <!-- <div
+        class=" w-[13rem] h-[5rem] hidden lg:block absolute top-0 right-4 border"
       >
+        
         <Adsense :width="10" :height="5" :ad-slot="9305972397" />
-      </div>
+      </div> -->
     </section>
 
     <!-- 카테고리  -->
@@ -130,7 +131,7 @@
 
     <!-- 모바일 하단 -->
     <div
-      class="sm:hidden z-[1000] fixed bottom-0 left-0 right-0 p-[1rem] border bg-white"
+      class="sm:hidden z-[1000] fixed bottom-0 left-0 right-0 p-[1rem] border bg-blue-300"
     >
       <label for="home-toggle" class="cursor-pointer">
         <LazyFaIcon icon="bars" size="2x" />
@@ -150,23 +151,33 @@
           >
             <LazyFaIcon icon="xmark" size="lg" />
           </label>
-          <div class="clear-both text-white">
+          <div class="clear-both text-white ">
             <div>
               <LazyFaIcon icon="bacon" size="lg" class="mr-[1rem]" />
 
-              <NuxtLink v-if="userInfo" to="/mypage" @click="isToggle = false">
-                <span> {{ userInfo.nickName }} 님 환영합니다. </span>
+              <NuxtLink
+                v-if="userInfo"
+                class="hover:text-blue-500"
+                to="/mypage"
+                @click="isToggle = false"
+              >
+                <span>
+                  {{ userInfo.nickName }}
+                  <span class="text-white">
+                    님 환영합니다.
+                  </span>
+                </span>
               </NuxtLink>
               <NuxtLink v-else to="/login" @click="isToggle = false">
                 로그인 해주세요
               </NuxtLink>
             </div>
-            <div class="flex justify-between gap-1 py-4">
-              <p>
+            <div class="flex justify-end gap-1 py-4">
+              <!-- <p>
                 내정보를 볼수있습니다. 내정보를 볼수있습니다.
-              </p>
+              </p> -->
               <div
-                class="text-[1.2rem] text-center w-[7rem] h-[3rem] border rounded-md p-[0.4rem] flex-none cursor-pointer"
+                class="text-[1.2rem] text-center w-[7rem] h-[3rem] border rounded-md p-[0.4rem] flex-none cursor-pointer hover:bg-blue-600"
               >
                 <div v-if="userInfo" @click="userLogOut">로그 아웃</div>
                 <NuxtLink v-else @click="isToggle = false" to="/join"
@@ -181,7 +192,7 @@
         </div>
         <!-- 네비 아이템 -->
         <div
-          class="flex gap-[1rem] justify-center text-[1.2rem] py-[1rem] border-b text-center flex-wrap"
+          class="flex gap-[3rem] justify-center text-[1.2rem] py-[1rem] border-b text-center flex-wrap"
         >
           <template
             v-if="userInfo && userInfo.role === EnumUserInfoRole.customer"
@@ -210,7 +221,7 @@
             <NuxtLink to="/soldItems" @click="isToggle = false">
               <LazyFaIcon
                 class="border p-[1rem] rounded-full"
-                icon="magnifying-glass"
+                icon="bars"
                 size="3x"
               />
 
@@ -228,7 +239,7 @@
             <NuxtLink to="/selling" @click="isToggle = false">
               <LazyFaIcon
                 class="border p-[1rem] rounded-full"
-                icon="magnifying-glass"
+                icon="plus"
                 size="3x"
               />
 
@@ -239,20 +250,11 @@
           <NuxtLink to="/mypage" @click="isToggle = false">
             <LazyFaIcon
               class="border p-[1rem] rounded-full"
-              icon="magnifying-glass"
+              icon="exclamation"
               size="3x"
             />
 
             <p>내정보</p>
-          </NuxtLink>
-          <NuxtLink to="#" @click="isToggle = false">
-            <LazyFaIcon
-              class="border p-[1rem] rounded-full"
-              icon="magnifying-glass"
-              size="3x"
-            />
-
-            <p>고객센터</p>
           </NuxtLink>
         </div>
         <!-- 카테고리 -->
@@ -275,7 +277,10 @@
           <div class="flex-1 ">
             <ul class="mx-[1rem] flex flex-col">
               <li
-                v-if="categoryLists[visitCategoryIndex]"
+                v-if="
+                  visitCategoryIndex !== null &&
+                    categoryLists[visitCategoryIndex]
+                "
                 class="border-b p-[1rem] cursor-pointer"
                 v-for="subCategory in categoryLists[visitCategoryIndex]
                   .subLists"
@@ -304,125 +309,131 @@ const searchTitle = useState("searchTitle");
 
 const isToggle = useState<boolean>("home-toggle");
 
-const visitCategoryIndex = useState("visitCategoryIndex", () => null);
+const visitCategoryIndex = useState<number | null>(
+  "visitCategoryIndex",
+  () => null
+);
 const onChangeCategory = (index: number) => {
   visitCategoryIndex.value = index;
 };
 
-const hoverCategoryIndex = useState("hoverCategoryIndex", () => null);
+const hoverCategoryIndex = useState<number | null>(
+  "hoverCategoryIndex",
+  () => null
+);
 
 const categoryLists = [
   {
     name: "브랜드 패션",
-    link: "#",
+    link: "serch?category=Brand",
     subLists: [
       {
         name: "브랜드1",
-        link: "#",
+        link: "serch?category=Brand",
       },
       {
         name: "브랜드2",
-        link: "#",
+        link: "serch?category=Brand",
       },
     ],
   },
   {
     name: "뷰티",
-    link: "#",
+    link: "serch?category=Beauty",
     subLists: [
       {
         name: "뷰티1",
-        link: "#",
+        link: "serch?category=Beauty",
       },
     ],
   },
   {
     name: "의류",
-    link: "#",
+    link: "serch?category=Clothing",
     subLists: [
       {
         name: "의류1",
-        link: "#",
+        link: "serch?category=Clothing",
       },
     ],
   },
   {
     name: "식품",
-    link: "#",
+    link: "serch?category=Food",
     subLists: [
       {
         name: "식품",
-        link: "#",
+        link: "serch?category=Food",
       },
     ],
   },
   {
     name: "유아",
-    link: "#",
+    link: "serch?category=infant",
     subLists: [
       {
         name: "유아",
-        link: "#",
+        link: "serch?category=infant",
       },
     ],
   },
   {
     name: "가구",
-    link: "#",
+    link: "serch?category=Furniture",
     subLists: [
       {
         name: "가구",
-        link: "#",
+        link: "serch?category=Furniture",
       },
     ],
   },
   {
     name: "생활",
-    link: "#",
+    link: "serch?category=Life",
     subLists: [
       {
         name: "생활",
-        link: "#",
+        link: "serch?category=Life",
       },
     ],
   },
   {
     name: "스포츠",
-    link: "#",
+    link: "serch?category=Sports",
     subLists: [
       {
         name: "스포츠",
-        link: "#",
+        link: "serch?category=Sports",
       },
     ],
   },
   {
     name: "특가",
-    link: "#",
+    link: "serch?category=specialPrice",
     subLists: [
       {
         name: "특가",
-        link: "#",
+        link: "serch?category=specialPrice",
       },
     ],
   },
   {
     name: "쿠폰",
-    link: "#",
+    link: "serch?category=Coupon",
     subLists: [
       {
         name: "쿠폰",
-        link: "#",
+        link: "serch?category=Coupon",
       },
     ],
   },
   {
     name: "이벤트/기획전",
-    link: "#",
+    link: "serch?category=Event",
     subLists: [
       {
         name: "이벤트/기획전",
-        link: "#",
+        link: "serch?category=Event",
       },
     ],
   },

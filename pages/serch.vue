@@ -52,13 +52,14 @@ const searchItem = useState<any[]>("searchItem", () => []);
 onMounted(async () => {
   console.log(query);
 
-  const { title } = query as { title: string };
-  if (!title) {
+  const { title, category } = query as { title: string; category: string };
+  if (!title && !category) {
     searchItem.value = [];
     return;
   }
   const { ok, items } = await searchItems({
     title,
+    category,
   });
   if (ok) {
     searchItem.value = items;

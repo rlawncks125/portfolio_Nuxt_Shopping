@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <button @click="getHTML">Get HTML</button>  -->
-    <label class="cursor-pointer border p-2 mb-2" for="insert-image"
+    <label class="button-blue cursor-pointer border p-2 mb-2" for="insert-image"
       >이미지 삽입
     </label>
     <input

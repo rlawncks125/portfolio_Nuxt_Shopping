@@ -1,8 +1,6 @@
 <template>
   <div class="max-w-container mx-auto">
-    <p class="mb-[5rem]">
-      주문 배송
-    </p>
+    <p class="mb-[5rem]"></p>
     <div v-for="v in items" class="flex flex-col px-2">
       <div>
         <!-- 주문날짜 -->

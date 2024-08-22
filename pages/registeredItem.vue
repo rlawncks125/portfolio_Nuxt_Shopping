@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="text-center font-bold text-[2rem] my-4">
+    <h2 class="text-center font-bold text-[3rem] my-4">
       판매 등록한 아이템
     </h2>
 
@@ -41,10 +41,7 @@
               </span>
             </div>
             <div class="flex justify-end">
-              <button
-                @click="openPopup(item.id)"
-                class="bg-blue-200 p-2 border rounded-lg"
-              >
+              <button @click="openPopup(item.id)" class="button-blue">
                 변경
               </button>
             </div>
@@ -116,7 +113,9 @@ onMounted(async () => {
 
   // console.log(ok, items);
   if (ok) {
-    salesItems.value = items;
+    salesItems.value = items.sort(
+      (a, b) => new Date(b.createAt).valueOf() - new Date(a.createAt).valueOf()
+    );
   }
 
   msgCallback = onHandleChnageItem;

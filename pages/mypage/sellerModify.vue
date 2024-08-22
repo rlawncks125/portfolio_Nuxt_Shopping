@@ -1,8 +1,9 @@
 <template>
   <div>
-    판매자 정보 수정
+    <h2 class="text-center text-[2rem] my-2">
+      판매자 정보 수정
+    </h2>
     <div v-if="passowrdCheck">
-      <p>판매자 정보 수정 폼</p>
       <div class="form-style" v-if="input">
         <div>
           <label for="represent">대표자</label>

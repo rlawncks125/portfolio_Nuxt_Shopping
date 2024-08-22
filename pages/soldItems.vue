@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="my-2 text-center text-[3rem]">판매한 아이템</h2>
+    <h2 class="text-center font-bold text-[3rem] my-4">판매한 아이템</h2>
     <!-- warp -->
     <div class="max-w-container mx-auto flex flex-col gap-2 px-4">
       <!-- 물품정보 -->
@@ -19,7 +19,7 @@
           </div>
           <div class="flex-1 order-1">
             <p>
-              판매번호 <span>{{ item.id }}</span>
+              판매번호 <span class="font-bold">{{ item.id }}</span>
             </p>
             <p class="font-bold text-[1.5rem]">
               {{ item.soldItemsInfo.item.title }}
@@ -38,38 +38,50 @@
         </div>
         <!-- 결제 금액 -->
         <p>
-          결제금액 : <span>{{ formatToWon(item.payment) }}원</span>
+          <span class="font-bold">결제금액</span> :
+          <span>{{ formatToWon(item.payment) }}원</span>
         </p>
         <!-- 주문자 정보 -->
-        <div class="border p-[1rem]">
-          <h1>주문자 정보</h1>
+        <div class="border p-[1rem] my-1">
+          <h4 class="font-bold">주문자 정보</h4>
           <p>닉네임 : {{ item.purchasedUser.nickName }}</p>
           <p>이메일 : {{ item.purchasedUser.email }}</p>
           <p>전화번호 : {{ formatTelNumber(item.purchasedUser.tel) }}</p>
         </div>
         <!-- 배송정보 -->
-        <div class="border p-[1rem]">
-          <h1>배송정보</h1>
-          <p>{{ item.shipInfo.postcode }}</p>
+        <div class="border p-[1rem] my-1">
+          <h4 class="font-bold">배송정보</h4>
+          <p>우편번호 : {{ item.shipInfo.postcode }}</p>
           <p>
-            {{ item.shipInfo.address }}
+            상세 주소 : {{ item.shipInfo.address }}
             <span> ,{{ item.shipInfo.addressDetail }} </span>
           </p>
         </div>
         <!-- 배송 상태 -->
-        <div>
-          <p>상태 : {{ itemStatus[+item.status] }}</p>
+        <div class="my-1 flex flex-col gap-1">
+          <p>
+            <span class="font-bold">상태</span> : {{ itemStatus[+item.status] }}
+          </p>
           <div v-if="+item.status > 1">
-            운송장 번호 : {{ item.transportNumber }}
+            <span class="font-bold">운송장 번호</span> :
+            {{ item.transportNumber }}
           </div>
         </div>
         <!-- 상태 변경 -->
         <button
+          v-if="+item.status !== 6"
           @click="openPopup(+item.id)"
-          class="border p-[1rem] bg-green-400"
+          class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded"
         >
           변경
         </button>
+        <div v-else class="my-4">
+          <span
+            class="bg-transparent  text-gray-700 font-semibold  py-2 px-4 border border-gray-500"
+          >
+            운송 완료
+          </span>
+        </div>
       </div>
     </div>
   </div>
@@ -133,8 +145,9 @@ const onHandleChnageItem = (d: MessageEvent) => {
 
 const openPopup = (itemid: number) => {
   openItemid = itemid;
+  const sItem = soldItems.value.find((v) => v.id === openItemid);
   window.open(
-    `${document.location.origin}/popup/solditem_status`,
+    `${document.location.origin}/popup/solditem_status?status=${sItem?.status}&transportNumber=${sItem?.transportNumber}`,
     "change_status",
     windowFeatures()
   );
@@ -144,7 +157,9 @@ onMounted(async () => {
   const { ok, items } = await ShopitemService.shopItemControllerGetSoldItem();
 
   if (ok) {
-    soldItems.value = items;
+    soldItems.value = items.sort(
+      (a, b) => new Date(b.createAt).valueOf() - new Date(a.createAt).valueOf()
+    );
   }
   console.log(items);
 

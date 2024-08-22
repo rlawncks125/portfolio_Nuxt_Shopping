@@ -67,6 +67,15 @@
       </div>
     </section>
 
+    <!-- 게스트 아이디 -->
+    <section class="width-container flex justify-end ">
+      <div class="bg-yellow-300 p-2">
+        <p>테스트 아이디 입니다.</p>
+        <p>id : <span class="underline">customer1 , seller1</span></p>
+        <p>pw : <span class="underline">@guest1</span></p>
+      </div>
+    </section>
+
     <!-- 추천 상품 2-->
     <section id="recommend1" class="width-container">
       <h2 class="text-center text-[3rem] my-[1rem]">추천 아이템</h2>
