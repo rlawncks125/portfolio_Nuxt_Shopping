@@ -53,7 +53,7 @@ export default defineNuxtConfig({
     //  }
 
     public: {
-      apiServer: process.env.APISERVER || "https://api.kimjuchan97.xyz/",
+      apiServer: process.env.APISERVER || "https://server.juchandev.store/",
       iampCodeApi: "imp85605338",
       reCAPTCHA_SITE_KEY:
         process.env.reCAPTCHA_SITE_KEY ||
@@ -100,13 +100,13 @@ export default defineNuxtConfig({
           type: "text/javascript",
         },
         // 구글 애드센스
-        {
-          src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js",
-          "data-ad-client": "ca-pub-9084840519993362",
-          async: true,
-          crossorigin: "anonymous",
-          type: "text/javascript",
-        },
+        // {
+        //   src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js",
+        //   "data-ad-client": "ca-pub-9084840519993362",
+        //   async: true,
+        //   crossorigin: "anonymous",
+        //   type: "text/javascript",
+        // },
       ],
     },
   },
