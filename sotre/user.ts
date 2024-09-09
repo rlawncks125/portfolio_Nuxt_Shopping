@@ -8,7 +8,7 @@ import { Worker } from "~~/plugins/sw.client";
 
 export const useUser = defineStore("userState", () => {
   // 유저 토큰
-  const userToken = useCookie<string | null>("userToken", {
+  const userToken = ref<string | null>("userToken", {
     default: () => null,
   });
 
@@ -17,7 +17,7 @@ export const useUser = defineStore("userState", () => {
     ApiServer.instance.init();
   };
   // 유저 정보
-  const userInfo = useCookie<UserInfo>("userInfo", { default: () => null });
+  const userInfo = ref<UserInfo>("userInfo", { default: () => null });
 
   const setUser = async (user: UserInfo) => {
     userInfo.value = user;
@@ -26,7 +26,7 @@ export const useUser = defineStore("userState", () => {
   };
 
   // 판매자 정보
-  const sellerInfo = useCookie<ShopUserSeller>("sellerInfo", {
+  const sellerInfo = ref<ShopUserSeller>("sellerInfo", {
     default: () => null,
   });
 

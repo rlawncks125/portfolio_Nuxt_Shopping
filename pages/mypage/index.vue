@@ -26,9 +26,8 @@
       </div>
     </div>
 
-    <p v-if="sellerInfo" class="info-list my-2">
+    <div v-if="sellerInfo" class="info-list my-2">
       <h2 class="text-center text-[2rem]">
-  
         회사 정보
       </h2>
       <div>
@@ -52,8 +51,7 @@
         <span>주소</span>
         <span>{{ sellerInfo.companyAddress }}</span>
       </div>
-      
-    </p>
+    </div>
   </div>
 </template>
 
@@ -67,7 +65,7 @@ const { userInfo, sellerInfo } = useUser();
 .info-list {
   @apply w-[25rem] mx-auto p-4 border rounded-lg;
 
-  div{
+  div {
     @apply pb-2 pt-4 my-2 flex gap-2 justify-start;
 
     span {
@@ -81,7 +79,6 @@ const { userInfo, sellerInfo } = useUser();
 
   div ~ div {
     @apply border-t;
-   
   }
 }
 </style>

@@ -14,16 +14,14 @@
           <div class="swiper-wrapper">
             <!-- Slides -->
             <div v-for="item in swiperItems" class="swiper-slide">
-              <picture>
-                <!-- <source media="(min-width : 640px)" :srcset="item.src" /> -->
-                <NuxtImg
-                  class="w-full h-full max-h-[600px]"
-                  :src="item.mbSrc"
-                  alt=""
-                  width="100%"
-                  height="600px"
-                />
-              </picture>
+              <!-- <source media="(min-width : 640px)" :srcset="item.src" /> -->
+              <NuxtImg
+                class="w-full h-full max-h-[600px]"
+                :src="item.mbSrc"
+                alt=""
+                width="100%"
+                height="600px"
+              />
             </div>
           </div>
 

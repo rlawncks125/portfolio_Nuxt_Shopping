@@ -1,6 +1,12 @@
 <template>
   <div v-if="item">
-    <NuxtImg class="w-full h-[60%]" :src="item.thumbnailSrc" alt="" />
+    <NuxtImg
+      class="w-full h-[60%]"
+      :src="item.thumbnailSrc"
+      alt=""
+      width="100%"
+      height="60%"
+    />
     <div class="p-4">
       <p>{{ item.title }}</p>
       <div class="flex gap-2 items-center">
