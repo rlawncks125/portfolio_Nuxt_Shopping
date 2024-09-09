@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-container mx-auto">
-    <p class="mb-[5rem]"></p>
-    <div v-for="v in items" class="flex flex-col px-2">
+    <div v-if="items.length === 0" class="mb-[5rem]">배송 내역이 없습니다.</div>
+    <div v-else v-for="v in items" class="flex flex-col px-2">
       <div>
         <!-- 주문날짜 -->
         <p class="h-[1px] w-[100%] bg-gray-400"></p>

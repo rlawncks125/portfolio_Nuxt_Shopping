@@ -12,23 +12,36 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "@nuxt/image",
   ],
+
   css: [
     "@/assets/css/tailwind.css",
     // font Awesome css
     "@fortawesome/fontawesome-svg-core/styles.css",
   ],
+
   build: {
     // transpile: ["swiper"],
   },
+
   postcss: {
     plugins: {
       tailwindcss: {},
       autoprefixer: {},
     },
   },
+
   image: {
     quality: 90,
     format: ["avif", "webp"],
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      xxl: 1536,
+      "2xl": 1536,
+    },
   },
 
   vite: {
@@ -73,6 +86,8 @@ export default defineNuxtConfig({
       process.env.reCAPTCHA_SECRET_KEY ||
       "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe",
   },
+
+  // <meta name="naver-site-verification" content="51613a340a3645bde340073b44cf092001efc192" />
   app: {
     head: {
       htmlAttrs: {
@@ -121,7 +136,7 @@ export default defineNuxtConfig({
     },
   },
 
-  // <meta name="naver-site-verification" content="51613a340a3645bde340073b44cf092001efc192" />
+  compatibilityDate: "2024-09-10"
 });
 
 // runtimeConfig 타입 정의

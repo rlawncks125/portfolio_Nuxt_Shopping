@@ -12,17 +12,19 @@
     <nav class="width-container hidden sm:block my-1 px-1 text-[0.8rem]">
       <ul class="warp-items flex justify-end">
         <li>
-          <button v-if="isToken" @click="userLogOut">로그아웃</button>
+          <button v-if="isToken" @click="userLogOut">
+            로그아웃
+          </button>
           <NuxtLink v-else to="/login">로그인</NuxtLink>
         </li>
         <li v-if="!isToken">
-          <a href="/join"> 회원가입 </a>
+          <NuxtLink to="/join"> 회원가입 </NuxtLink>
         </li>
         <template
           v-if="userInfo && userInfo.role === EnumUserInfoRole.customer"
         >
           <li>
-            <a href="/basket"> 장바구니 </a>
+            <NuxtLink to="/basket"> 장바구니 </NuxtLink>
           </li>
           <li>
             <NuxtLink to="/orderDelivery">주문배송</NuxtLink>
@@ -57,6 +59,8 @@
             class="h-full object-cover "
             src="https://res.cloudinary.com/dhdq4v4ar/image/upload/v1661371113/transparent-bg_-no-shadow-designify_wst7my.png"
             alt="로고 이미지"
+            width="165 md:124"
+            height="80 md:60"
           />
         </NuxtLink>
 
@@ -64,7 +68,7 @@
         <form
           class="flex-auto max-w-[30rem] border  rounded-full p-[0.7rem] px-5  flex justify-between text-sm"
           :style="{ borderColor: '#D8D1CF' }"
-          @submit.prevent="$router.push(`serch?title=${searchTitle}`)"
+          @submit.prevent="$router.push(`/serch?title=${searchTitle}`)"
         >
           <input
             class="outline-none w-full"
@@ -325,115 +329,115 @@ const hoverCategoryIndex = useState<number | null>(
 const categoryLists = [
   {
     name: "브랜드 패션",
-    link: "serch?category=Brand",
+    link: "/serch?category=Brand",
     subLists: [
       {
         name: "브랜드1",
-        link: "serch?category=Brand",
+        link: "/serch?category=Brand",
       },
       {
         name: "브랜드2",
-        link: "serch?category=Brand",
+        link: "/serch?category=Brand",
       },
     ],
   },
   {
     name: "뷰티",
-    link: "serch?category=Beauty",
+    link: "/serch?category=Beauty",
     subLists: [
       {
         name: "뷰티1",
-        link: "serch?category=Beauty",
+        link: "/serch?category=Beauty",
       },
     ],
   },
   {
     name: "의류",
-    link: "serch?category=Clothing",
+    link: "/serch?category=Clothing",
     subLists: [
       {
         name: "의류1",
-        link: "serch?category=Clothing",
+        link: "/serch?category=Clothing",
       },
     ],
   },
   {
     name: "식품",
-    link: "serch?category=Food",
+    link: "/serch?category=Food",
     subLists: [
       {
         name: "식품",
-        link: "serch?category=Food",
+        link: "/serch?category=Food",
       },
     ],
   },
   {
     name: "유아",
-    link: "serch?category=infant",
+    link: "/serch?category=infant",
     subLists: [
       {
         name: "유아",
-        link: "serch?category=infant",
+        link: "/serch?category=infant",
       },
     ],
   },
   {
     name: "가구",
-    link: "serch?category=Furniture",
+    link: "/serch?category=Furniture",
     subLists: [
       {
         name: "가구",
-        link: "serch?category=Furniture",
+        link: "/serch?category=Furniture",
       },
     ],
   },
   {
     name: "생활",
-    link: "serch?category=Life",
+    link: "/serch?category=Life",
     subLists: [
       {
         name: "생활",
-        link: "serch?category=Life",
+        link: "/serch?category=Life",
       },
     ],
   },
   {
     name: "스포츠",
-    link: "serch?category=Sports",
+    link: "/serch?category=Sports",
     subLists: [
       {
         name: "스포츠",
-        link: "serch?category=Sports",
+        link: "/serch?category=Sports",
       },
     ],
   },
   {
     name: "특가",
-    link: "serch?category=specialPrice",
+    link: "/serch?category=specialPrice",
     subLists: [
       {
         name: "특가",
-        link: "serch?category=specialPrice",
+        link: "/serch?category=specialPrice",
       },
     ],
   },
   {
     name: "쿠폰",
-    link: "serch?category=Coupon",
+    link: "/serch?category=Coupon",
     subLists: [
       {
         name: "쿠폰",
-        link: "serch?category=Coupon",
+        link: "/serch?category=Coupon",
       },
     ],
   },
   {
     name: "이벤트/기획전",
-    link: "serch?category=Event",
+    link: "/serch?category=Event",
     subLists: [
       {
         name: "이벤트/기획전",
-        link: "serch?category=Event",
+        link: "/serch?category=Event",
       },
     ],
   },

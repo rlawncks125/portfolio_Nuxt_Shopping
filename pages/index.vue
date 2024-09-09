@@ -87,7 +87,7 @@
           v-if="productItems.length > 0"
           v-for="(item, index) in productItems"
           @click="() => router.push(`/item/${item.id}`)"
-          :key="index"
+          :key="item.id"
         >
           <DesignItemDesign :item="item" />
         </div>

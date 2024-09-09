@@ -8,16 +8,14 @@ import { Worker } from "~~/plugins/sw.client";
 
 export const useUser = defineStore("userState", () => {
   // 유저 토큰
-  const userToken = ref<string | null>("userToken", {
-    default: () => null,
-  });
+  const userToken = ref<string>();
 
   const setUserToken = (token: string) => {
     userToken.value = token;
     ApiServer.instance.init();
   };
   // 유저 정보
-  const userInfo = ref<UserInfo>("userInfo", { default: () => null });
+  const userInfo = ref<UserInfo>();
 
   const setUser = async (user: UserInfo) => {
     userInfo.value = user;
@@ -26,9 +24,7 @@ export const useUser = defineStore("userState", () => {
   };
 
   // 판매자 정보
-  const sellerInfo = ref<ShopUserSeller>("sellerInfo", {
-    default: () => null,
-  });
+  const sellerInfo = ref<ShopUserSeller>();
 
   const setSeller = (seller: ShopUserSeller) => {
     sellerInfo.value = seller;
@@ -46,9 +42,9 @@ export const useUser = defineStore("userState", () => {
 
   // 로그아웃
   const userLogOut = async () => {
-    userToken.value = null;
-    userInfo.value = null;
-    sellerInfo.value = null;
+    userToken.value = undefined;
+    userInfo.value = undefined;
+    sellerInfo.value = undefined;
 
     await Worker.instance.removeRegisterByUser();
   };

@@ -5,12 +5,12 @@
         for="list-checked"
         class="flex md:hidden py-3 px-2 cursor-pointer items-center justify-start"
       >
-        <div v-show="isChecked">
+        <span v-show="isChecked">
           <LazyFaIcon icon="angle-up" size="2x" />
-        </div>
-        <div v-show="!isChecked">
+        </span>
+        <span v-show="!isChecked">
           <LazyFaIcon icon="angle-down" size="2x" />
-        </div>
+        </span>
 
         <span
           class="ml-4 font-bold text-[1.5rem]"
@@ -18,14 +18,15 @@
           >더보기</span
         >
       </label>
-      <div class="w-full md:w-[15rem]">
+
+      <div class="w-full md:w-[15rem] h-full overflow-hidden">
         <input
           class="hidden"
           type="checkbox"
           id="list-checked"
           v-model="isChecked"
         />
-        <ul class="list-warp px-2 text-[1.6rem] ">
+        <ul class="list-warp px-2 text-[1.6rem] h-full">
           <li>
             <NuxtLink class="block" to="/mypage">내정보</NuxtLink>
           </li>
@@ -55,7 +56,6 @@
         </ul>
       </div>
     </div>
-
     <div class="flex-auto py-[2rem] min-h-[70vh]">
       <NuxtPage />
     </div>
@@ -68,36 +68,32 @@ import { EnumUserInfoRole } from "~~/api/swagger";
 
 import { useUser } from "~~/sotre/user";
 
+definePageMeta({
+  layout: "login-required",
+});
+
 const { userInfo } = storeToRefs(useUser());
 
 const isChecked = ref(true);
 
 const resizeObs = () => {
-  if (window.innerWidth >= 768) {
-    isChecked.value = true;
-  }
+  window.innerWidth &&
+    (isChecked.value = window.innerWidth >= 768 ? true : false);
 };
 
 onMounted(() => {
-  if (window.innerWidth < 768) {
-    isChecked.value = false;
-  }
+  resizeObs();
 
   window.addEventListener("resize", resizeObs);
 });
 onUnmounted(() => {
   window.removeEventListener("resize", resizeObs);
 });
-
-definePageMeta({
-  layout: "login-required",
-});
 </script>
 
 <style scoped lang="scss">
 .list-warp {
   max-height: 0px;
-  overflow: hidden;
   transition: max-height 0.3s;
   li {
     @apply py-[1rem];
