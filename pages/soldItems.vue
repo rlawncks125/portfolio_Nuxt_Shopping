@@ -15,7 +15,7 @@
           @click="router.push(`/item/${item.soldItemsInfo.item.id}`)"
         >
           <div class="w-[10rem] order-0">
-            <img :src="item.soldItemsInfo.item.thumbnailSrc" alt="" />
+            <NuxtImg :src="item.soldItemsInfo.item.thumbnailSrc" alt="" />
           </div>
           <div class="flex-1 order-1">
             <p>
@@ -91,7 +91,7 @@
 import {
   EnumShopSoldItemStatus,
   ShopitemService,
-  ShopSoldItem,
+  type ShopSoldItem,
 } from "~~/api/swagger";
 import { formatToWon, formatTelNumber } from "~~/utils/format";
 import { useLoading } from "~~/sotre/loading";

@@ -1,12 +1,12 @@
 import { ApiServer } from "@/plugins/api-server";
 import { Worker } from "~~/plugins/sw.client";
-import {
-  RegistersubscriptionInputDto,
-  ClearRegisterUserInputDto,
-  PatchListerNotificationOutPutDto,
-  PatchListerNotificationInputDto,
-  RegistersubscriptionUserInputDto,
-  RegistersubscriptionUserOutPutDto,
+import type {
+    RegistersubscriptionInputDto,
+   ClearRegisterUserInputDto,
+   PatchListerNotificationOutPutDto,
+   PatchListerNotificationInputDto,
+   RegistersubscriptionUserInputDto,
+   RegistersubscriptionUserOutPutDto,
 } from "@/api/swagger/index";
 
 /** 알람 등록 */

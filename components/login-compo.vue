@@ -89,7 +89,7 @@ const clickedLogin = async () => {
 };
 
 onMounted(() => {
-  isRobotCheked.value = false;
+  isRobotCheked.value = true;
 });
 </script>
 

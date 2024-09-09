@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { AddReviewInputDto } from "~~/api/swagger";
+import type { AddReviewInputDto } from "~~/api/swagger";
 
 definePageMeta({
   layout: "no-header",

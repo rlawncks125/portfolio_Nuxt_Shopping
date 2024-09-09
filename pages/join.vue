@@ -3,7 +3,7 @@
     <!-- 홈으로가기  -->
     <div class="h-[4rem] flex items-center gap-[1rem] m-[1rem]">
       <a href="/" class="h-full">
-        <img
+        <NuxtImg
           class="h-full object-cover"
           src="https://res.cloudinary.com/dhdq4v4ar/image/upload/v1661371113/transparent-bg_-no-shadow-designify_wst7my.png"
           alt="로고 이미지"

@@ -6,7 +6,13 @@ export default defineNuxtConfig({
   // target: "static",
 
   // buildModules: ["@pinia/nuxt"],
-  modules: ["@pinia/nuxt"],
+  modules: [
+    "@pinia/nuxt",
+    "pinia-plugin-persistedstate/nuxt",
+    "@nuxtjs/tailwindcss",
+    "@nuxt/image",
+    "@nuxtjs/google-fonts",
+  ],
   css: [
     "@/assets/css/tailwind.css",
     // font Awesome css
@@ -19,6 +25,35 @@ export default defineNuxtConfig({
     plugins: {
       tailwindcss: {},
       autoprefixer: {},
+    },
+  },
+  image: {
+    quality: 90,
+    format: ["webp"],
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      xxl: 1536,
+      "2xl": 1536,
+    },
+  },
+  googleFonts: {
+    families: {
+      Roboto: true,
+      "Josefin+Sans": true,
+      Lato: [100, 300],
+      Raleway: {
+        wght: [100, 400],
+        ital: [100],
+      },
+      Inter: "200..700",
+      "Crimson Pro": {
+        wght: "200..900",
+        ital: "200..700",
+      },
     },
   },
 
@@ -53,7 +88,7 @@ export default defineNuxtConfig({
     //  }
 
     public: {
-      apiServer: process.env.APISERVER || "https://server.juchandev.store/",
+      apiServer: process.env.APISERVER || "http://mylocal.juchandev.store/",
       iampCodeApi: "imp85605338",
       reCAPTCHA_SITE_KEY:
         process.env.reCAPTCHA_SITE_KEY ||

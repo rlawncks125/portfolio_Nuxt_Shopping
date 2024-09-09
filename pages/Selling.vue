@@ -153,7 +153,7 @@ import { storeToRefs } from "pinia";
 import { useUser } from "~~/sotre/user";
 import { EnumUserInfoRole } from "~~/api/swagger";
 
-import { AddShopItemInputDto } from "~~/api/swagger";
+import type { AddShopItemInputDto } from "~~/api/swagger";
 import { addShopItem } from "@/api/item";
 
 import { formatToWon } from "~~/utils/format";

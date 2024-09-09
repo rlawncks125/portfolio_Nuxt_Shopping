@@ -3,12 +3,12 @@ import axios from "axios";
 import { ApiServer } from "~~/plugins/api-server";
 import { useUser } from "~~/sotre/user";
 
-import {
+import type {
   ShopItem,
   AddShopItemInputDto,
   AddShopItemsOutPutDto,
   SearchItemsOutPutDto,
-} from "./swagger";
+} from "@/api/swagger/index";
 
 export const getItemById = async (id: number) => {
   return ApiServer.axios

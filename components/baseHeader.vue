@@ -53,7 +53,7 @@
     <section id="serch" class="relative my-2 px-2">
       <div class="width-container h-[5rem] flex items-center gap-[.5rem]">
         <NuxtLink to="/" class="flex-none h-full">
-          <img
+          <NuxtImg
             class="h-full object-cover "
             src="https://res.cloudinary.com/dhdq4v4ar/image/upload/v1661371113/transparent-bg_-no-shadow-designify_wst7my.png"
             alt="로고 이미지"

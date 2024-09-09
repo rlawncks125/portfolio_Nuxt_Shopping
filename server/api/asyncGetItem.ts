@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ShopItem } from "~~/api/swagger";
+import type { ShopItem } from "~~/api/swagger";
 
 export default defineEventHandler(async (event) => {
   const id = await readBody(event);

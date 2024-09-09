@@ -13,7 +13,7 @@
           class="flex flex-wrap md:flex-nowrap px-[2rem]  gap-[1rem] py-[2rem] border"
         >
           <div class="w-[10rem] order-0">
-            <img :src="item.thumbnailSrc" alt="" />
+            <NuxtImg :src="item.thumbnailSrc" alt="" />
           </div>
           <div class="flex-1 order-1">
             <p
@@ -53,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import { ShopitemService, ShopItem } from "~~/api/swagger";
+import { ShopitemService, type ShopItem } from "~~/api/swagger";
 import { formatToWon } from "~~/utils/format";
 
 let msgCallback: any;

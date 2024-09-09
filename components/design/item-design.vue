@@ -1,6 +1,6 @@
 <template>
   <div v-if="item">
-    <img class="w-full h-[60%]" :src="item.thumbnailSrc" alt="" />
+    <NuxtImg class="w-full h-[60%]" :src="item.thumbnailSrc" alt="" />
     <div class="p-4">
       <p>{{ item.title }}</p>
       <div class="flex gap-2 items-center">
@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { ShopItem } from "~~/api/swagger";
+import type { ShopItem } from "~~/api/swagger";
 import { formatToWon } from "~~/utils/format";
 
 const { item } = defineProps({
