@@ -41,7 +41,7 @@
       </label>
       <!-- 이미지 랜더 -->
       <div v-else class="w-full h-full">
-        <img
+        <NuxtImg
           class="w-full h-full object-fill"
           :src="fileData.data.toString()"
           alt=""

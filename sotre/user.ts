@@ -1,13 +1,16 @@
 import { defineStore } from "pinia";
-import { ShopUserSeller, UserInfo } from "~~/api/swagger";
+import type { ShopUserSeller, UserInfo } from "~~/api/swagger";
 import { userGetMyInfo } from "@/api/user";
 import { ApiServer } from "~~/plugins/api-server";
 import { registerUser, delteRegisterUser } from "@/api/notification";
 import { Worker } from "~~/plugins/sw.client";
 
+
 export const useUser = defineStore("userState", () => {
   // 유저 토큰
-  const userToken = useCookie("userToken", { default: () => null });
+  const userToken = useCookie<string | null>("userToken", {
+    default: () => null,
+  });
 
   const setUserToken = (token: string) => {
     userToken.value = token;
@@ -37,7 +40,7 @@ export const useUser = defineStore("userState", () => {
     const { ok, userInfo, sellerInfo } = await userGetMyInfo();
     if (ok) {
       setUser(userInfo);
-      setSeller(sellerInfo);
+      setSeller(sellerInfo!);
     }
   };
 
@@ -60,4 +63,8 @@ export const useUser = defineStore("userState", () => {
     setSeller,
     reFresh,
   };
+},{
+  persist : {
+    storage : piniaPluginPersistedstate.localStorage()
+  }
 });

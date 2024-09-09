@@ -1,9 +1,9 @@
-import {
-  BaksetItemSelectedOptions,
-  BasketItem,
-  ShopItem,
+import type {
   ShopUserService,
-} from "~~/api/swagger";
+   BaksetItemSelectedOptions,
+   BasketItem,
+   ShopItem,
+} from "@/api/swagger/index";
 
 export class SellShopItem {
   // @ts-ignore

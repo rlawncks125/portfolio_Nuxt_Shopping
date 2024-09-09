@@ -1,5 +1,5 @@
 import { ApiServer } from "~~/plugins/api-server";
-import { ShopitemService } from "./swagger";
+import { ShopitemService } from "@/api/swagger/index";
 
 export const getImageURLByFormData = async (file: File) => {
   // useFetch사용시 formData를 몾찾는 에러 발생

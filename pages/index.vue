@@ -16,10 +16,12 @@
             <div v-for="item in swiperItems" class="swiper-slide">
               <picture>
                 <!-- <source media="(min-width : 640px)" :srcset="item.src" /> -->
-                <img
+                <NuxtImg
                   class="w-full h-full max-h-[600px]"
                   :src="item.mbSrc"
                   alt=""
+                  width="100%"
+                  height="600px"
                 />
               </picture>
             </div>
@@ -111,7 +113,7 @@ import Swiper, { Navigation } from "swiper";
 import { defineComponent } from "vue";
 import { formatToWon } from "~~/utils/format";
 import { getItemById, searchItems } from "~~/api/item";
-import { ShopItem, ShopitemService } from "~~/api/swagger";
+import { type ShopItem, ShopitemService } from "~~/api/swagger";
 
 export default defineComponent({
   setup() {

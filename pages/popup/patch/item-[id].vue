@@ -145,7 +145,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { getItemById } from "~~/api/item";
-import { ShopItem, UpdateItemInputDto, UpdateItemOutPut } from "~~/api/swagger";
+import  type { ShopItem, UpdateItemInputDto, UpdateItemOutPut } from "~~/api/swagger";
 import { formatToWon } from "~~/utils/format";
 import { ApiServer } from "~~/plugins/api-server";
 import { useUser } from "~~/sotre/user";

@@ -1,17 +1,17 @@
 import { ApiServer } from "~~/plugins/api-server";
-import {
-  AddCompanyInputDto,
-  AddCompanyOutPutDto,
-  CoreOutPut,
-  CreateShopUserInputDto,
-  CreateShopUserOutPut,
-  FindPasswordInputDto,
-  LoginShopUserOutPut,
-  UpdateCompanyInutDto,
-  UpdateCompanyOutPutDto,
-  UpdateShopUserInput,
-  UpdateShopUserOutPut,
-} from "./swagger";
+import type {
+   AddCompanyInputDto,
+   AddCompanyOutPutDto,
+   CoreOutPut,
+   CreateShopUserInputDto,
+   CreateShopUserOutPut,
+   FindPasswordInputDto,
+   LoginShopUserOutPut,
+   UpdateCompanyInutDto,
+   UpdateCompanyOutPutDto,
+   UpdateShopUserInput,
+   UpdateShopUserOutPut,
+} from "@/api/swagger/index";
 interface Iauth {
   username: string;
   password: string;

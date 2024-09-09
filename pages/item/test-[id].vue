@@ -6,7 +6,7 @@
       <section class="width-container mb-[3rem]">
         <div class="block sm:flex px-[1rem]">
           <div class="w-auto sm:w-0 sm:flex-auto">
-            <img
+            <NuxtImg
               class="w-full  object-contain object-top"
               :src="item.value.thumbnailSrc"
               alt=""

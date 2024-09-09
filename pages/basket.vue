@@ -68,7 +68,7 @@
               class="flex flex-wrap md:flex-nowrap px-[2rem]  gap-[1rem] py-[2rem]"
             >
               <div class="w-[10rem] order-0">
-                <img :src="v.item.thumbnailSrc" alt="" />
+                <NuxtImg :src="v.item.thumbnailSrc" alt="" />
               </div>
               <div class="flex-1 order-1">
                 <p class="font-bold text-[1.5rem]">{{ v.item.title }}</p>
@@ -208,12 +208,12 @@
 </template>
 
 <script setup lang="ts">
-import {
+import  {
   ShopitemService,
-  BaksetItemSelectedOptions,
-  BasketItemInfo,
+  type BaksetItemSelectedOptions,
+  type  BasketItemInfo,
   ShopUserService,
-  ShopSoldItem,
+  type ShopSoldItem,
 } from "~~/api/swagger";
 
 import { formatToWon } from "~~/utils/format";

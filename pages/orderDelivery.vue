@@ -18,7 +18,7 @@
       >
         <!-- 이미지 -->
         <div class="w-[20%] flex-0">
-          <img :src="item.soldItemsInfo.item.thumbnailSrc" alt="" />
+          <NuxtImg :src="item.soldItemsInfo.item.thumbnailSrc" alt="" />
         </div>
         <!-- 아이템 정보 -->
         <div class="w-auto flex-1 flex flex-col gap-[.3rem]">
@@ -67,12 +67,12 @@
 </template>
 
 <script setup lang="ts">
-import {
-  AddReviewInputDto,
+import  {
+  type AddReviewInputDto,
   EnumShopSoldItemStatus,
-  ShopIreceipt,
+  type ShopIreceipt,
   ShopitemService,
-  ShopSoldItem,
+  type  ShopSoldItem,
 } from "~~/api/swagger";
 import { formatTelNumber } from "~~/utils/format";
 import { windowFeatures } from "@/common/popup";

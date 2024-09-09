@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { CSSProperties, toRefs, ref } from "vue";
+import { type CSSProperties, toRefs, ref } from "vue";
 const props = defineProps({
   starSize: {
     type: Number,
