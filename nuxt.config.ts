@@ -11,7 +11,7 @@ export default defineNuxtConfig({
     "pinia-plugin-persistedstate/nuxt",
     "@nuxtjs/tailwindcss",
     "@nuxt/image",
-    "@nuxtjs/google-fonts",
+    // "@nuxtjs/google-fonts",
   ],
   css: [
     "@/assets/css/tailwind.css",
@@ -40,22 +40,22 @@ export default defineNuxtConfig({
       "2xl": 1536,
     },
   },
-  googleFonts: {
-    families: {
-      Roboto: true,
-      "Josefin+Sans": true,
-      Lato: [100, 300],
-      Raleway: {
-        wght: [100, 400],
-        ital: [100],
-      },
-      Inter: "200..700",
-      "Crimson Pro": {
-        wght: "200..900",
-        ital: "200..700",
-      },
-    },
-  },
+  // googleFonts: {
+  //   families: {
+  //     Roboto: true,
+  //     "Josefin+Sans": true,
+  //     Lato: [100, 300],
+  //     Raleway: {
+  //       wght: [100, 400],
+  //       ital: [100],
+  //     },
+  //     Inter: "200..700",
+  //     "Crimson Pro": {
+  //       wght: "200..900",
+  //       ital: "200..700",
+  //     },
+  //   },
+  // },
 
   vite: {
     plugins: [
