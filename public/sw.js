@@ -1,4 +1,4 @@
-const cacheName = "v1.0.5";
+const cacheName = "v1.0.6";
 // 캐시할 파일
 const cacheList = [
   "https://res.cloudinary.com/dhdq4v4ar/image/upload/v1661371113/transparent-bg_-no-shadow-designify_wst7my.png",

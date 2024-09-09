@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NuxtImg class="skeleton thumbnail-container " />
+    <div class="skeleton thumbnail-container " />
     <div class="skeleton p-4">
       <p class="skeleton-text"></p>
       <div class="skeleton-text gap-2"></div>

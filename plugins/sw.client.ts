@@ -1,7 +1,7 @@
 import * as Notification from "~~/api/notification";
 
 export default defineNuxtPlugin(() => {
-  return;
+  // return;
 
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/sw.js").then((regist) => {

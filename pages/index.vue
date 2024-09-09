@@ -14,14 +14,16 @@
           <div class="swiper-wrapper">
             <!-- Slides -->
             <div v-for="item in swiperItems" class="swiper-slide">
-              <!-- <source media="(min-width : 640px)" :srcset="item.src" /> -->
-              <NuxtImg
-                class="w-full h-full max-h-[600px]"
-                :src="item.mbSrc"
-                alt=""
-                width="100%"
-                height="600px"
-              />
+              <picture>
+                <!-- <source media="(min-width : 640px)" :srcset="item.src" /> -->
+                <NuxtImg
+                  class="w-full h-full max-h-[600px]"
+                  :src="item.mbSrc"
+                  alt=""
+                  sizes="980px md:100vw"
+                  height="600"
+                />
+              </picture>
             </div>
           </div>
 
@@ -56,13 +58,13 @@
         <div
           class="hidden xl:block absolute top-0 w-[12rem] left-[-12.5rem] border"
         >
-          <Adsense :width="12" :height="30" :ad-slot="5147197541" />
+          <!-- <Adsense :width="12" :height="30" :ad-slot="5147197541" /> -->
         </div>
         <!-- 오른쪽 광고 -->
         <div
           class="hidden xl:block absolute top-0 w-[12rem] right-[-12.5rem] border"
         >
-          <Adsense :width="12" :height="30" :ad-slot="5147197541" />
+          <!-- <Adsense :width="12" :height="30" :ad-slot="5147197541" /> -->
         </div>
       </div>
     </section>
@@ -84,7 +86,7 @@
           class="border border-gray-200 cursor-pointer hover:border-gray-400"
           v-if="productItems.length > 0"
           v-for="(item, index) in productItems"
-          @click="() => useRouter().push(`/item/${item.id}`)"
+          @click="() => router.push(`/item/${item.id}`)"
           :key="index"
         >
           <DesignItemDesign :item="item" />
@@ -117,6 +119,7 @@ export default defineComponent({
   setup() {
     // const swiperRef = ref();
     const { $setSwiper } = useNuxtApp();
+    const  router = useRouter();
     let swiperControl: Swiper;
     const bannerActiveIndex = ref(1);
     const swiper = reactive({
@@ -198,6 +201,7 @@ export default defineComponent({
       swiperItems,
       productItems,
       formatToWon,
+      router
     };
   },
 });
