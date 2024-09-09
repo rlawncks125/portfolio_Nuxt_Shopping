@@ -12,7 +12,7 @@ export default defineNuxtPlugin(() => {
           // useFetch를 이용해서 호출
           await useFetch("/api/reCAPTCHA_verify", {
             method: "POST",
-            body: response,
+            body: { response },
           }).then((res) => result(res.data.value));
         };
 
