@@ -7,6 +7,7 @@
       >
         <div
           v-for="item in searchItem"
+          :key="item.id"
           class="border border-gray-200 cursor-pointer hover:border-gray-400"
           @click="() => useRouter().push(`/item/${item.id}`)"
         >
