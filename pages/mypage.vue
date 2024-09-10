@@ -77,11 +77,12 @@ const { userInfo } = storeToRefs(useUser());
 const isChecked = ref(true);
 
 const resizeObs = () => {
-  window.innerWidth &&
-    (isChecked.value = window.innerWidth >= 768 ? true : false);
+  if ("innerWidth" in window) {
+    isChecked.value = window.innerWidth >= 768 ? true : false;
+  }
 };
 
-onMounted(() => {
+onMounted(async () => {
   resizeObs();
 
   window.addEventListener("resize", resizeObs);

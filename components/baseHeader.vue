@@ -52,7 +52,7 @@
     </nav>
 
     <!-- 검색 -->
-    <section id="serch" class="relative my-2 px-2">
+    <section id="search" class="relative my-2 px-2">
       <div class="width-container h-[5rem] flex items-center gap-[.5rem]">
         <NuxtLink to="/" class="flex-none h-full">
           <NuxtImg
@@ -68,7 +68,7 @@
         <form
           class="flex-auto max-w-[30rem] border  rounded-full p-[0.7rem] px-5  flex justify-between text-sm"
           :style="{ borderColor: '#D8D1CF' }"
-          @submit.prevent="$router.push(`/serch?title=${searchTitle}`)"
+          @submit.prevent="$router.push(`/search?title=${searchTitle}`)"
         >
           <input
             class="outline-none w-full"
@@ -329,115 +329,115 @@ const hoverCategoryIndex = useState<number | null>(
 const categoryLists = [
   {
     name: "브랜드 패션",
-    link: "/serch?category=Brand",
+    link: "/search?category=Brand",
     subLists: [
       {
         name: "브랜드1",
-        link: "/serch?category=Brand",
+        link: "/search?category=Brand",
       },
       {
         name: "브랜드2",
-        link: "/serch?category=Brand",
+        link: "/search?category=Brand",
       },
     ],
   },
   {
     name: "뷰티",
-    link: "/serch?category=Beauty",
+    link: "/search?category=Beauty",
     subLists: [
       {
         name: "뷰티1",
-        link: "/serch?category=Beauty",
+        link: "/search?category=Beauty",
       },
     ],
   },
   {
     name: "의류",
-    link: "/serch?category=Clothing",
+    link: "/search?category=Clothing",
     subLists: [
       {
         name: "의류1",
-        link: "/serch?category=Clothing",
+        link: "/search?category=Clothing",
       },
     ],
   },
   {
     name: "식품",
-    link: "/serch?category=Food",
+    link: "/search?category=Food",
     subLists: [
       {
         name: "식품",
-        link: "/serch?category=Food",
+        link: "/search?category=Food",
       },
     ],
   },
   {
     name: "유아",
-    link: "/serch?category=infant",
+    link: "/search?category=infant",
     subLists: [
       {
         name: "유아",
-        link: "/serch?category=infant",
+        link: "/search?category=infant",
       },
     ],
   },
   {
     name: "가구",
-    link: "/serch?category=Furniture",
+    link: "/search?category=Furniture",
     subLists: [
       {
         name: "가구",
-        link: "/serch?category=Furniture",
+        link: "/search?category=Furniture",
       },
     ],
   },
   {
     name: "생활",
-    link: "/serch?category=Life",
+    link: "/search?category=Life",
     subLists: [
       {
         name: "생활",
-        link: "/serch?category=Life",
+        link: "/search?category=Life",
       },
     ],
   },
   {
     name: "스포츠",
-    link: "/serch?category=Sports",
+    link: "/search?category=Sports",
     subLists: [
       {
         name: "스포츠",
-        link: "/serch?category=Sports",
+        link: "/search?category=Sports",
       },
     ],
   },
   {
     name: "특가",
-    link: "/serch?category=specialPrice",
+    link: "/search?category=specialPrice",
     subLists: [
       {
         name: "특가",
-        link: "/serch?category=specialPrice",
+        link: "/search?category=specialPrice",
       },
     ],
   },
   {
     name: "쿠폰",
-    link: "/serch?category=Coupon",
+    link: "/search?category=Coupon",
     subLists: [
       {
         name: "쿠폰",
-        link: "/serch?category=Coupon",
+        link: "/search?category=Coupon",
       },
     ],
   },
   {
     name: "이벤트/기획전",
-    link: "/serch?category=Event",
+    link: "/search?category=Event",
     subLists: [
       {
         name: "이벤트/기획전",
-        link: "/serch?category=Event",
+        link: "/search?category=Event",
       },
     ],
   },
