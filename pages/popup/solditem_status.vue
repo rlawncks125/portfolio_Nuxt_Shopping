@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
 import { getItemById } from "~~/api/item";
-import type { EnumShopSoldItemStatus } from "~~/api/swagger";
+import { EnumShopSoldItemStatus } from "~~/api/swagger";
 
 definePageMeta({
   layout: "no-header",
