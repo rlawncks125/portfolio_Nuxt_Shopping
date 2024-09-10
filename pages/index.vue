@@ -130,27 +130,27 @@ export default defineComponent({
     const swiperItems = [
       {
         src:
-          "https://img.freepik.com/free-vector/gradient-vaporwave-super-sale-background_23-2149214799.jpg?w=996&t=st=1721977772~exp=1721978372~hmac=7d457546ec21b33921a0e836c6fea6e2fccaaa4b27ee87f18b59cab8b457129d",
+          "https://api.ngng.site/images/nuxt-1.jpg",
         mbSrc:
-          "https://img.freepik.com/free-vector/gradient-vaporwave-super-sale-background_23-2149214799.jpg?w=996&t=st=1721977772~exp=1721978372~hmac=7d457546ec21b33921a0e836c6fea6e2fccaaa4b27ee87f18b59cab8b457129d",
+          "https://api.ngng.site/images/nuxt-1.jpg",
       },
       {
         src:
-          "https://img.freepik.com/free-vector/flat-father-s-day-sale-horizontal-banners-set_23-2149382892.jpg?w=826&t=st=1721977818~exp=1721978418~hmac=77ead2650667dc0ebc0a909b09eec99ceba8aae0e3ec57f449b5f977a91e4805",
+          "https://api.ngng.site/images/nuxt-2.jpg",
         mbSrc:
-          "https://img.freepik.com/free-vector/flat-father-s-day-sale-horizontal-banners-set_23-2149382892.jpg?w=826&t=st=1721977818~exp=1721978418~hmac=77ead2650667dc0ebc0a909b09eec99ceba8aae0e3ec57f449b5f977a91e4805",
+          "https://api.ngng.site/images/nuxt-2.jpg",
       },
       {
         src:
-          "https://img.freepik.com/free-vector/flat-design-shopping-center-twitter-header_23-2149325213.jpg?w=900&t=st=1721977837~exp=1721978437~hmac=84a7ca39bddec49a559e30a1f87da8ccc277680d8e36d918dedcfa4f54d21a9e",
+          "https://api.ngng.site/images/nuxt-3.jpg",
         mbSrc:
-          "https://img.freepik.com/free-vector/flat-design-shopping-center-twitter-header_23-2149325213.jpg?w=900&t=st=1721977837~exp=1721978437~hmac=84a7ca39bddec49a559e30a1f87da8ccc277680d8e36d918dedcfa4f54d21a9e",
+          "https://api.ngng.site/images/nuxt-3.jpg",
       },
       {
         src:
-          "https://img.freepik.com/premium-vector/flat-sale-banners-set-with-photo_23-2149007216.jpg?w=740",
+          "https://api.ngng.site/images/nuxt-4.jpg",
         mbSrc:
-          "https://img.freepik.com/premium-vector/flat-sale-banners-set-with-photo_23-2149007216.jpg?w=740",
+          "https://api.ngng.site/images/nuxt-4.jpg",
       },
     ];
 
