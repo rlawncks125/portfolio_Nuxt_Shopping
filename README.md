@@ -1,68 +1,17 @@
-# Hydration completed but contains mismatches 에러 해결
 
-```
-<FaIcon ... /> <<-- font-awesome 컴포넌트사용
+# 개요
+비즈니스의 동작 방식에 대해 알아보고자 대표적인 서비스인 전자상거래 만들어 보았습니다.
 
-<LazyFaIcon ... /> <<-- font-awesome 로드될때까지 지연
-```
+쇼핑몰은 많은 노출이 필요한 서비스이므로 SEO에 강력한 SSR 방식으로 구현하였습니다.
 
-결제
+# 기술 스택
+- TypeScript , tailwind.css
+- Nuxt3 , pinia
+- Deploy : on-premise
 
-- 아임포트 ( kg이니시스, 페이코 등등 편하게 구축 가능)
 
-주소검색
+# 리팩토링 목록
+- [ o ] version 업 , 최적화
+- [ ] 서버 상태 , 전역 성태 관리 분리
+- [ ] 서버 작업과 클라이언트 작업 분리
 
-- 다음 우편번호 서비스
-
-운송장 조회 ( 추가 할지 안할지 미정 )
-
-운송자 조회 API를 이용하여 구현할떄 화물 접수(운송장)까지만 구현하고 그후 상태는 조회데이터에 따라 구현하면 될듯
-
-- 스매트택배
-
-# google Sitemap 추가안될떄
-
-수동 Google에 사이트맵 제출 방식 [https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap]
-
-```
-// 브라우저 주소창 으로 GET 요청
-https://www.google.com/ping?sitemap=FULL_URL_OF_SITEMAP
-
-ex ) https://www.google.com/ping?sitemap=https://nuxt-shop.kimjuchan97.xyz/sitemap.xml
-
-```
-
-# cypress 작업
-
-- [x]로그인
-
-# 직접 시연
-
-- 회원가입 개인 , 판매자
-- 물품등록
-- 장바구니 , 결제
-- 문의 , 구매후기
-- 구매내역 , 배송 상태 변경
-
-# 추가 작업
-
-- 아이템 삭제
-- [x]배송 상태 변경시 알람
-
-# CLOUDTYPE 배포
-
-```
-# Dockerfile 감지되면 Docker 파일로 배포 진행함
-Dockerfile <- 삭제
-
-#Env
-NITRO_PRESET=node-server
-
-#Build variables
-...Env 환경 값
-
-# command
-Build command - npm run build
-Start command - node .output/server/index.mjs
-
-```
