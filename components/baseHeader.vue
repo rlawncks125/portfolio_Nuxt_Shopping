@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="sticky top-0 bg-white z-10">
     <input
       class="hidden"
       type="checkbox"
