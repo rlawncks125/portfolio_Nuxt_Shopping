@@ -1,9 +1,9 @@
 <template>
   <div>
-    <LazyBaseHeader />
+    <BaseHeader />
     <slot v-if="isToken" />
-    <lazy-login-compo v-else />
-    <LazyBaseFooter />
+    <login-compo v-else />
+    <yBaseFooter />
   </div>
 </template>
 

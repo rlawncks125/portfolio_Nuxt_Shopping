@@ -78,7 +78,7 @@
             v-model="searchTitle"
           />
           <button>
-            <LazyFaIcon
+            <FaIcon
               icon="magnifying-glass"
               size="2x"
               class=" cursor-pointer"
@@ -138,7 +138,7 @@
       class="sm:hidden z-[1000] fixed bottom-0 left-0 right-0 p-[1rem] border bg-blue-300"
     >
       <label for="home-toggle" class="cursor-pointer">
-        <LazyFaIcon icon="bars" size="2x" />
+        <FaIcon icon="bars" size="2x" />
       </label>
     </div>
 
@@ -153,11 +153,11 @@
             class="text-[2rem] float-right text-white cursor-pointer"
             for="home-toggle"
           >
-            <LazyFaIcon icon="xmark" size="lg" />
+            <FaIcon icon="xmark" size="lg" />
           </label>
           <div class="clear-both text-white ">
             <div>
-              <LazyFaIcon icon="bacon" size="lg" class="mr-[1rem]" />
+              <FaIcon icon="bacon" size="lg" class="mr-[1rem]" />
 
               <NuxtLink
                 v-if="userInfo"
@@ -202,7 +202,7 @@
             v-if="userInfo && userInfo.role === EnumUserInfoRole.customer"
           >
             <NuxtLink to="/basket" @click="isToggle = false">
-              <LazyFaIcon
+              <FaIcon
                 class="border p-[1rem] rounded-full"
                 icon="magnifying-glass"
                 size="3x"
@@ -211,7 +211,7 @@
             </NuxtLink>
 
             <NuxtLink to="/orderDelivery" @click="isToggle = false">
-              <LazyFaIcon
+              <FaIcon
                 class="border p-[1rem] rounded-full"
                 icon="magnifying-glass"
                 size="3x"
@@ -223,7 +223,7 @@
             v-if="userInfo && userInfo.role === EnumUserInfoRole.company"
           >
             <NuxtLink to="/soldItems" @click="isToggle = false">
-              <LazyFaIcon
+              <FaIcon
                 class="border p-[1rem] rounded-full"
                 icon="bars"
                 size="3x"
@@ -232,7 +232,7 @@
               <p>판매한 아이템</p>
             </NuxtLink>
             <NuxtLink to="/registeredItem" @click="isToggle = false">
-              <LazyFaIcon
+              <FaIcon
                 class="border p-[1rem] rounded-full"
                 icon="magnifying-glass"
                 size="3x"
@@ -241,7 +241,7 @@
               <p>등록한 아이템</p>
             </NuxtLink>
             <NuxtLink to="/selling" @click="isToggle = false">
-              <LazyFaIcon
+              <FaIcon
                 class="border p-[1rem] rounded-full"
                 icon="plus"
                 size="3x"
@@ -252,7 +252,7 @@
           </template>
 
           <NuxtLink to="/mypage" @click="isToggle = false">
-            <LazyFaIcon
+            <FaIcon
               class="border p-[1rem] rounded-full"
               icon="exclamation"
               size="3x"

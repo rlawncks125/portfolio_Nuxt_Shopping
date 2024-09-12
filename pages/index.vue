@@ -82,15 +82,16 @@
     <section id="recommend1" class="width-container">
       <h2 class="text-center text-[3rem] my-[1rem]">추천 아이템</h2>
       <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-[1.1rem]">
-        <div
+        <NuxtLink
           class="border border-gray-200 cursor-pointer hover:border-gray-400"
           v-if="productItems.length > 0"
           v-for="(item, index) in productItems"
           @click="() => router.push(`/item/${item.id}`)"
-          :key="item.id"
+          :to="`/item/${item.id}`"
+          :key="`main-item-${item.id}`"
         >
           <DesignItemDesign :item="item" />
-        </div>
+        </NuxtLink>
         <div
           class="border border-gray-200 cursor-pointer hover:border-gray-400"
           v-else

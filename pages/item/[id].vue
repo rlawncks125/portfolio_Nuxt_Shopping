@@ -405,9 +405,11 @@ import { useUser } from "~~/sotre/user";
 
 import { windowFeatures } from "~~/common/popup";
 import { useLoading } from "~~/sotre/loading";
+import { formatToWon } from "@/utils/format";
 
 definePageMeta({
   middleware: ["validator-item-id", "scroll-top"],
+  layout :'item-detail'
 });
 
 const { userInfo, sellerInfo } = storeToRefs(useUser());
@@ -641,9 +643,27 @@ const calculatorItemStarAvg = (item: ShopItem) => {
   );
 };
 
-onMounted(async () => {
-  const { item: resItem } = await getItemById(+params.id);
-  item.value = resItem;
+
+const {data} = await useAsyncData("itemMetaData", () => getItemById(+params.id));
+
+
+const { title,thumbnailSrc,price } = data.value?.item!;
+item.value = data.value?.item!;
+
+useSeoMeta({
+  title : `아이템 :  ${params.id}`,
+  description : `쇼핑 데이터 ${params.id}`,
+  ogTitle : title,
+  ogDescription : `${title}의 가격은 ${price}입니다.`,
+  ogImage : thumbnailSrc
+})
+
+
+
+onMounted(() => {
+
+// const { item: resItem } = await getItemById(+params.id);
+// item.value = resItem;
 
   if (!item.value) return;
 
@@ -671,61 +691,6 @@ onMounted(async () => {
 onUnmounted(() => {
   window.removeEventListener("message", QAcallBack);
   window.removeEventListener("message", answerQAcallBack);
-});
-
-// og데이터
-const ogData = toRefs(
-  reactive({
-    title: "title",
-    src:
-      "https://www.kogl.or.kr/upload_recommend/2018/DMZ/thumb_B008-C001-0052-09_L.jpg",
-    desc: "desc",
-  })
-);
-// 서버에서 렌더링되기 전 호출할 비동기
-onServerPrefetch(async () => {
-  // 아이템 정보 가져오기 처리
-  await useLazyAsyncData("ogMetaData", () =>
-    getItemById(+params.id)
-      .then((data) => {
-        if (data.ok) {
-          ogData.title.value = `타이틀 : ${data.item.title}`;
-          ogData.src.value = data.item.thumbnailSrc;
-          ogData.desc.value = `${data.item.title}의 가격은 ${data.item.price}입니다.`;
-        }
-        console.log("data ", data.item.title);
-
-        return data;
-      })
-      .catch(function(error) {
-        console.log(error.toJSON());
-      })
-  );
-});
-
-useHead({
-  title: `아이템 :  ${params.id}`,
-  meta: [
-    {
-      name: "description",
-      content: `쇼핑 데이터 ${params.id}`,
-    },
-    {
-      name: "og:title",
-      property: "og:title",
-      content: ogData.title,
-    },
-    {
-      name: "og:description",
-      property: "og:description",
-      content: ogData.desc,
-    },
-    {
-      name: "og:image",
-      property: "og:image",
-      content: ogData.src,
-    },
-  ],
 });
 </script>
 

@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <LazyBaseHeader />
+  <ClientOnly>
+    <BaseHeader />
 
     <slot />
-    <LazyBaseFooter />
-  </div>
+    <BaseFooter />
+  </ClientOnly>
 </template>
 
 <script setup></script>
 
-<style lang="scss" scoped></style>
+<style lang="scss"></style>

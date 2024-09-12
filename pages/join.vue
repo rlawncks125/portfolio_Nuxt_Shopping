@@ -604,14 +604,14 @@ details.input-details {
     margin-left: auto;
     background: gray;
     color: white;
+    // 마커 없애기
+    list-style: none;
 
     & ~ .content {
       padding: 0.5rem;
       border-top: 1px solid black;
     }
 
-    // 마커 없애기
-    list-style: none;
     &::-webkit-details-marker {
       display: none;
     }

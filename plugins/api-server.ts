@@ -34,7 +34,7 @@ export class ApiServer {
       baseURL: url,
       timeout: 20000,
       headers: {
-        "shop-token": userToken.value,
+        "shop-token": userToken.value || '',
         "content-type" : "application/json"
       },      
     });
