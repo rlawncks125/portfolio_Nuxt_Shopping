@@ -408,7 +408,7 @@ import { useLoading } from "~~/sotre/loading";
 import { formatToWon } from "@/utils/format";
 
 definePageMeta({
-  middleware: ["validator-item-id", "scroll-top"],
+  middleware: ["validator-item-id", 'scroll-top'],
   layout :'item-detail'
 });
 
@@ -686,6 +686,7 @@ onMounted(() => {
 
   answerQAcallBack = HandlerAnswerQa;
   window.addEventListener("message", answerQAcallBack);
+
 });
 
 onUnmounted(() => {

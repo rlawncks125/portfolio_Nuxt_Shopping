@@ -1,6 +1,8 @@
 <template>
   <!-- <ClientOnly> -->
+
   <BaseHeader />
+
   <Suspense>
     <slot />
 
@@ -9,11 +11,18 @@
       <div class="h-[100vh]"></div>
     </template>
   </Suspense>
-  <BaseFooter />
+  <LazyBaseFooter />
   <!-- </ClientOnly> -->
 </template>
 
 <script setup lang="ts">
+setTimeout(() => {
+  window.scrollTo({
+    top: 0,
+    left: 0,
+  });
+}, 0);
+
 // import type { ShopItem } from '~/api/swagger';
 
 // const {
