@@ -3,7 +3,7 @@
     <BaseHeader />
     <slot v-if="isToken" />
     <login-compo v-else />
-    <yBaseFooter />
+    <BaseFooter />
   </div>
 </template>
 

@@ -4,8 +4,8 @@
       class="w-full h-[60%]"
       :src="item.thumbnailSrc"
       alt=""
-      width="316 md:300"
-      height="316 md:300"
+      width="316"
+      height="316"
     />
     <div class="p-4">
       <p>{{ item.title }}</p>

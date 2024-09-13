@@ -9,27 +9,33 @@
     >
       <div class="width-container relative flex">
         <!-- 배너( 스와이프 ) -->
-        <div ref="swiper" class="swiper flex-auto w-0">
+        <div ref="swiperRef" class="swiper flex-auto w-0">
           <!-- Additional required wrapper -->
           <div class="swiper-wrapper">
             <!-- Slides -->
             <div v-for="item in swiperItems" class="swiper-slide">
-              <picture>
-                <!-- <source media="(min-width : 640px)" :srcset="item.src" /> -->
-                <NuxtImg
-                  class="w-full h-full max-h-[600px]"
-                  :src="item.mbSrc"
-                  alt=""
-                  sizes="980px md:100vw"
-                  height="600"
-                />
-              </picture>
+              <!-- <picture> -->
+              <!-- <source media="(min-width : 640px)" :srcset="item.src" /> -->
+              <NuxtImg
+                class="w-full h-full max-h-[600px]"
+                :src="item.mbSrc"
+                alt=""
+                sizes="980px md:100vw"
+                height="600"
+              />
+              <!-- </picture> -->
             </div>
           </div>
 
           <!-- If we need navigation buttons -->
-          <div ref="prevEl" class="swiper-button-prev swiper-prev"></div>
-          <div ref="nextEl" class="swiper-button-next swiper-next"></div>
+          <div
+            ref="swiperPrevELRef"
+            class="swiper-button-prev swiper-prev"
+          ></div>
+          <div
+            ref="swiperNextELRef"
+            class="swiper-button-next swiper-next"
+          ></div>
 
           <!-- pagination -->
           <div
@@ -86,7 +92,6 @@
           class="border border-gray-200 cursor-pointer hover:border-gray-400"
           v-if="productItems.length > 0"
           v-for="(item, index) in productItems"
-          @click="() => router.push(`/item/${item.id}`)"
           :to="`/item/${item.id}`"
           :key="`main-item-${item.id}`"
         >
@@ -109,103 +114,78 @@
   </div>
 </template>
 
-<script lang="ts">
-import Swiper, { Navigation } from "swiper";
-import { defineComponent } from "vue";
+<script setup lang="ts">
+
 import { formatToWon } from "~~/utils/format";
 import { getItemById, searchItems } from "~~/api/item";
 import { type ShopItem, ShopitemService } from "~~/api/swagger";
+import {useCustomSwiper  } from "@/composables/swiper";
 
-export default defineComponent({
-  setup() {
-    // const swiperRef = ref();
-    const { $setSwiper } = useNuxtApp();
-    const  router = useRouter();
-    let swiperControl: Swiper;
-    const bannerActiveIndex = ref(1);
-    const swiper = reactive({
-      swiper: null,
-      nextEl: null,
-      prevEl: null,
-    });
-    const swiperItems = [
-      {
-        src:
-          "https://api.ngng.site/images/nuxt-1.jpg",
-        mbSrc:
-          "https://api.ngng.site/images/nuxt-1.jpg",
-      },
-      {
-        src:
-          "https://api.ngng.site/images/nuxt-2.jpg",
-        mbSrc:
-          "https://api.ngng.site/images/nuxt-2.jpg",
-      },
-      {
-        src:
-          "https://api.ngng.site/images/nuxt-3.jpg",
-        mbSrc:
-          "https://api.ngng.site/images/nuxt-3.jpg",
-      },
-      {
-        src:
-          "https://api.ngng.site/images/nuxt-4.jpg",
-        mbSrc:
-          "https://api.ngng.site/images/nuxt-4.jpg",
-      },
-    ];
 
-    const fakeItems = {
-      thumbnailSrc:
-        "https://res.cloudinary.com/dhdq4v4ar/image/upload/v1664593520/back-Portfolio/hihuwcqoqqjafvshekmq.jpg",
-      title: "title",
-      sale: 0,
-      price: 0,
-    } as ShopItem;
+  const {
+    swiperRef,
+    swiperNextELRef,
+    swiperPrevELRef,
+    swiperControl
+  } = useCustomSwiper();
+  const bannerActiveIndex = ref(1);
 
-    const productItems = ref<ShopItem[]>([]);
-    onMounted(async () => {
-      swiperControl = $setSwiper(swiper.swiper!, {
-        loop: true,
-        allowTouchMove: false,
-        navigation: {
-          nextEl: swiper.nextEl,
-          prevEl: swiper.prevEl,
-        },
-        modules: [Navigation],
-      });
-      swiperControl.on("slideChange", () => {
-        bannerActiveIndex.value = swiperControl.realIndex + 1;
-      });
 
-      // 아이템 불러오기
-      // const { ok, items } = await searchItems({});
-      const { ok, items } = await ShopitemService.shopItemControllerSearchItems(
-        {
-          title: "",
-          take: 10,
-          createTimeOrder: "ASC",
-        }
-      );
+  const swiperItems = [
+    {
+      src:
+        "https://api.ngng.site/images/nuxt-1.webp",
+      mbSrc:
+        "https://api.ngng.site/images/nuxt-1.webp",
+    },
+    {
+      src:
+        "https://api.ngng.site/images/nuxt-2.webp",
+      mbSrc:
+        "https://api.ngng.site/images/nuxt-2.webp",
+    },
+    {
+      src:
+        "https://api.ngng.site/images/nuxt-3.webp",
+      mbSrc:
+        "https://api.ngng.site/images/nuxt-3.webp",
+    },
+    {
+      src:
+        "https://api.ngng.site/images/nuxt-4.webp",
+      mbSrc:
+        "https://api.ngng.site/images/nuxt-4.webp",
+    },
+  ];
 
-      if (ok) {
-        productItems.value = items;
-      }
-    });
-    const moveSlideByIndex = (index: number) => {
-      swiperControl.slideTo(index + 1, 1000);
-    };
-    return {
-      ...toRefs(swiper),
-      bannerActiveIndex,
-      moveSlideByIndex,
-      swiperItems,
-      productItems,
-      formatToWon,
-      router
-    };
-  },
-});
+
+  const productItems = ref<ShopItem[]>([]);
+
+  const { data } = await useAsyncData("bestItems" , () => ShopitemService.shopItemControllerSearchItems(
+    {
+      title: "",
+      take: 10,
+      createTimeOrder: "ASC",
+    }
+  ))
+
+  if (data.value?.ok) {
+    productItems.value = data.value.items;
+  }
+
+
+
+
+
+  onMounted(()=>{
+    swiperControl.value.on("slideChange", () => {
+          bannerActiveIndex.value = swiperControl.value.realIndex + 1;
+        });
+  })
+
+  // const moveSlideByIndex = (index: number) => {
+  //   swiperControl.slideTo(index + 1, 1000);
+  // };
 </script>
 
 <style lang="scss">

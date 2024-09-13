@@ -11,7 +11,7 @@
       <div class="h-[100vh]"></div>
     </template>
   </Suspense>
-  <LazyBaseFooter />
+  <BaseFooter />
   <!-- </ClientOnly> -->
 </template>
 

@@ -1,10 +1,10 @@
 <template>
-  <ClientOnly>
-    <BaseHeader />
+  <!-- <ClientOnly> -->
+  <BaseHeader />
 
-    <slot />
-    <BaseFooter />
-  </ClientOnly>
+  <slot />
+  <BaseFooter />
+  <!-- </ClientOnly> -->
 </template>
 
 <script setup></script>

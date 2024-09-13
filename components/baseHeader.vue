@@ -57,7 +57,7 @@
         <NuxtLink to="/" class="flex-none h-full">
           <NuxtImg
             class="h-full object-cover "
-            src="https://res.cloudinary.com/dhdq4v4ar/image/upload/v1661371113/transparent-bg_-no-shadow-designify_wst7my.png"
+            src="https://res.cloudinary.com/dhdq4v4ar/image/upload/v1661371113/transparent-bg_-no-shadow-designify_wst7my.webp"
             alt="로고 이미지"
             width="165 md:124"
             height="80 md:60"
