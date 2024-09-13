@@ -29,14 +29,14 @@
 
               <span class="flex flex-col">
                 <del> {{ formatToWon(item.price) }}<span>원</span> </del>
-                <p class="font-bold text-[1.5rem] text-black">
+                <span class="font-bold text-[1.5rem] text-black">
                   <span>
                     {{
                       formatToWon(+item.price * ((100 - item.sale) / 100) + "")
                     }}
                   </span>
                   <span class="text-[0.9rem]">원</span>
-                </p>
+                </span>
               </span>
             </p>
             <!-- 배송료 -->

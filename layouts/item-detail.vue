@@ -16,12 +16,14 @@
 </template>
 
 <script setup lang="ts">
-setTimeout(() => {
-  window.scrollTo({
-    top: 0,
-    left: 0,
-  });
-}, 0);
+if (import.meta.client) {
+  setTimeout(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+    });
+  }, 0);
+}
 
 // import type { ShopItem } from '~/api/swagger';
 
