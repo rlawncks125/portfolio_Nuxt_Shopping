@@ -3,6 +3,8 @@ import * as Notification from "~~/api/notification";
 export default defineNuxtPlugin(() => {
   // return;
 
+  if(import.meta.server) return;
+
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/sw.js").then((regist) => {
       console.log("서비스 워커 준비완료");
