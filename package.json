@@ -7,6 +7,7 @@
     "preview": "nuxt preview",
     "server": "cross-env PORT=3035 node .output/server/index.mjs",
     "build:local": "cross-env APISERVER=https://myapi.kimjuchan97.xyz NITRO_PORT=3035 NITRO_PRESET=node-server nuxt build ",
+    "build:server": "cross-env APISERVER=https://server.juchandev.store NITRO_PRESET=node-server nuxt build ",
     "build:lambda": "cross-env NITRO_PRESET=aws-lambda nuxt build",
     "swagger": "node ./swagger/codegen.js"
   },
@@ -29,7 +30,9 @@
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/vue-fontawesome": "^3.0.1",
+    "@hebilicious/vue-query-nuxt": "^0.3.0",
     "@nuxt/kit": "^3.0.0-rc.5",
+    "@tanstack/vue-query": "^5.55.4",
     "@toast-ui/editor": "^3.1.8",
     "@toast-ui/editor-plugin-color-syntax": "^3.0.3",
     "axios": "^0.27.2",

@@ -4,7 +4,11 @@ import clearConsole from "vite-plugin-clear-console";
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
   // target: "static",
-
+  routeRules: {
+    // "/": {
+    //   ssr: false,
+    // },
+  },
   // buildModules: ["@pinia/nuxt"],
   modules: [
     "@pinia/nuxt",
@@ -107,22 +111,26 @@ export default defineNuxtConfig({
         {
           src: "https://code.jquery.com/jquery-1.12.4.min.js",
           type: "text/javascript",
+          // defer: true,
         },
         // iamport
         {
           src: "https://cdn.iamport.kr/js/iamport.payment-1.2.0.js",
           type: "text/javascript",
+          // defer: true,
         },
         // 다음 우편번호 서비스
         {
           src:
             "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js",
           type: "text/javascript",
+          // defer: true,
         },
         // reCAPTCHA
         {
           src: "https://www.google.com/recaptcha/api.js",
           type: "text/javascript",
+          // defer: true,
         },
         // 구글 애드센스
         // {
@@ -136,7 +144,7 @@ export default defineNuxtConfig({
     },
   },
 
-  compatibilityDate: "2024-09-10"
+  compatibilityDate: "2024-09-10",
 });
 
 // runtimeConfig 타입 정의
