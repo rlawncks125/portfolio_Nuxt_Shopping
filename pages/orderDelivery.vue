@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-container mx-auto">
+  <div class="max-w-container mx-auto pt-[4rem]">
     <div v-if="items.length === 0" class="mb-[5rem]">배송 내역이 없습니다.</div>
     <div v-else v-for="v in items" class="flex flex-col px-2">
       <div>
